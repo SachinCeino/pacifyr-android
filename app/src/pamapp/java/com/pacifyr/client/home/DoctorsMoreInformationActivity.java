@@ -1,0 +1,552 @@
+package com.pacifyr.client.home;
+
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.RatingGraphAdapter;
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.view.View.GONE;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+
+public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
+    private MUser pacifyerObject;
+
+
+    private TextView pacifyr_name;
+    private TextView pacifyr_description;
+    private CircleImageView pacifyr_image;
+    private TextView pacifyr_number;
+    private TextView pacifyr_address;
+    private TextView pacifyr_facility_hours;
+    private TextView pacifyr_webisite;
+    private TextView pacifyr_prices;
+    private TextView pacifyr_educations;
+    private TextView pacifyr_sex;
+    private TextView pacifyr_specialities;
+    private TextView pacifyr_cirtification;
+    private TextView pacifyr_affiliations;
+    private TextView pacifyr_language_spoken;
+    private TextView pacifyr_price_booking;
+    private TextView requestBook,psi_txtview;
+    private LinearLayout ratingLayout;
+    private RecyclerView Rcvrating;
+    private ImageView favorite_doctor;
+    private LinearLayout LinearLayout_Call;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_doctor_profile);
+        onSetActionBar();
+
+        pacifyr_name = findViewById(R.id.pacifyr_name);
+        pacifyr_description = findViewById(R.id.pacifyr_description);
+        pacifyr_number = findViewById(R.id.pacifyr_number);
+        pacifyr_image = findViewById(R.id.pacifyr_image);
+        pacifyr_address = findViewById(R.id.pacifyr_address);
+        pacifyr_facility_hours = findViewById(R.id.pacifyr_facility_hours);
+        pacifyr_webisite = findViewById(R.id.pacifyr_webisite);
+        pacifyr_prices = findViewById(R.id.pacifyr_prices);
+        pacifyr_educations = findViewById(R.id.pacifyr_educations);
+        pacifyr_sex = findViewById(R.id.pacifyr_sex);
+        pacifyr_specialities = findViewById(R.id.pacifyr_specialities);
+        pacifyr_cirtification = findViewById(R.id.pacifyr_cirtification);
+        pacifyr_affiliations = findViewById(R.id.pacifyr_affiliations);
+        pacifyr_language_spoken = findViewById(R.id.pacifyr_language_spoken);
+        pacifyr_price_booking = findViewById(R.id.pacifyr_price_booking);
+        requestBook = findViewById(R.id.requestBook);
+        ratingLayout = findViewById(R.id.ratingLayout);
+        psi_txtview = findViewById(R.id.psi_txtview);
+        Rcvrating = findViewById(R.id.Rcvrating);
+        favorite_doctor =findViewById(R.id.favorite_doctor);
+        LinearLayout_Call = findViewById(R.id.LinearLayout_Call);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (isValid(bundle)) {
+            pacifyerObject = (MUser) bundle.getSerializable("Object");
+        }
+        if (isValid(pacifyerObject)) {
+            initUI(pacifyerObject);
+        }
+
+
+        requestBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showScheduleDialogueFragment(pacifyerObject);
+
+            }
+        });
+
+        ratingLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DoctorsRatingActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Object", pacifyerObject);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+            }
+        });
+
+        if (pacifyerObject.isFavorite())
+            favorite_doctor.setImageDrawable(getResources().getDrawable(R.drawable.svg_favorite_doctor));
+        else
+            favorite_doctor.setImageDrawable(getResources().getDrawable(R.drawable.svg_unfavorite_doctor));
+
+        favorite_doctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                callAddToFavOrRemoveFavDoctorAPI(pacifyerObject);
+            }
+        });
+        if (isValid(pacifyerObject.getPsi()))
+        setUpRatingGraphUI(Integer.parseInt(pacifyerObject.getPsi()));
+
+
+        LinearLayout_Call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isValid(pacifyerObject.getPhoneNumber()))
+                {
+                    callToNumber(pacifyerObject.getPhoneNumber());
+                }
+            }
+        });
+    }
+
+    private void callToNumber(String phoneNumber) {
+
+        String number = "tel:"+phoneNumber ;
+        Intent dial = new Intent (Intent.ACTION_DIAL, Uri.parse(number));
+        startActivity(dial);
+
+    }
+
+
+    private void setUpRatingGraphUI(int value) {
+        psi_txtview.setText(String.valueOf(value));
+        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getApplicationContext(),RecyclerView.HORIZONTAL,false);
+        RatingGraphAdapter mRatingGraphAdapter=new RatingGraphAdapter(getApplicationContext(),value);
+        Rcvrating.setLayoutManager(mLayoutManager);
+        Rcvrating.setAdapter(mRatingGraphAdapter);
+
+        int position=0;
+        if (value<=100)
+        {
+            position=0;
+        }
+        else if (value<=200)
+        {
+            position=1;
+        }
+        else if (value<=300)
+        {
+            position=2;
+        }
+        else if (value<=400)
+        {
+            position=3;
+        }
+        else if (value<=500)
+        {
+            position=4;
+        }
+        else if (value<=600)
+        {
+            position=5;
+        }
+        else if (value<=700)
+        {
+            position=6;
+        }
+        else if (value<=800)
+        {
+            position=7;
+        }
+        else if (value<=900)
+        {
+            position=8;
+        }
+        else {
+            position=9;
+        }
+        Rcvrating.scrollToPosition(position);
+        mRatingGraphAdapter.setMarker(position);
+    }
+
+    private void initUI(MUser pacifyerObject) {
+        String namePacifyr = pacifyerObject.getFirstName() + " " + pacifyerObject.getLastName();
+
+        if (isValid(namePacifyr))
+            pacifyr_name.setText(namePacifyr);
+        if (isValid(pacifyerObject.getQualifications()))
+            pacifyr_description.setText(pacifyerObject.getQualifications());
+
+        if (isValid(pacifyerObject.getImage()))
+            Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + pacifyerObject.getImage()).placeholder(R.drawable.placeholder_user).into(pacifyr_image);
+        else
+            pacifyr_image.setImageResource(R.drawable.placeholder_user);
+
+        if (isValid(pacifyerObject.getPhoneNumber()))
+            pacifyr_number.setText(pacifyerObject.getPhoneNumber());
+        if (isValid(pacifyerObject.getCountry()))
+            pacifyr_address.setText(pacifyerObject.getCountry());
+        if (isValid(pacifyerObject.getAvailableMinutes()))
+            pacifyr_facility_hours.setText(pacifyerObject.getCountry());
+        if (isValid(pacifyerObject.getWebsiteURL()))
+            pacifyr_webisite.setText(pacifyerObject.getWebsiteURL());
+        else
+            pacifyr_webisite.setText("Not Avaialbe");
+
+        if (isValid(pacifyerObject.getPrice()))
+        {
+            if (!pacifyerObject.getPrice().equals("0"))
+                pacifyr_prices.setText(pacifyerObject.getPriceWithSign());
+            else
+                pacifyr_prices.setVisibility(GONE);
+        }
+
+        if (isValid(pacifyerObject.getEducation())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getEducation().length; i++) {
+                buffer.append(pacifyerObject.getEducation()[i].getTitle() + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_educations.setText(buffer);
+            else
+                pacifyr_educations.setText("Not Avaialbe");
+        } else {
+            pacifyr_educations.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getSpecialities())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getSpecialities().length; i++) {
+                buffer.append(pacifyerObject.getSpecialities()[i] + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_specialities.setText(buffer);
+            else
+                pacifyr_specialities.setText("Not Avaialbe");
+        } else {
+            pacifyr_specialities.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getCertification())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getCertification().length; i++) {
+                buffer.append(pacifyerObject.getCertification()[i] + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_cirtification.setText(buffer);
+            else
+                pacifyr_cirtification.setText("Not Avaialbe");
+        } else {
+            pacifyr_cirtification.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getCertification())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getCertification().length; i++) {
+                buffer.append(pacifyerObject.getCertification()[i] + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_affiliations.setText(buffer);
+            else
+                pacifyr_affiliations.setText("Not Avaialbe");
+        } else {
+            pacifyr_affiliations.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getDescription())) {
+            pacifyr_language_spoken.setText(pacifyerObject.getDescription());
+        } else {
+            pacifyr_language_spoken.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getPrice()))
+            if (!pacifyerObject.getPrice().equals("0"))
+            pacifyr_price_booking.setText(pacifyerObject.getPriceWithSign());
+            else
+                pacifyr_price_booking.setVisibility(GONE);
+
+        if (isValid(pacifyerObject.getGender()))
+            pacifyr_sex.setText(pacifyerObject.getGender());
+        else
+            pacifyr_sex.setText("Not Avaialbe");
+
+
+    }
+
+    private void setUpMarkerOnMap(MUser pacifyrItem) {
+        if (isValid(mMap)) {
+
+            LatLng mPacifyrPoint = new LatLng(pacifyrItem.getLatitude(), pacifyrItem.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(mPacifyrPoint)
+                    .title(pacifyrItem.getFirstName() + ""))
+                    .setIcon(BitmapDescriptorFactory
+                            .fromResource(R.drawable.icon_google_map_marker));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mPacifyrPoint));
+
+        }
+
+
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
+    }
+
+
+    @Override
+    protected View getSnackbarAnchorView() {
+        return null;
+    }
+
+
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private DeviceFitImageView backImv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
+    private LinearLayout rightLlay;
+    private MainTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+        defSetText(titleTxv, getResources().getString(R.string.doctor_profile));
+        Typeface type = Typeface.createFromAsset(getAssets(), getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
+        //backImv.setBackgroundResource(R.drawable.leftmen);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (isValid(pacifyerObject)) {
+            setUpMarkerOnMap(pacifyerObject);
+        }
+
+    }
+
+    public void showScheduleDialogueFragment(MUser pacifyer_obj) {
+        if (isValid(pacifyer_obj)) {
+            if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
+                ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("OBJECT", pacifyer_obj);
+                bottomSheetFragment.setArguments(bundle);
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+            else
+            { showMandatoryFieldsPopUp();
+            }
+        }
+
+
+    }
+
+
+
+    private void callAddToFavOrRemoveFavDoctorAPI( MUser object) {
+
+
+        if (object.isFavorite()==false)
+        {
+            /**add to favorite **/
+            try {
+                setLoading("loading...");
+                showProgress();
+                String url = GLOBAL_URL + "favorite";
+
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            hideProgress();
+                            String js = json.toString();
+                            String message="";
+                            if (isValid(json))
+                            {
+                                if (json.has("message"))
+                                    message = json.getString("message");
+                                if(isValid(message))
+                                    Toast.makeText(DoctorsMoreInformationActivity.this, message, Toast.LENGTH_SHORT).show();
+                                object.setFavorite(true);
+
+                                    favorite_doctor.setImageDrawable(getResources().getDrawable(R.drawable.svg_favorite_doctor));
+
+                            }
+                            else
+                            {
+                                Toast.makeText(DoctorsMoreInformationActivity.this, "something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hideProgress();
+                        }
+                    }
+                };
+
+                AQuery aq = new AQuery(DoctorsMoreInformationActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", getPrefManager().getAccessToken());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.putOpt("userId", getPrefManager().getUserID());
+                jsonObject.putOpt("pacifyrId", object.getId());
+                aq.post(url, jsonObject, JSONObject.class, cb);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                hideProgress();
+            }
+
+        }
+        else
+        {
+            /**remove from favorite **/
+            try {
+                setLoading("loading...");
+                showProgress();
+                String url = GLOBAL_URL + "favorite?userId="+getPrefManager().getUserID()+"&pacifyrId="+object.getId();
+
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            hideProgress();
+                            String js = json.toString();
+                            String message="";
+                            if (isValid(json))
+                            {
+                                if (json.has("message"))
+                                    message = json.getString("message");
+                                if(isValid(message))
+                                    Toast.makeText(DoctorsMoreInformationActivity.this, message, Toast.LENGTH_SHORT).show();
+                                object.setFavorite(false);
+                                favorite_doctor.setImageDrawable(getResources().getDrawable(R.drawable.svg_unfavorite_doctor));
+
+                            }
+                            else
+                            {
+                                Toast.makeText(DoctorsMoreInformationActivity.this, "something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hideProgress();
+                        }
+                    }
+                };
+
+                AQuery aq = new AQuery(DoctorsMoreInformationActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", getPrefManager().getAccessToken());
+                aq.delete(url, JSONObject.class, cb);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                hideProgress();
+            }
+
+
+        }
+
+
+    }
+}

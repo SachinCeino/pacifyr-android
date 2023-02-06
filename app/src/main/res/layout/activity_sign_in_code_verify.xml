@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,16 +20,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
-    xmlns:tools="http://schemas.android.com/tools"  android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
 
-
-    <android.support.percent.PercentRelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.percentlayout.widget.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -47,7 +43,7 @@
 
             <ImageView
                 android:layout_width="150dp"
-                android:src="@drawable/omhealth_icon_orange"
+                android:src="@drawable/powered_logo"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/logo_blue"/>
@@ -68,16 +64,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:gravity="center"
-                android:textColor="@color/grey_dark"
+                android:textColor="@color/_color_e_con_code"
                 android:text="@string/e_con_code"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
 
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -102,7 +98,7 @@
             android:layout_height="wrap_content">
 
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:layout_width="match_parent"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp17"
@@ -135,11 +131,10 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_in"
-                    app:fontName="@string/avanti_std_bk"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:id="@+id/c_account_ctxv"
@@ -149,21 +144,37 @@
 
             </RelativeLayout>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:textSize="@dimen/sp13"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/resend_ctxv"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="@string/didnt_get_code"
-                android:textColor="#3063f9"
-                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_marginTop="25dp"
-                android:layout_marginBottom="15dp" />
+                android:layout_marginBottom="15dp"
+              >
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/progressOtp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"></ProgressBar>
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/sp13"
+                    android:id="@+id/resend_ctxv"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue_text_dark"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 
-    </android.support.percent.PercentRelativeLayout>
+    </androidx.percentlayout.widget.PercentRelativeLayout>
 </ScrollView>
 </LinearLayout>

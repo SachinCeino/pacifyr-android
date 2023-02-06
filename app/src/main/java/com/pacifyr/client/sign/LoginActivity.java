@@ -1,0 +1,654 @@
+package com.pacifyr.client.sign;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.gson.JsonObject;
+import com.koushikdutta.ion.Ion;
+import com.pacifyr.client.R;
+import com.pacifyr.client.activity.SplashScreen;
+import com.pacifyr.client.adapter.CountrySpinnerAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.model.Country;
+
+import com.pacifyr.client.orginals.Auth;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelFacebook;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
+import static com.pacifyr.client.network.NetworkService.countryData;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
+public class LoginActivity extends PacifyrActivity {
+
+    private EditText edt_password,edt_email;
+
+    private RelativeLayout facebookRlay;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
+    public static CallbackManager callbackmanager2;
+    public PostRegisterModel postRegisterModel;
+    public  String FEmail,FName;
+    public String label="error",main_label="error";
+    private Spinner spinner;
+    private MUser userModel;
+    private LoginModel loginModel;
+    private PrefManager prefM;
+    private String companyId;
+    private ModelFacebook facebookMoel;
+    public static String alreadyRegisteresPhone;
+    private RelativeLayout loginRlay;
+    private CustomEditText phoneCedit;
+    private AccessTokenTracker accessTokenTracker;
+    private LoginManager loginManager;
+    private String jsonStrng;
+    private String qbID;
+    private Context context;
+    private MainTextView sms_text_login;
+    private TextView TextView_phone_error;
+    private LinearLayout LinearLayout_phone;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Auth.foreground("");
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Auth.foreground(this.getClass().getName());
+        setContentView(R.layout.activity_login_user);
+        try {
+            fbLogout();
+            setLoading();
+            hideProgress();
+            FacebookSdk.sdkInitialize(LoginActivity.this);
+            onSetActionBar();
+            context = LoginActivity.this;
+            prefM = PrefManager.getInstance(context);
+            sms_text_login = findViewById(R.id.sms_text_login);
+            TextView_phone_error = findViewById(R.id.TextView_phone_error);
+            LinearLayout_phone = findViewById(R.id.LinearLayout_phone);
+
+            spinner = findViewById(R.id.spinner);
+            phoneCedit = findViewById(R.id.phone_cedit);
+            facebookRlay = findViewById(R.id.facebook_rlay);
+            facebookRlay.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    fbLogout();
+                    showProgress();
+                    loginButton.performClick();
+                }
+            });
+            if (getPackageName().equalsIgnoreCase(UtilityNetworkService.PACKAGE_PAM)) {
+                findViewById(R.id.linearLayout).setVisibility(View.GONE);
+            }
+
+            loginButton = findViewById(R.id.login_button);
+            loginButton.setReadPermissions("user_friends", "email");
+            callbackManager = CallbackManager.Factory.create();
+            loginButton = findViewById(R.id.login_button);
+
+            if (isValid(alreadyRegisteresPhone)) {
+                phoneCedit.setText(alreadyRegisteresPhone.substring(2));
+            }
+            CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
+                    R.layout.spinner_item, R.id.txt, Country.getAvailableCountryList());
+            spinner.setAdapter(adapter);
+            spinner.setSelection(Country.getIndex(this, Country.getAvailableCountryList()));
+
+
+            /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
+
+
+
+
+            loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
+
+            // Callback registration
+            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject object,
+                                        GraphResponse response) {
+                                    Log.v("LoginActivity Response ", response.toString());
+
+                                    try {
+                                        facebookMoel = GsonUtils.getInstance().gsonToModelFacebook(object);
+                                        FName = object.getString("name");
+                                        if(isValid(facebookMoel.getEmail())) {
+                                            Log.v("Email = ", " " + FEmail);
+                                            FEmail = object.getString("email");
+                                            postRegisterModel = new PostRegisterModel();
+                                            postRegisterModel.setEmail(FEmail);
+                                            postRegisterModel.setLoginType("facebook");
+                                            callLogin(-1);
+                                        }else{
+                                            //showIOSDialogOK("Privacy Issue!","Please enable email id accessible on your facebook Privacy Settings.","OK");
+                                            setAlertOKStatusInBlue("Access Error","Please enable email id accessible on your facebook Privacy Settings.","OK");
+                                            fbLogout();
+                                            return;
+                                        }
+                                    } catch (JSONException e) {
+                                        hideProgress();
+                                        fbLogout();
+                                        e.printStackTrace();
+                                        Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
+
+                                    }
+                                }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email,gender, birthday");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
+
+                @Override
+                public void onCancel() {
+                    Toast.makeText(LoginActivity.this, "Cancelled", Toast.LENGTH_LONG).show();
+                    fbLogout();
+                    // AppChatNotUSe code
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                    // AppChatNotUSe code
+                    fbLogout();
+                    Toast.makeText(LoginActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            phoneCedit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+            });
+
+            loginRlay = findViewById(R.id.login_rlay);
+            loginRlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //  validRegister();
+                    countryData = (Country) spinner.getSelectedItem();
+                   /* if (isValid(countryData.getCode())
+                        &&countryData.getCode().equals("+91"))
+                    {
+                        if (phoneCedit.getText().length()<10)
+                        {
+                            phoneCedit.setError("10 digit number required");
+                            return;
+                        }
+                    }*/
+
+                    phoneVerifyWeb();
+
+                }
+            });
+
+            sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    selectRemoteConfigUrl(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+            selectRemoteConfigUrl(spinner.getSelectedItemPosition());
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
+
+        }
+
+    }
+
+    public void  makeViewBackgroundBlack(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_black_curve));
+    }
+
+    public void  makeViewBackgroundRed(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_red_curve));
+    }
+
+    private void makeAlertMessageInTextView(TextView textView_name_error, String error) {
+        textView_name_error.setText(error);
+        textView_name_error.setVisibility(View.VISIBLE);
+    }
+    @Override
+    protected View getSnackbarAnchorView() {
+        return findViewById(R.id.percent_rlay);
+    }
+
+    public void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+    private void phoneVerifyWeb() {
+        try {
+            setLoading();
+            showProgress();
+            if (!isValidMobile(phoneCedit, getResources().getString(R.string.error_enter_mob_number)))
+            {
+                hideProgress();
+                return;
+            }
+            hideProgress();
+
+            countryData = (Country) spinner.getSelectedItem();
+            String code = countryData.getCode();
+            LogInCodeVerifyActivity. phonenumber =  code + phoneCedit.getText()+"";
+            LogInCodeVerifyActivity.phoneVerifyTXT = code + phoneCedit.getText();
+
+            prefM.saveCountry(countryData.getCountry());
+            if(NetworkService.isRelease) {
+                Intent intent = new Intent(this, LogInCodeVerifyActivity.class);
+                intent.putExtra("from", "login");
+                startActivity(intent);
+                //OnVerificationStateChangedCallbacks
+            }
+            else {
+                Intent intent = new Intent(this, LoginPhoneActivity.class);
+                intent.putExtra("phone", LogInCodeVerifyActivity. phonenumber);
+                startActivity(intent);
+                finish();
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
+            //  LogUtils.LOGD("sign","lA onCreate exception "+e.getMessage());
+        }
+    }
+
+    public boolean isValidMobile(CustomEditText phone_tv, String error) {
+        if (phone_tv != null) {
+            if (isValid(phone_tv.getText() + "")) {
+                if (isValidMobile(phone_tv.getText().toString())) {
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                    return true;
+                }
+                else {
+                    error=getResources().getString(R.string.Invalid_phone_number_format);
+                }
+            }
+        }
+        makeViewBackgroundRed(LinearLayout_phone);
+        makeAlertMessageInTextView(TextView_phone_error,error);
+        return false;
+
+        //String phone=phone_tv.getText().toString();
+        //return android.util.Patterns.PHONE.matcher(phone).matches();
+    }
+
+    public void backpress(View view) {
+        finish();
+    }
+
+    public void callLogin(int checkVal)
+    {
+        showProgress();
+        try {
+            String url = GLOBAL_URL + "login";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, final JSONObject json, final AjaxStatus status) {
+                    try {
+                        jsonStrng = json.toString();
+                        loginModel = GsonUtils.getInstance().gsonToLoginModel(json);
+
+
+                        String logstat = loginModel.getStatus();
+                        if (isValid(logstat)) {
+                            if (logstat.equals("success")) {
+                                userModel = loginModel.getUser();
+                                companyId = userModel.getCompanyId();
+                                prefM.saveCompanyID(companyId);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            hideStatus();
+                                            signInCreatedUser();
+
+                                        } catch (Exception exc) {
+                                            exc.printStackTrace();
+                                            Toast.makeText(LoginActivity.this,exc.getMessage(),Toast.LENGTH_LONG);
+                                            main_label="error";
+                                            label="error";
+                                            hideProgress();
+                                        }
+                                    }
+                                }, 3000);
+                            } else {
+                                hideProgress();
+//                                Toast.makeText(LoginActivity.this,loginModel.getMessage(),Toast.LENGTH_LONG);
+                                prefM.clear();
+                                LoginManager mLoginManager = LoginManager.getInstance();
+                                mLoginManager.logOut();
+                                setAlertOKStatusInRed("Error", loginModel.getMessage(), "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                        finish();
+                                    }
+                                });
+                               /* setStatus(loginModel.getMessage(), R.color.md_red_400);
+                                showStatus();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        hideStatus();
+                                        finish();
+                                        *//*hideKeyboard();*//*
+                                    }
+                                }, 3000);*/
+                            }
+                        }
+                    } catch (Exception e) {
+                        hideProgress();
+                        Toast.makeText(LoginActivity.this,/*loginModel.getMessage()+"/n"+*/e.getMessage(), Toast.LENGTH_LONG).show();
+                        LoginManager mLoginManager = LoginManager.getInstance();
+                        mLoginManager.logOut();
+                        main_label="error";
+                        label="error";
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(LoginActivity.this);
+            cb.header("Content-Type", "application/json");
+            JSONObject postDataParams = new JSONObject();
+            if(checkVal==1) {
+                postDataParams.putOpt("email", edt_email.getText().toString());
+                postDataParams.putOpt("password", edt_password.getText().toString());
+            }else{
+                postDataParams.putOpt("email", postRegisterModel.getEmail());
+            }
+            aq.post(url, postDataParams, JSONObject.class, cb);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            Toast.makeText(LoginActivity.this,ex.getMessage(),Toast.LENGTH_LONG);
+        }
+    }
+
+
+    private void signInCreatedUser( ) {
+        try {
+            //final QBUser user,
+            hideStatus();
+            showProgress();
+            final String userID = loginModel.getUser().getId();
+            String mail = loginModel.getUser().getEmail();
+
+            try {
+
+                MRoleModel roleModel = userModel.getRoleModel();
+                label = roleModel.getLabel();
+                main_label = roleModel.getMainLabel();
+                companyId = userModel.getCompanyId();
+                prefM.saveCompanyID(companyId);
+
+                if (main_label.equals("pacifyr")) {
+                    hideProgress();
+                    setStatus("Login Failed. Please Try again", R.color.md_red_400);
+                    showStatus();
+                    fbLogout();
+                    prefM.clearSharedAll();
+                    prefM.clear();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgress();
+                            hideStatus();
+                            Intent i = new Intent(LoginActivity.this, SignActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    }, 3000);
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(LoginActivity.this);
+                    args.putString(FirebaseLogging.EC, "Tried to login from " +
+                            "Councelor account" +
+                            " " +
+                            "Account");
+                    FirebaseLogging.sendLog(LoginActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_FAIL, args);
+                } else if (main_label.equals("customer")) {
+                    saveToPrefM();
+                    NetworkService.editProfileObject = new JSONObject();
+                    NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                    //NetworkService.editProfileObject.putOpt("online", true);
+                    NetworkService.startActionEditProfile(LoginActivity.this);
+                    Boolean flag = userModel.isTermsAccepted();
+                    hideProgress();
+                    setStatus("Login Successful", R.color.md_green_400);
+                    showStatus();
+
+                    if (label.equalsIgnoreCase("employee")) {
+                        saveCustomerData(LoginActivity.this, "employee");
+
+                    } else if (label.equalsIgnoreCase("unpaidEmployee")) {
+                        saveCustomerData(LoginActivity.this, "unpaidEmployee");
+
+                    } else if (label.equalsIgnoreCase("customer")) {
+                        saveCustomerData(LoginActivity.this, "customer");
+
+                    } else if (label.equalsIgnoreCase("paidMember")) {
+                        saveCustomerData(LoginActivity.this, "paidMember");
+                    }
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(LoginActivity.this);
+
+                    if (postRegisterModel != null)
+                        args.putString(FirebaseLogging.EVENT_LOGIN_TYPE,
+                                postRegisterModel.getLoginType());
+                    FirebaseLogging.sendLog(LoginActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_SUCCESS, args);
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fbLogout();
+                prefM.clear();
+                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_LONG);
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            prefM.clear();
+            e.printStackTrace();
+            Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
+
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(LoginActivity.this);
+            args.putString(FirebaseLogging.EC, "LoginActivity"+String.valueOf(e));
+
+            FirebaseLogging.sendLog(LoginActivity.this,
+                    FirebaseLogging.EVENT_LOGIN_FAIL,
+                    args);
+
+            e.printStackTrace();
+
+        }
+    }
+
+
+
+
+
+    private void saveCustomerData(Context context,String role) {
+        if(isValid(companyId))
+            prefM.saveCompanyID(companyId);
+        prefM.saveCustomerRole(role);
+        DashboardActivity.start(context);
+        finishAffinity();
+    }
+
+    private void saveToPrefM() {
+        prefM.saveJsonKey(jsonStrng);
+        prefM.saveAccessToken(loginModel.getAccessToken());
+        prefM.saveUserID(loginModel.getUser().getId());
+        prefM.saveUserFirstName(userModel.getFirstName());
+        prefM.saveUserUserLastName(userModel.getLastName());
+        prefM.saveMail(userModel.getEmail());
+        prefM.saveCountry(userModel.getCountry());
+        prefM.saveCountry(userModel.getCountry());
+        prefM.saveCompanyID(userModel.getCompanyId());
+        if (isValid(userModel.getPhoneNumber()))
+            prefM.savePhoneNumber(userModel.getPhoneNumber());
+
+        if(isValid(FName)){
+            prefM.savefbName(FName);
+        }else{
+            prefM.savefbName(userModel.getFirstName()+" "+userModel.getLastName());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //callbackmanager2.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private DeviceFitImageView backImv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
+    private LinearLayout rightLlay;
+    private MainTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+        defSetText(titleTxv, "Sign in");
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
+        //backImv.setBackgroundResource(R.drawable.leftmen);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+}

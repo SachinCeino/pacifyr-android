@@ -1,0 +1,264 @@
+package com.pacifyr.client.utils;
+
+import static com.pacifyr.client.utils.FirebaseLogging.getAndroidVersion;
+import static com.pacifyr.client.utils.FirebaseLogging.getAppVersion;
+
+import android.content.Context;
+import android.os.Build;
+import android.provider.Settings;
+import android.util.Log;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.pacifyr.client.model.Installation;
+import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.utility.AWSManager;
+import com.pacifyr.client.utility.FCMMasterToken;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.json.JSONObject;
+
+/* PSEUDO CODE
+* retrieve the latest device token from the mobile operating system
+if (the platform endpoint ARN is not stored)
+  # this is a first-time registration
+  call create platform endpoint
+  store the returned platform endpoint ARN
+endif
+
+call get endpoint attributes on the platform endpoint ARN
+
+if (while getting the attributes a not-found exception is thrown)
+  # the platform endpoint was deleted
+  call create platform endpoint with the latest device token
+  store the returned platform endpoint ARN
+else
+  if (the device token in the endpoint does not match the latest one) or
+      (get endpoint attributes shows the endpoint as disabled)
+    call set endpoint attributes to set the latest device token and then enable the platform endpoint
+  endif
+endif
+* */
+
+public class AmazonSNSTokenHandler {
+
+    public static String TAG = AmazonSNSTokenHandler.class.getSimpleName();
+    private final Context context;
+    private String token;
+    private Installation installation;
+    public static boolean installationIsSuccess=false;
+
+    public AmazonSNSTokenHandler(Context context) {
+        this.context = context;
+    }
+
+    public void register() {
+        token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+        if (token == null) {
+            FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    token = s;
+                    if (token == null || token.isEmpty()) {
+                        ToastHandler.newInstance(context).showToast("Token empty cannot subscribe for notifications");
+                        Log.d(TAG, "Invalid Token exiting...");
+                        return;
+                    }
+                    Log.w("FIREBASETOKEN_insta", token);
+                    installationWeb();
+                }
+            });
+        } else {
+            installationWeb();
+        }
+
+
+       /* AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    if (json != null && json.has("results")) {
+                        JSONArray results = json.getJSONArray("results");
+                        if (results != null && results.length() > 0) {
+                            installation = new Gson().fromJson(results.get(0).toString(), Installation.class);
+                            if (installation != null) {
+                                new GetEndPointAttributesTask(installation.getArn()).execute();
+                            } else {
+                                Log.d(TAG, "register installation not found ");
+                            }
+                        } else { // first time; call create endpoint; save arn
+                            Log.d(TAG, "register response no results found ");
+                            createEndPointTask(AWSManager.ARN, token, getProfileName());
+                        }
+                    } else {
+                        Log.d(TAG, "register response no results found ");
+                    }
+                    Log.d(TAG, "register response status " + status.getCode());
+                    Log.d(TAG, "register response " + json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "register response " + e.getMessage());
+                }
+            }
+        };
+        new NetworkService().getInstallation(getUDID(), cb);*/
+    }
+
+
+
+    public void installationWeb() {
+        LogUtils.LOGD("install", "installationWeb");
+
+        try {
+            final String udid = getUDID();
+            LogUtils.LOGD("install", "installationWeb " + udid);
+            AjaxCallback<JSONObject> cbc = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    LogUtils.LOGD("install", "installationWeb callback : " + json);
+                    if (json == null) {
+                        installationIsSuccess=false;
+                        LogUtils.LOGD("install", "installationWeb fail : " + status.getMessage());
+                        //com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(context).showToast("Installation : Please Try again");
+
+                    } else {
+                        try {
+                            installationIsSuccess=true;
+                            saveUDID(udid);
+                            Gson gson = new Gson();
+                            String json2 = gson.toJson(json);
+                            LogUtils.LOGD("install", "installationWeb suceess : " + json2);
+                           // com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(context).showToast("Installation success");
+                        } catch (Exception e) {
+                            //Crashlytics.logException(e);
+                            ToastHandler.newInstance(context).showToast("Please Try again");
+                            LogUtils.LOGD("install", "installationWeb exception callback : " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                }
+            };
+
+            AQuery aq = new AQuery(context);
+            // cbc.header("support-app-id", "appid");
+            //  cbc.header("support-app-key", "appkey");
+            cbc.header("Content-Type", "application/json");
+            cbc.header("AccessToken", getAccessToken());
+
+            JSONObject input = new JSONObject();
+            input.putOpt("userId", getUserID());
+            input.putOpt("arn", getAWSEndPoint());
+            input.putOpt("udid", udid);
+            input.putOpt("devicetoken", FCMMasterToken.getFCMTokenFromUTility(context));
+            input.putOpt("deviceType", PrefManager.DEVICETYPE);
+            input.putOpt("applicationname", AWSManager.getProjectName(context));
+            if (isValid(Build.MODEL) && isValid(Build.MANUFACTURER))
+                input.putOpt("deviceModel", Build.MANUFACTURER + " " + Build.MODEL);
+            else
+                input.putOpt("deviceModel", "NA");
+            input.putOpt("appVersion", getAppVersion(context));
+            input.putOpt("osVersion", getAndroidVersion());
+            Gson gson = new Gson();
+            String json = gson.toJson(input);
+            Log.w("install", "installationWeb : " + json);
+            aq.post(NetworkService.GLOBAL_URL + "installation", input, JSONObject.class, cbc);
+            LogUtils.LOGD("install", "installation url: " + NetworkService.GLOBAL_URL + "installation");
+
+        } catch (Exception e) {
+            //Crashlytics.logException(e);
+            LogUtils.LOGD("install", "installationWeb Exception : " + e.getMessage());
+        }
+    }
+
+    public void deleteInstallationWeb() {
+
+        try {
+            final String udid = getUDID();
+            AjaxCallback<JSONObject> cbc = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if (json == null) {
+
+                    } else {
+
+                    }
+
+
+                }
+            };
+
+            AQuery aq = new AQuery(context);
+            cbc.header("Content-Type", "application/json");
+            cbc.header("AccessToken", getAccessToken());
+
+            String url = NetworkService.GLOBAL_URL + "installation/" + udid + "";
+            aq.delete(url, JSONObject.class, cbc);
+
+        } catch (Exception e) {
+            //Crashlytics.logException(e);
+            LogUtils.LOGD("install", "installationWeb Exception : " + e.getMessage());
+        }
+    }
+
+    public Boolean isValid(Object object) {
+        return object != null;
+
+    }
+
+    public String getUDID() {
+        String android_id = null;
+        android_id = PrefManager.getInstance(context).getSharedString(PrefManager.UDID, null);
+        if (android_id == null) {
+            android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
+        return android_id;
+    }
+
+    public void saveUDID(String valude) {
+        PrefManager.getInstance(context).putSharedString(PrefManager.UDID, valude);
+    }
+
+    public String getAccessToken() {
+        return PrefManager.getInstance(context).getSharedString(PrefManager.ACCESSTOKEN, null);
+
+    }
+
+    public String getUserID() {
+        return PrefManager.getInstance(context).getSharedString(PrefManager.USERID, null);
+    }
+
+    public String getAWSEndPoint() {
+        return PrefManager.getInstance(context).getSharedString(PrefManager.AWS_ENDPOINT, null);
+    }
+
+   /* public String getFcmToken() {
+        String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+        if (token == null || token.isEmpty()) {
+            token = FirebaseInstanceId.getInstance().getToken();
+        }
+        return token;
+    }*/
+
+    public String getProfileName() {
+        return getProfileFName() + " " + getProfileLName();
+
+    }
+
+    public String getProfileFName() {
+        return PrefManager.getInstance(context).getSharedString(PrefManager.UserFirstName, "");
+
+    }
+
+    public String getProfileLName() {
+        return PrefManager.getInstance(context).getSharedString(PrefManager.UserLastName, "");
+
+    }
+
+}

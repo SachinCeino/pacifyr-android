@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -24,10 +23,8 @@
         android:background="@color/white">
 
 
-        <android.support.percent.PercentRelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.percentlayout.widget.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/percent_rlay"
@@ -45,7 +42,7 @@
 
                 <ImageView
                     android:layout_width="170dp"
-                    android:src="@drawable/omhealth_icon_orange"
+                    android:src="@drawable/powered_logo"
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
                     android:id="@+id/logo_blue"/>
@@ -65,13 +62,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
-                    app:fontName="@string/raleway_bold"
                     android:id="@+id/enter_phone_ctxv"
                     android:textColor="@color/black"
+                    android:focusedByDefault="false"
                     android:text="@string/e_phonenumber"/>
 
 
@@ -95,7 +92,7 @@
                         android:layout_alignLeft="@+id/textView"/>
 
 
-                    <com.ceino.utilitylibrary.CustomEditText
+                    <com.pacifyrapp.utilitylibrary.CustomEditText
                         android:id="@+id/phone_cedit"
                         android:layout_width="match_parent"
                         android:inputType="phone"
@@ -138,7 +135,7 @@
                     android:background="@drawable/blue_round_square"
                     android:padding="10dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/send_confirmcode"
@@ -160,7 +157,7 @@
                     android:layout_marginRight="10dp"
                     android:visibility="gone" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
 
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
@@ -170,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sms_text_login"
                     android:layout_margin="5dp"
-                    android:textColor="@color/medium_grey_pacifyr"/>
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -199,7 +196,7 @@
                         android:layout_height="1dp"
                         android:background="@color/signup_view"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="or"
@@ -223,7 +220,7 @@
                     android:background="@drawable/fb_signup_btn"
                     android:padding="10dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/login_fb"
@@ -247,8 +244,7 @@
             </LinearLayout>
 
 
-
-        </android.support.percent.PercentRelativeLayout>
+        </androidx.percentlayout.widget.PercentRelativeLayout>
 
     </ScrollView>
 

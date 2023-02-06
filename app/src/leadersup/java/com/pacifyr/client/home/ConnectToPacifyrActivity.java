@@ -1,0 +1,1406 @@
+package com.pacifyr.client.home;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Bundle;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.daprlabs.cardstack.SwipeDeck;
+import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.CategoryListAdapter;
+import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.adapter.SwipeDeckConnectPacifyrAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.model.ModelSpecialityByCategory;
+import com.pacifyr.client.model.interfaces.CallChatEventListner;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.activities.PermissionsActivity;
+import com.pacifyr.client.quickblox.utils.Consts;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
+import com.squareup.otto.Subscribe;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.pSearchPacifyrWOptionsResponse;
+
+public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implements CategoryListAdapter.EmotionClickkListener {
+
+    private String pacifyrName;
+
+    public DeviceFitImageView sadDimv;
+    public DeviceFitImageView happyDimv;
+
+    private boolean isClick=false;
+    private String type;
+
+    public RelativeLayout FirstScreenLayout;
+    public RelativeLayout second_screen_layout;
+    public RelativeLayout third_Screen_layout;
+    public RelativeLayout listPacifyrRlay;
+    public RelativeLayout third_Screen_second_layout;
+    private MainTextView noPacifyrCtxv;
+    private MainTextView txt_emergency_usa;
+
+    private LinearLayout showallLlay;
+    private MainTextView showallCtxv;
+
+    RecyclerView emotionRcv;
+    RecyclerView emotionDetailRcv;
+    private MainTextView userNameCtxv;
+
+    Button button1,button2,button3,button4;
+    Button moreButton;
+    public PrefManager prefM;
+    public String token,userid,companyID;
+    //private RecyclerView specialityRcv;
+    public DeviceFitImageView emotionDimv;
+    private SwipeDeck swipeDeck;
+    private RelativeLayout morePacifyrsRlay;
+    private ConnectToPacifyrActivity activity;
+
+    private RelativeLayout topRlay;
+
+    RecyclerView imgRcv;
+    private String customerRole;
+    private boolean employeeFlag;
+    private SwipeDeck cardStack;
+    public static String customerEmotion;
+    private boolean showAllFlag;
+    private CategoryListAdapter categoryListAdapter;
+    private boolean selfSelectCategory = false;
+    private  RecyclerView rcv_secondScreen_instruction,rcv_thirdScreen_instruct,rcv_thirdScreen_second_instruct;
+    private  SecondScreenInstructionAdapter mInstructionSecondAdapter ;
+    private  ThirdScreenInstructionAdapter mInstructionAdapter ;
+    private  ThirdScreenInstructionSubAdapter mInstructionBAdapter ;
+
+    public static void start(Context context) {
+        EmotionSpecialityAdapter.reason_forcall=null;
+        Intent intent = new Intent(context, ConnectToPacifyrActivity.class);
+        intent.putExtra("display","Pacifyr");
+        NetworkService.isConnectSinglePacifyer=false;
+        context.startActivity(intent);
+    }
+    public static void start(Activity activity) {
+        EmotionSpecialityAdapter.reason_forcall=null;
+        Intent intent = new Intent(activity, ConnectToPacifyrActivity.class);
+        intent.putExtra("display","Pacifyr");
+        NetworkService.isConnectSinglePacifyer=false;
+        activity.startActivity(intent);
+        activity.finish();
+    }
+    public static void start(Context context, boolean isConnectSinglePacifyer) {
+        EmotionSpecialityAdapter.reason_forcall=null;
+        Intent intent = new Intent(context, ConnectToPacifyrActivity.class);
+        intent.putExtra("display","Pacifyr");
+        NetworkService.isConnectSinglePacifyer=isConnectSinglePacifyer;
+        context.startActivity(intent);
+    }
+    public static void start(Activity activity, boolean isConnectSinglePacifyer) {
+        EmotionSpecialityAdapter.reason_forcall=null;
+        Intent intent = new Intent(activity, ConnectToPacifyrActivity.class);
+        intent.putExtra("display","Pacifyr");
+        NetworkService.isConnectSinglePacifyer=isConnectSinglePacifyer;
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    private Timer trackTimer_check_online;
+    private TimerTask trackTimerTask_check_online;
+    private int card_position=0;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_connect_to_pacifyr);
+       // checker = new PermissionsChecker(ConnectToPacifyrActivity.this);
+       // permissionCheck();
+
+       // ToastHandler.newInstance(ConnectToPacifyrActivity.this).mustShowToast("Works under Progress");
+        Bundle extras = getIntent().getExtras();
+        pacifyrName = extras.getString("display");
+        prefM= getPrefManager();
+        token=prefM.getAccessToken();
+        userid=prefM.getUserID();
+        customerRole = prefM.getCustomerRole();
+        companyID = prefM.getCompanyId();
+
+        activity=this;
+
+        onSetActionBar();
+        noPacifyrCtxv = findViewById(R.id.no_pacifyr_ctxv);
+        imgRcv = findViewById(R.id.image_rcv);
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+       // moreButton = findViewById(R.id.more_button);
+       // userNameCtxv = findViewById(R.id.user_name_ctxv);
+        sadDimv = findViewById(R.id.sad_dimv);
+        happyDimv = findViewById(R.id.happy_dimv);
+        FirstScreenLayout = findViewById(R.id.FirstScreenLayout);
+        second_screen_layout = findViewById(R.id.second_screen_layout);
+        listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
+        third_Screen_second_layout=findViewById(R.id.third_Screen_second_layout);
+        third_Screen_layout = findViewById(R.id.third_Screen_layout);
+       // emotionRcv = findViewById(R.id.emotion_rcv);
+       // emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
+        morePacifyrsRlay = findViewById(R.id.more_pacifyrs_rlay);
+        swipeDeck = findViewById(R.id.swipe_deck);
+        emotionDimv = findViewById(R.id.emotion_dimv);
+        showallLlay = findViewById(R.id.showall_llay);
+        showallCtxv = findViewById(R.id.showall_ctxv);
+        topRlay = findViewById(R.id.top_rlay);
+        morePacifyrsRlay.setVisibility(View.GONE);
+
+        topRlay.bringToFront();
+
+        txt_emergency_usa = findViewById(R.id.txt_emergency_usa);
+        Utility gps=new Utility();
+        String country = Utility.getUserCountry(ConnectToPacifyrActivity.this);
+        if(isValid(country)) {
+            country = prefM.getCountry();
+            if (country.equalsIgnoreCase("us")) {
+                //txt_emergency_usa.setVisibility(View.VISIBLE);
+            }
+        }
+
+        //specialityRcv = (RecyclerView) findViewById(R.id.speciality_rcv);
+        //defSetText(userNameCtxv,"Hello "+getUserName());
+        FirstScreenLayout.setVisibility(View.VISIBLE);
+
+        listPacifyrRlay.setVisibility(View.GONE);
+        rcv_thirdScreen_instruct=findViewById(R.id.rcv_thirdScreen_instruct);
+        rcv_thirdScreen_second_instruct=findViewById(R.id.rcv_thirdScreen_second_instruct);
+        rcv_secondScreen_instruction=findViewById(R.id.rcv_secondScreen_instruction);
+        makeThirdScreenInstructionList();
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button1.setBackgroundResource(R.drawable.circle_click_btn);
+                button2.setBackgroundResource(R.drawable.circle_button);
+                button3.setBackgroundResource(R.drawable.circle_button);
+                button4.setBackgroundResource(R.drawable.circle_button);
+                FirstScreenLayout.setVisibility(View.VISIBLE);
+                second_screen_layout.setVisibility(View.GONE);
+                third_Screen_layout.setVisibility(View.GONE);
+                listPacifyrRlay.setVisibility(View.GONE);
+                morePacifyrsRlay.setVisibility(View.GONE);
+                third_Screen_second_layout.setVisibility(View.GONE);
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(second_screen_layout.getVisibility()==View.VISIBLE ||third_Screen_layout.getVisibility()==View.VISIBLE||listPacifyrRlay.getVisibility() == View.VISIBLE)
+                {
+                    button2.setBackgroundResource(R.drawable.circle_click_btn);
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_button);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.VISIBLE);
+
+                    third_Screen_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.GONE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+                else {
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (third_Screen_layout.getVisibility()==View.VISIBLE ||listPacifyrRlay.getVisibility()==View.VISIBLE)
+                {
+                    button3.setBackgroundResource(R.drawable.circle_click_btn);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_button);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.VISIBLE);
+                    listPacifyrRlay.setVisibility(View.GONE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+                else
+                {
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listPacifyrRlay.getVisibility()==View.VISIBLE)
+                {
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+
+
+        sadDimv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                happyDimv.clearColorFilter();
+                sadDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+                type="negative";
+                button1.setBackgroundResource(R.drawable.circle_button);
+                button2.setBackgroundResource(R.drawable.circle_click_btn);
+                //callFragmant();
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
+                changeToSecondScreen();
+
+            }
+        });
+
+        happyDimv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sadDimv.clearColorFilter();
+                happyDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+                type="positive";
+                button1.setBackgroundResource(R.drawable.circle_button);
+                button2.setBackgroundResource(R.drawable.circle_click_btn);
+                //callFragmant();
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
+                changeToSecondScreen();
+
+            }
+        });
+
+      /*  moreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLoading();
+                showProgress();
+                moreButton.setVisibility(View.GONE);
+                String url = GLOBAL_URL+"specialities/getCategories";
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            hideProgress();
+                            ModelSpecialityByEmotion modelSpeciltyByEmotion= GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
+                            RecyclerView detailRcv = activity.findViewById(R.id.emotion_detail_rcv);
+                            detailRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.VERTICAL, false));
+                            EmotionSpecialityAdapter adapter=new EmotionSpecialityAdapter(ConnectToPacifyrActivity.this,activity,modelSpeciltyByEmotion.getResultsList());
+                            detailRcv.setAdapter(adapter);
+                        } catch (Exception e) {
+                            hideProgress();
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken",token);
+                aq.ajax(url,JSONObject.class, cb);
+            }
+        });
+*/
+        morePacifyrsRlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isValid(PacifyrActivity.call_emotion)){
+                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyrActivity.call_emotion.getTitle());
+                }
+                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, ConnectToPacifyrActivity.customerEmotion,showAllFlag);
+            }
+        });
+
+        cardStack = activity.findViewById(R.id.swipe_deck);
+
+        if(customerRole.equals("customer")){
+            employeeFlag = false;
+           showallLlay.setVisibility(View.GONE);
+        }
+        else if(customerRole.equals("employee")||customerRole.equals("unpaidEmployee")){
+            employeeFlag = true;
+          showallLlay.setVisibility(View.VISIBLE);
+        }
+        else if(customerRole.equals("paidMember")){
+            employeeFlag = false;
+          showallLlay.setVisibility(View.GONE);
+        }else if(customerRole.equals("unpaidEmployee")){
+            employeeFlag = true;
+        }
+
+        showCategories();
+        getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    showAllFlag = true;
+                    webSearchPacifyrWOptions(customerEmotion);
+                } else {
+                    showAllFlag = false;
+                    webSearchPacifyrWOptions(customerEmotion);
+                }
+            }
+        });
+
+        cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
+            @Override
+            public void cardSwipedLeft(int position) {
+                Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+                card_position=position;
+            }
+
+            @Override
+            public void cardSwipedRight(int position) {
+                Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+                card_position=position;
+            }
+
+
+            @Override
+            public void cardsDepleted() {
+                Log.i("MainActivity", "no more cards");
+                setAdapterSearchOption();
+            }
+
+            @Override
+            public void cardActionDown() {
+
+            }
+
+            @Override
+            public void cardActionUp() {
+
+            }
+        });
+
+
+
+
+
+    }
+
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        /*FirstScreenLayout.setVisibility(View.VISIBLE);
+        second_screen_layout.setVisibility(View.GONE);
+        third_Screen_layout.setVisibility(View.GONE);
+        listPacifyrRlay.setVisibility(View.GONE);
+        button4.setBackgroundResource(R.drawable.circle_button);
+        button3.setBackgroundResource(R.drawable.circle_button);
+        button2.setBackgroundResource(R.drawable.circle_button);
+        button1.setBackgroundResource(R.drawable.circle_click_btn);
+        button2.setClickable(false);
+        button3.setClickable(false);
+        button4.setClickable(false);
+        happyDimv.clearColorFilter();
+        sadDimv.clearColorFilter();*/
+    }
+
+
+    public CheckBox getShowallCbox(){
+        return (CheckBox) findViewById(R.id.showall_cbox);
+    }
+
+    public void changeToSecondScreen() {
+
+
+
+
+        second_screen_layout.setVisibility(View.VISIBLE);
+        FirstScreenLayout.setVisibility(View.GONE);
+        //setLoading();
+        //showProgress();
+
+        if(type.equals("positive")){
+
+           /* String url = GLOBAL_URL+"emotions/positive";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        MListPositiveEmotions modelListPosEmotions= GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
+                        emotionRcv.setLayoutManager(new GridLayoutManager(ConnectToPacifyrActivity.this, 4));
+                        PostiveEmotionsAdapter adapter = new PostiveEmotionsAdapter(ConnectToPacifyrActivity.this,activity,modelListPosEmotions.getResultsList());
+                        emotionRcv.setAdapter(adapter);
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            //cb.header("AccessToken",token);
+            cb.header("AccessToken",token);
+            aq.ajax(url,JSONObject.class, cb);*/
+
+        }else if (type.equals("negative")){
+
+           /* String url = GLOBAL_URL+"emotions/negative";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        MListNegativeEmotions modelListNegEmotions= GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
+                        emotionRcv.setLayoutManager(new GridLayoutManager(ConnectToPacifyrActivity.this, 4));
+                        NegativeEmotionsAdapter adapter = new NegativeEmotionsAdapter(ConnectToPacifyrActivity.this,activity,modelListNegEmotions.getResultsList());
+                        emotionRcv.setAdapter(adapter);
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",token);
+            aq.ajax(url,JSONObject.class, cb);*/
+
+        }
+
+    }
+
+    @Override
+    protected View getSnackbarAnchorView() {
+        return null;
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            // check if the request code is same as what is passed  here it is 2
+            LogUtils.LOGD("session","CPA  onActivityResult requestCode " + requestCode);
+            if(requestCode == PermissionsActivity.PERMISSION_EXTERNAL_REQUEST_CODE) {
+                boolean granted = data.getBooleanExtra("permissions", false);
+                boolean audioonly = data.getBooleanExtra(PermissionsActivity.CHECK_ONLY_AUDIO, false);
+                LogUtils.LOGD("session","CPA  onActivityResult granted " + granted);
+                LogUtils.LOGD("session","CPA  onActivityResult audioonly " + audioonly);
+                LogUtils.LOGD("session","CPA  onActivityResult event_call " + event_call);
+                if(isValid(event_call))
+                if(granted) {
+                    if(audioonly) {
+                        if(checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+                            Toast.makeText(activity, "call to do 1 in onactivtyresult1", Toast.LENGTH_SHORT).show();
+
+                            /*setAlertStartCall("Start", "Call now....", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                        hideStatus();
+                                        deleteInstallationWeb();
+
+                                }
+                            });*/
+                            //checkRoleRequest(event_call.mpacifyer, listner, event_call.isVideoCall);
+                        }
+                    }
+                    else {
+                        if(checker.lacksPermissions(Consts.PERMISSIONS)) {
+                            Toast.makeText(activity, "call to do 2 in onactivtyresult1", Toast.LENGTH_SHORT).show();
+
+
+
+                         /*   setAlertStartCall("Start", "Call now....", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                       *//* hideStatus();
+                                        deleteInstallationWeb();*//*
+
+                                }
+                            });*/
+                           // checkRoleRequest(event_call.mpacifyer, listner, event_call.isVideoCall);
+                        }
+                    }
+
+                }
+            }
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","CPA  onActivityResult exce " + e.getMessage());
+        }
+    }
+    @Subscribe
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
+    }
+    CallEvent event_call=null;
+    @Subscribe
+    public void onCallEvent(final CallEvent event) {
+        try{
+            LogUtils.LOGD("session","CPA onCallEvent called " );
+              if(!isValid(event.mpacifyer,"Please try again"))
+                return;
+               event_call=event;
+                if( event_call.isVideoCall) {
+                    if (checker.lacksPermissions(Consts.PERMISSIONS)) {
+                        event_call=event;
+
+                        startPermissionsActivity(false,ConnectToPacifyrActivity.this);
+
+                        if(isLoggedInChat()) {
+
+                            setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                                        }
+                                    });
+
+                            //callRequestWeb(pacifyer_obj, listner, true);
+                        }
+                    }
+                    else {
+                        if(isLoggedInChat()) {
+
+                            setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                                        }
+                                    });
+
+                            /*
+                            //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
+                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);*/
+                        }
+                    }
+                }
+                else {
+                    if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+                        event_call=event;
+
+                        startPermissionsActivity(true,ConnectToPacifyrActivity.this);
+
+                        if(isLoggedInChat()) {
+
+                            setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                                        }
+                                    });
+
+                            //callRequestWeb(pacifyer_obj, listner, true);
+                        }
+
+                    }
+                    else {
+                        if(isLoggedInChat()) {
+                            setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                                        }
+                                    });
+
+
+                            //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
+//                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                        }
+                    }
+                }
+
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","CPA onCallEvent exce " + e.getMessage());
+        }
+
+    }
+
+    @Subscribe
+    public void onChatEvent(ChatEvent event) {
+        try{
+            LogUtils.LOGD("session","CPA onCallEvent called " );
+            if(!isValid(event.mpacifyer,"Network Error"))
+                return;
+            boolean isChatSubscriptionRequired = event.mpacifyer.isChatSubscriptionRequired();
+            int priceForChat = Integer.parseInt(event.mpacifyer.getPriceForChat());
+
+            if(!isChatSubscriptionRequired)
+            {
+                startChat(event.mpacifyer);
+                //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
+
+            }else if(priceForChat==0){
+                startChat(event.mpacifyer);
+            }else {
+                //chatLlay.setVisibility(View.VISIBLE);
+
+                if (event.mpacifyer.getChatSubscription() == null) {
+                    showIOSDialogOK("","Please purchase unlimited chat per day","OK");
+                    //chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
+                } else {
+                    startChat(event.mpacifyer);
+                }
+            }
+            //startChat(event.mpacifyer);
+
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","CPA ChatEvent exce " + e.getMessage());
+        }
+
+    }
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private ImageView backImv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
+    private LinearLayout rightLlay;
+    private MainTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.GONE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+        /*defSetText(titleTxv,"Connect to "+pacifyrName);*/
+        defSetText(titleTxv,"CONNECT");
+        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/ActionBarCommonFont.otf");
+        titleTxv.setTypeface(type);
+
+
+        backImv.setVisibility(View.VISIBLE);
+        backImv.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel2));
+        //backImv.setBackgroundResource(R.drawable.leftmen);
+        backImv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            /*    Intent intent = new Intent(ConnectToPacifyrActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();*/
+                DashboardActivity.start(ConnectToPacifyrActivity.this);
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        //
+        DashboardActivity.start(ConnectToPacifyrActivity.this);
+       /* Intent intent = new Intent(ConnectToPacifyrActivity.this, DashboardActivity.class);
+        startActivity(intent);
+        finish();*/
+    }
+
+   public CallChatEventListner callchatEventListner =new CallChatEventListner() {
+        @Override
+        public void onCallEventClick(CallEvent event) {
+            onCallEvent(event);
+        }
+
+        @Override
+        public void onChatEventClick(ChatEvent event) {
+            onChatEvent(event);
+        }
+
+        @Override
+        public void onException(Exception e) {
+
+        }
+
+        @Override
+        public void onError(String e) {
+
+        }
+    };
+
+
+    @Override
+    public void OnEmotionClickkListener() {
+        showProgress();
+        if (adapter != null) {
+            adapter.clear();
+        }
+        //showCategories(customerEmotion);
+        webSearchPacifyrWOptions(customerEmotion);
+    }
+
+
+    public void webSearchPacifyrWOptions(String emotion) {
+        try {
+            hideProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        pSearchPacifyrWOptionsResponse= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+                        //searchResults=modelSearchPacifyr.getResultsList();
+                        pSearchPacifyrWOptionsResponse.toString();
+                        setAdapterSearchOption();
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                        try {
+                            if (adapter != null && adapter.getCount() == 0 && !selfSelectCategory) {
+                                selfSelectCategory = true;
+                                ((CategoryListAdapter) imgRcv.getAdapter()).setSelected(0);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();//RespSearchPacifyrWOption
+                    }
+                }
+            };
+
+            String url;
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            JSONObject jsonObject;
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            jsonObject = new JSONObject();
+
+            url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            companyID = prefM.getCompanyId();
+            jsonObject.putOpt("companyId",companyID);
+            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            jsonObject.putOpt("initiatorId", userid);
+            jsonObject.putOpt("country", prefM.getCountry());
+            List<String> list = new ArrayList<String>();
+            list.add(emotion);
+            //list.add("b");
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities",array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+            //aq.ajax(url,JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
+    public SwipeDeckConnectPacifyrAdapter adapter;
+
+    private void setAdapterSearchOption() {
+
+        if(!NetworkService.isConnectSinglePacifyer) {
+            if (isValid(pSearchPacifyrWOptionsResponse) && isValid(pSearchPacifyrWOptionsResponse.getResultsList())) {
+                cardStack.setVisibility(View.VISIBLE);
+                noPacifyrCtxv.setVisibility(View.GONE);
+                adapter = new SwipeDeckConnectPacifyrAdapter(pSearchPacifyrWOptionsResponse.getResultsList(), ConnectToPacifyrActivity.this,activity);
+                cardStack.setAdapter(adapter);
+            }else{
+                cardStack.setVisibility(View.GONE);
+                noPacifyrCtxv.setVisibility(View.VISIBLE);
+            }
+        }
+
+    }
+
+    private void checkOnLineOrOffline() {
+
+
+        webCheckOnlineOffline(customerEmotion);
+    }
+
+
+    private void webCheckOnlineOffline(String emotion) {
+
+        try {
+            hideProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+
+                        RespSearchPacifyrWOption mRespSearchPacifyrWOption=GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+
+                        if (isValid(mRespSearchPacifyrWOption.getResultsList()))
+                        {
+
+
+                            if (isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
+                            {
+
+                                for (int i=0;i<mRespSearchPacifyrWOption.getResultsList().size();i++)
+                                {
+                                    for (int j=0;j<pSearchPacifyrWOptionsResponse.getResultsList().size();j++)
+                                    {
+                                        if (mRespSearchPacifyrWOption.getResultsList().get(i).getId().equals(pSearchPacifyrWOptionsResponse.getResultsList().get(j).getId()))
+                                        {
+
+                                            if (mRespSearchPacifyrWOption.getResultsList().get(i).getOnline()!=pSearchPacifyrWOptionsResponse.getResultsList().get(j).getOnline())
+                                            {
+                                                pSearchPacifyrWOptionsResponse.getResultsList().get(j).setOnline(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline());
+                                                adapter.notifyDataSetChanged();
+                                                adapter.notifyDataSetInvalidated();
+                                                cardStack.setSelection(card_position+1);
+
+
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();//RespSearchPacifyrWOption
+                    }
+                }
+            };
+
+            String url;
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            JSONObject jsonObject;
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            jsonObject = new JSONObject();
+
+            url = GLOBAL_URL + "search/pacifyrs";
+            companyID = prefM.getCompanyId();
+            jsonObject.putOpt("companyId",companyID);
+            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            jsonObject.putOpt("initiatorId", userid);
+            jsonObject.putOpt("country", prefM.getCountry());
+            List<String> list = new ArrayList<String>();
+            list.add(emotion);
+            //list.add("b");
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities",array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+            //aq.ajax(url,JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    public void  showCategories()
+    {
+        try {
+            String url = GLOBAL_URL + "specialities/byAppSource?appSource=leadersup";
+           // String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
+                        categoryListAdapter = new CategoryListAdapter(model.getResults(), ConnectToPacifyrActivity.this);
+                        imgRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                        imgRcv.setAdapter(categoryListAdapter);
+                        categoryListAdapter.addListener(ConnectToPacifyrActivity.this);
+                        categoryListAdapter.setSelected(0);
+
+                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
+                    String title = res[i].getTitle();
+                    if (isValidhtml(imgURL))
+                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
+
+
+                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
+
+                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
+                        //postEventOnMainThread(new NotifyEvent(true, false));
+                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        trackTimer_check_online.cancel();
+        trackTimerTask_check_online.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (morePacifyrsRlay!=null)
+        {morePacifyrsRlay.setVisibility(View.GONE);}
+
+        trackTimer_check_online = new Timer();
+
+            trackTimerTask_check_online = new TimerTask() {
+                @Override
+                public void run() {
+
+                    if (isValid(listPacifyrRlay))
+                    {
+                        if (listPacifyrRlay.getVisibility()==View.VISIBLE)
+                        {
+                            checkOnLineOrOffline();
+
+                        }
+                    }
+
+                }
+            };
+            trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+
+
+
+
+
+    }
+
+
+    public void showScheduleDialogueFragment(MUser pacifyer_obj) {
+        if (isValid(pacifyer_obj))
+        {
+
+            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("OBJECT",pacifyer_obj);
+            bottomSheetFragment.setArguments(bundle);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+        }
+
+    }
+
+    private void makeThirdScreenInstructionList() {
+        
+        /** Second screen instruction **/
+
+        mInstructionSecondAdapter =new SecondScreenInstructionAdapter(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutsecond=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rcv_secondScreen_instruction.setLayoutManager(mLayoutsecond);
+        rcv_secondScreen_instruction.setAdapter(mInstructionSecondAdapter);
+        rcv_secondScreen_instruction.setItemAnimator(new DefaultItemAnimator());
+        
+        /*** Third Screen instruction**/
+        mInstructionAdapter =new ThirdScreenInstructionAdapter(getApplicationContext());
+        RecyclerView.LayoutManager mLayout=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rcv_thirdScreen_instruct.setLayoutManager(mLayout);
+        rcv_thirdScreen_instruct.setAdapter(mInstructionAdapter);
+        rcv_thirdScreen_instruct.setItemAnimator(new DefaultItemAnimator());
+
+    /** third screen second screen recyclerview**/
+        mInstructionBAdapter=new ThirdScreenInstructionSubAdapter(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutb=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rcv_thirdScreen_second_instruct.setLayoutManager(mLayoutb);
+        rcv_thirdScreen_second_instruct.setAdapter(mInstructionBAdapter);
+        rcv_thirdScreen_second_instruct.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    
+    private class SecondScreenInstructionAdapter extends RecyclerView.Adapter<SecondScreenInstructionAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public SecondScreenInstructionAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("I have a job offer(s),but no start dates yet");
+            list.add("I haven't heard back from a recruiter");
+            list.add("I have a start date!");
+            list.add("I'm still looking for job opportunities");
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction_second_screen, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(list.get(position));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserDashboardFragment.LeadersUpReasonFortheCall=list.get(position);
+                    if (position==0)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_click_btn);
+                        button4.setBackgroundResource(R.drawable.circle_button);
+                        button2.setClickable(true);
+
+                        button1.setClickable(true);
+                        button3.setClickable(true);
+                        button4.setClickable(true);
+
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.VISIBLE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.GONE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                    }
+                    else if (position==1)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_button);
+                        button4.setBackgroundResource(R.drawable.circle_click_btn);
+                        button2.setClickable(false);
+                        button3.setClickable(false);
+                        button3.setClickable(false);
+
+                        button1.setClickable(true);
+                        button4.setClickable(true);
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+
+                    }
+                    else if (position==2)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_click_btn);
+                        button4.setBackgroundResource(R.drawable.circle_button);
+                        button2.setClickable(false);
+
+                        button1.setClickable(true);
+                        button3.setClickable(true);
+                        button4.setClickable(true);
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.VISIBLE);
+                        listPacifyrRlay.setVisibility(View.GONE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                    }
+                    else if (position==3)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_button);
+                        button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                        button1.setClickable(true);
+                        button2.setClickable(false);
+                        button3.setClickable(false);
+                        button4.setClickable(true);
+
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                    }
+                    
+
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+
+    
+    
+
+
+    private class ThirdScreenInstructionAdapter extends RecyclerView.Adapter<ThirdScreenInstructionAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public ThirdScreenInstructionAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("Complete job application");
+            list.add("Create or polish resume");
+            list.add("Practice for 2nd Interview");
+            list.add("Get interview/ work clothes");
+            list.add("I need transportation support");
+            list.add("   I need other support   ");
+
+
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+            
+            holder.tv_instruction.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    third_Screen_second_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+            });
+
+        }
+       
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+
+
+
+
+    private class ThirdScreenInstructionSubAdapter extends RecyclerView.Adapter<ThirdScreenInstructionSubAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public ThirdScreenInstructionSubAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("I need work clothes");
+            list.add("I need transportation support");
+            list.add("Gain more workplace skills");
+            list.add("I want to build my career");
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    third_Screen_second_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+
+}

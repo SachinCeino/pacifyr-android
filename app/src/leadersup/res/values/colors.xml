@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<color name="colorPrimary">#0fbeff</color>-->
+    <color name="colorPrimary">#76A634</color>
+    <color name="blue_pacifyr">#76A634</color>
+    <color name="colorAccent">@color/colorPrimary</color>
+    <color name="colorPrimaryDark">#000000</color>
+
+
+    <color name="text_inside_circle_light">#e6f9fe</color>
+    <color name="sign_blue">#38569a</color>
+
+    <!--<color name="colorPrimary">#FF7E57</color>-->
+    <!--<color name="blue_pacifyr">#FF7E57</color>-->
+    <!--<color name="text_inside_circle_light">#FF7E57</color>-->
+    <!--<color name="sign_blue">#FF7E57</color>-->
+
+
+
+    <!--<color name="colorPrimaryDark">#454A4A</color>-->
+
+    <color name="red_light_back">#ffe7e8</color>
+    <color name="red_missed_txt">#c94c51</color>
+    <color name="signup_view">#d8d7d7</color>
+    <color name="transparent_black_1">#11000000</color>
+
+    <color name="blue_fb">#38569a</color>
+    <color name="black_pacifyr">#18191a</color>
+    <color name="text_dashboard">#495353</color>
+
+    <color name="medium_grey_pacifyr">#737373</color>
+    <color name="light_grey2_pacifyr">#808688</color>
+
+    <color name="hint_dark">#26000000</color>
+    <color name="graph_light">@color/grey_hex_92</color>
+    <!--<color name="graph_light">#ccdce3</color>-->
+    <color name="graph_dark">#a8adad</color>
+
+
+    <color name="blue_text_dark">#146047</color>
+
+
+    <color name="actionbar_grey">#D4D9DE</color>
+    <!--<color name="actionbar_grey">#F0F3F5</color>-->
+
+    <color name="grey_dark_text">#777776</color>
+    <color name="grey_background">#F0F3F5</color>
+    <color name="om_blue">#146047</color>
+
+    //new colour codes common
+
+    <color name="_color_get_ready_feel_better">#F9BC1F</color>
+    <color name="_color_get_ready_feel_better_dark">#88F9BC1F</color>
+    <color name="_color_connect_to_wellness">#F9BC1F</color>
+    <color name="_color_thirty_free">#F9BC1F</color>
+    <color name="_color_no_credit_card">#ffffff</color>
+    <color name="_color_enter_phone_ctxv">#00000000</color>
+    <color name="_color_or_text">#777776</color>
+    <color name="_color_e_con_code">#777776</color>
+    <color name="_color_back_arrow_tint">#FFFFFF</color>
+    <color name="_color_action_bar_text_color">#FFFFFF</color>
+    <color name="_color_action_bar_background_color">#146047</color>
+    <color name="blue_button_primary">#36b0ff</color>
+    <color name="color_blue_accent">#F9BC1F</color>
+    <color name = "round_button_fill_color">#146047</color>
+    <color name = "round_button_border_color">#146047</color>
+    <color name="connect_wellness_expert_color">#FFFFFF</color>
+    <color name="circle_button_click_color">#146047</color>
+
+    <color name="event_svg_icon_color">#8b8b8b</color>
+    <color name="view_color">#cfcece</color>
+    <color name="event_svg_checkin_color">@color/colorPrimary</color>
+    <color name="bullet_color">#454A4A</color>
+    <color name="text_color">#044044</color>
+</resources>

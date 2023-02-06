@@ -9,7 +9,7 @@
     android:padding="2dp">
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/title_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,8 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp18"
         />
-    <com.ceino.utilitylibrary.CustomFontTextView
+
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/desc_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +49,8 @@
         android:layout_below="@+id/desc_dtxv"
         android:background="@color/color_scheme"
   >
-        <com.ceino.utilitylibrary.CustomFontTextView
+
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/ok_dtxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +72,8 @@
             android:background="@color/md_grey_400"
 
             />
-        <com.ceino.utilitylibrary.CustomFontTextView
+
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/dismiss_dtxv"
             android:layout_toRightOf="@+id/view"
             android:layout_width="wrap_content"
@@ -84,47 +87,47 @@
             android:textSize="@dimen/sp16"
        />
     </RelativeLayout>
-   <!-- <android.support.percent.PercentRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:layout_below="@+id/desc_dtxv"
-        android:background="@color/color_scheme"
-        android:orientation="horizontal">
-    <com.ceino.utilitylibrary.CustomFontTextView
-        android:id="@+id/ok_dtxv"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_weight="1"
+    <!-- <androidx.percentlayout.widget.PercentRelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:weightSum="2"
+         android:layout_below="@+id/desc_dtxv"
+         android:background="@color/color_scheme"
+         android:orientation="horizontal">
+     <com.pacifyr.client.customview.MainTextView
+         android:id="@+id/ok_dtxv"
+         android:layout_width="wrap_content"
+         android:layout_height="40dp"
+         android:layout_weight="1"
 
-        android:gravity="center"
-        android:text="Ok"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp16"
-        jp:percentage_width="50" />
-        <View
+         android:gravity="center"
+         android:text="Ok"
+         android:layout_gravity="center"
+         android:layout_centerHorizontal="true"
+         android:layout_margin="5dp"
+         android:textColor="@color/white"
+         android:textSize="@dimen/sp16"
+         jp:percentage_width="50" />
+         <View
 
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/md_grey_400"
+             android:layout_width="1dp"
+             android:layout_height="match_parent"
+             android:background="@color/md_grey_400"
 
-            />
-        <com.ceino.utilitylibrary.CustomFontTextView
-            android:id="@+id/dismiss_dtxv"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+             />
+         <com.pacifyr.client.customview.MainTextView
+             android:id="@+id/dismiss_dtxv"
+             android:layout_width="wrap_content"
+             android:layout_height="40dp"
+             android:layout_weight="1"
 
-            android:gravity="center"
-            android:text="Dismiss"
-            android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp16"
-            jp:percentage_width="49" />
-        </android.support.percent.PercentRelativeLayout>-->
+             android:gravity="center"
+             android:text="Dismiss"
+             android:layout_gravity="center"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="5dp"
+             android:textColor="@color/white"
+             android:textSize="@dimen/sp16"
+             jp:percentage_width="49" />
+         </androidx.percentlayout.widget.PercentRelativeLayout>-->
 </LinearLayout>

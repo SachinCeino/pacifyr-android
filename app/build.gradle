@@ -1,31 +1,41 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 32
+    buildToolsVersion "26.0.3"
     defaultConfig {
-        applicationId "com.pacifyr.omhealthcare"
-        minSdkVersion 16
-        // minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 5
-        versionName "1.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId "com.ceino.pacifyr.omhealthcare"
+//        minSdkVersion 16
+         minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 24
+        versionName "1.4.2"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        resConfigs "en", "hi"
+        vectorDrawables.useSupportLibrary = true
+//        resConfigs "en", "hi"
     }
     buildTypes {
         repositories {
             maven {
-                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+                url "https://maven.google.com"
             }
             maven {
-                url "http://dl.bintray.com/ahmedrizwan/maven"
+                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
             }
             maven { url "https://jitpack.io" }
+
+        }
+        debug {
+            /* applicationVariants.all { variant ->
+                renameAPK(variant, defaultConfig, 'Test')
+            }*/
         }
         release {
-//            minifyEnabled true
+            minifyEnabled false
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro'
@@ -33,14 +43,16 @@ android {
             // minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
 
-            //Other parameters
-            debuggable false
-            jniDebuggable false
-            renderscriptDebuggable false
-            pseudoLocalesEnabled false
-            zipAlignEnabled true
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def date = new Date()
+                    def formattedDate = date.format('MMM_dd_HHmmss')
+                    def flavor = variant.productFlavors[0].name
+                    outputFileName = "${flavor}_${variant.buildType.name}_${variant.versionName}_${formattedDate}_.apk"
+                }
+            }
         }
-        lintOptions {
+        /*lintOptions {
             // set to true to turn off analysis progress reporting by lint
             quiet true
             // if true, stop the gradle build if errors are found
@@ -48,8 +60,8 @@ android {
             // if true, only report errors
             ignoreWarnings true
         }
-
-        splits {
+*/
+        /*splits {
             density {
                 enable true
                 exclude "ldpi", "tvdpi", "xxxhdpi"
@@ -62,18 +74,50 @@ android {
                 exclude "armeabi", "mips", "mips64"
                 universalApk true
             }
-        }
-        applicationVariants.all { variant ->
+        }*/
+        /*applicationVariants.all { variant ->
             variant.outputs.each { output ->
                 def lintTask = tasks["lint${variant.name.capitalize()}"]
                 output.assemble.dependsOn lintTask
             }
-        }
+        }*/
 
 //        debug {
 //            signingConfig signingConfigs.debug
 //        }
     }
+
+    // Specifies one flavor dimension.
+    flavorDimensions "Pacifyr"
+    productFlavors {
+        omwellbeing {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // This property is optional if you are using only one dimension.
+            dimension "Pacifyr"
+            applicationId "com.ceino.pacifyr.omhealthcare"
+            versionName "1.4"
+            versionCode 20
+        }
+        pacifyrclient {
+            dimension "Pacifyr"
+            applicationId "com.pacifyr.pacifyrapp"
+            versionName "2.6.4"
+            versionCode 216
+        }
+        leadersup {
+            dimension "Pacifyr"
+            applicationId "com.pacifyr.leadersup"
+            versionName "1.1.1"
+            versionCode 5
+        }
+        pamapp {
+            dimension "Pacifyr"
+            applicationId "com.pacifyr.pam"
+            versionName "1.0.5"
+            versionCode 4
+        }
+    }
+
 
     //Here the magic Begins
 //    lintOptions {
@@ -84,6 +128,16 @@ android {
     dexOptions {
         preDexLibraries true
         javaMaxHeapSize "4g" // 2g should be also OK
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 
 //    signingConfigs {
@@ -98,71 +152,150 @@ android {
 
 }
 
-repositories {
-    jcenter()
-    google()
-    mavenCentral() // add repository
-    maven { url 'https://maven.google.com' }
-    maven {
-        url "https://jitpack.io"
+def renameAPK(variant, defaultConfig, buildType) {
+    variant.outputs.all { output ->
+        def formattedDate = new Date().format('dd-MM-yy')
+
+//        def file = output.packageApplication.outputFile
+        def fileName = buildType + "_" + applicationName + "_" + formattedDate + ".apk"
+        def relativeRootDir = output.packageApplication.outputDirectory.toPath()
+                .relativize(rootDir.toPath()).toFile()
+        outputFileName = new File("$relativeRootDir/release", fileName)
+//        output.packageApplication.outputFileName = new File(file.parent, fileName)
     }
 }
 
+repositories {
+    jcenter()
+    mavenCentral() // add repository
+    maven { url 'https://maven.google.com' }
+    google()
+    maven {
+        url "https://jitpack.io"
+    }
+    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile(project(':utilitylibrary')) {
+        exclude group: 'com.quickblox', module: 'quickblox-android-sdk-messages'
+    }
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':utilitylibrary')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.github.rjsvieira:circularView:1.3.0'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:percent:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation('com.github.rjsvieira:circularView:1.3.0') {
+        exclude group: 'com.android.support'
+    }
+    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    //implementation 'com.android.support:support-v4:25.3.1'
+    //implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
+    //compile 'com.android.support:design:25.3.1'
+    // implementation 'com.android.support:support-v4:22.1.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
-    compile 'com.google.firebase:firebase-auth:11.0.2'
-    compile "com.quickblox:quickblox-android-sdk-videochat-webrtc:$rootProject.qbSdkVersion"
-    compile("com.quickblox:quickblox-android-sdk-chat:$rootProject.qbSdkVersion")
-    compile("com.quickblox:quickblox-android-sdk-content:$rootProject.qbSdkVersion")
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
 
-    compile 'com.github.JesusM:HoloCircleSeekBar:v2.2.2'
-    //compile 'com.crystal:crystalrangeseekbar:1.1.1'
-    compile 'com.minimize.library:seekbar-compat:0.2.5'
-    // compile 'com.gregacucnik:editableseekbar:1.2'
-    // compile 'com.nineoldandroids:library:2.4.0'
-
-    compile 'com.github.ome450901:SimpleRatingBar:1.2.1'
-    testCompile 'junit:junit:4.12'
-
-
-    compile 'com.github.GoodieBag:Pinview:v1.3'
-
-    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
-
-    //   compile 'com.romandanylyk:pageindicatorview:0.2.0'
-
-    compile 'com.android.support:support-annotations:25.3.0'
-    compile 'com.android.support:support-compat:25.3.0'
-    compile 'com.android.support:support-core-ui:25.3.0'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-
-    //  compile 'me.relex:circleindicator:1.2.2@aar'
-    //   compile 'com.github.baoyachi:StepView:1.9'
-
-    compile 'com.stripe:stripe-android:5.1.0'
-//    joda time
-    compile 'net.danlew:android.joda:2.9.9.1'
-
-    compile 'com.github.eralpyucel:CircleProgressView:v1.1'
-
+    //implementation 'com.crystal:crystalrangeseekbar:1.1.1'
+    implementation 'com.minimize.library:seekbar-compat:0.2.5'
+    // implementation 'com.gregacucnik:editableseekbar:1.2'
+    // implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.github.ome450901:SimpleRatingBar:1.4.3'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.github.GoodieBag:Pinview:v1.3'
+    implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+    //   implementation 'com.romandanylyk:pageindicatorview:0.2.0'
+    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'androidx.core:core:1.0.0'
+    implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'me.relex:circleindicator:2.1.4'
+    //   implementation 'com.github.baoyachi:StepView:1.9'
+    implementation 'com.stripe:stripe-android:8.1.0'
+    //    joda time
+    implementation 'net.danlew:android.joda:2.9.9.1'
+    implementation 'com.github.eralpyucel:CircleProgressView:v1.1'
     //badge count
-    compile "me.leolin:ShortcutBadger:1.1.21@aar"
-
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     //retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup:otto:1.3.6'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation('com.facebook.android:facebook-android-sdk:4.33.0') {
+        exclude group: 'com.android.support'
+    }
+    implementation 'com.gdacciaro:iosdialog:1.0.3'
+    implementation 'com.kaopiz:kprogresshud:1.0.4'
+    implementation 'com.koushikdutta.ion:ion:2.1.7'
+    /*implementation project(':quickblox-videochat-webrtc')
+        implementation project(':quickblox-chat')*/
+    implementation 'com.amazonaws:aws-android-sdk-sns:2.7.0'
+    implementation('com.daprlabs.aaron:cardstack:0.3.1-beta0') {
+        exclude group: 'com.android.support'
+    }
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.androidplot:androidplot-core:1.5.3'
+    implementation 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
+    implementation 'com.github.orangegangsters:swipy:1.2.3@aar'
+    implementation 'androidx.browser:browser:1.0.0'
+    //    implementation "com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3"
+ /*   *//**App Auto Update Library**//*
+    implementation 'com.github.javiersantos:AppUpdater:2.7'*/
+    implementation('com.paytm:pgplussdk:1.4.4') {
+        transitive = true
+    }
+
+//    implementation 'com.google.android.gms:play-services:11.4.2'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.crystal:crystalrangeseekbar:1.1.3'
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0-alpha02'
+    implementation 'com.google.android.libraries.places:places:2.1.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
+    implementation 'com.google.android:flexbox:2.0.1'
+    implementation 'com.github.kk121:File-Loader:1.2'
+    implementation "com.pdfview:pdfview-android:1.0.0"
+    implementation 'com.github.florent37:singledateandtimepicker:2.2.5'
+    implementation "androidx.constraintlayout:constraintlayout:2.0.2"
+    implementation project(':gligar')
+
+
+
+    //All firebase dependencies
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.0.2')
+    implementation 'com.google.firebase:firebase-dynamic-links'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.android.play:core:1.8.3'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-config'
+
+// Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:20.0.0')
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore'
+
+
+    //Twilio SDK
+    implementation 'com.twilio:video-android:5.11.1'
+    implementation 'com.twilio:audioswitch:1.0.1'
+    implementation 'com.twilio:conversations-android:1.4.1'
+
+    //arc layout
+    implementation 'com.github.florent37:arclayout:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/white_round_square"
+    android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_pacifyr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="0dp"
+        card_view:contentPadding="0dp"
+        android:foregroundGravity="center"
+        card_view:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/swipe_card_avatar_dia"
+                    android:layout_height="@dimen/swipe_card_avatar_dia"
+                    android:id="@+id/img_prof"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_user" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/indicator_dimv"
+                        android:src="@drawable/offline"/>
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/indicator_ctxv"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/grey_dark"
+                        android:text="@string/offline" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/rlay_first">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/linear_text"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp">
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_name"
+                        android:textSize="@dimen/sp20"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:textColor="@color/blue_text_dark"
+                        android:text=""/>
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey_dark"
+                        android:id="@+id/specialities_ctxv"
+                        android:maxLines="3"
+                        android:padding="3dp"
+                        android:textSize="12sp"
+                        android:text=""/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatRatingBar
+                            android:id="@+id/myRatingBar"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:numStars="5"
+                            android:progressTint="@color/blue_text_dark"
+                            android:isIndicator="true"/>
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="88 Reviews"
+                            android:id="@+id/item_review_tv"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/blue_text_dark"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <!--<com.pacifyr.client.customview.MainTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  "
+                            android:gravity="right"
+                            android:id="@+id/doller_sign_ctxv"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>-->
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:id="@+id/price_dollar"
+                            android:textColor="@color/colorPrimary"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="12sp" />
+
+                        <!--<com.pacifyr.client.customview.MainTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  per hour"
+                            android:gravity="right"
+                            android:id="@+id/perhour_ctxv"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>-->
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chat_llay"
+                        android:padding="5dp">
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:id="@+id/chat_price_ctxv"
+                            android:textColor="@color/grey_dark"
+                            android:textAlignment="center"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/card_pacifyr">
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/description_ctxv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textAlignment="center"
+            android:padding="2dp"
+            android:textColor="@color/grey_dark"
+            android:textSize="@dimen/swipe_card_desc_sp" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_to_wellness_experts"
+            android:padding="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/description_ctxv"
+            android:id="@+id/connect_pacifyr_ctxv"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:maxEms="15"
+            android:maxLines="1"
+            android:background="@drawable/round_square_for_round_cuttons"
+            android:textColor="@color/connect_wellness_expert_color" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

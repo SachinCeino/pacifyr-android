@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:background="@color/white"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<include
+    android:id="@+id/include"
+    layout="@layout/actionbar_grey"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"></include>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/include">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/request_booking">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:id="@+id/top_header">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/l1"
+                    android:padding="20dp"
+                    android:background="@color/color_primary">
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="vineesh"
+                        android:id="@+id/pacifyr_name"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="20dp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:id="@+id/l2"
+                    android:layout_marginLeft="90dp"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/l1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/ratingLayout"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2.5"
+                            android:orientation="vertical">
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:id="@+id/pacifyr_description"
+                                android:layout_marginLeft="25dp"
+                                android:textSize="@dimen/text_view_find_care_sub" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+
+                               >
+                                <com.pacifyr.client.views.PamTextViewBold
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="100"
+                                    android:id="@+id/psi_txtview"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    android:layout_margin="3dp" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/Rcvrating"
+                                    android:orientation="horizontal"
+                                    android:layout_marginBottom="10dp"
+                                    >
+
+                                </androidx.recyclerview.widget.RecyclerView>
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:id="@+id/favorite_doctor"
+                                app:srcCompat="@drawable/svg_unfavorite_doctor" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/l2"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/mapLayout"
+                        layout="@layout/activity_maps"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp">
+
+                    </include>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/top_header">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/svg_address"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content">
+
+                        <com.pacifyr.client.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text=""
+                            android:id="@+id/pacifyr_address"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/svg_next"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LinearLayout_Call"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/svg_call"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content">
+
+                        <com.pacifyr.client.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text=""
+                            android:id="@+id/pacifyr_number"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/svg_next"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"></View>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/facility_hours"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_facility_hours"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/website"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/grey_dark"
+                        android:id="@+id/pacifyr_webisite"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prices"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_prices"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/accept_new_pacients"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/education"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_educations"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gender"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_sex"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/specialities"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_specialities"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/board_certificates"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_cirtification"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hos_sur_center_affiliation"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_affiliations"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/languagesspoken"
+                        android:textColor="@color/blue_fb"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_view_sub_title" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/pacifyr_language_spoken"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_sub_title" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/pacifyr_image"
+                app:civ_border_color="@color/grey"
+                app:civ_border_width="5dp"
+                android:layout_marginTop="30dp"
+                app:civ_circle_background_color="@color/color_primary" />
+
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:background="@color/grey_dark"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/request_booking">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <com.pacifyr.client.views.PamTextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/pacifyr_price_booking"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_view_find_care_main"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp" />
+
+            <com.pacifyr.client.views.PamTextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/office_visit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_view_find_care_sub"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp" />
+        </LinearLayout>
+
+        <com.pacifyr.client.views.PamTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/request_book"
+            android:textColor="@color/white"
+            android:background="@drawable/blue_round_square"
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/text_view_find_care_sub"
+            android:id="@+id/requestBook"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+</RelativeLayout>
+
+</RelativeLayout>
+

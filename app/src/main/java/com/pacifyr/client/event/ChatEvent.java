@@ -1,0 +1,32 @@
+package com.pacifyr.client.event;
+
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+
+/**
+
+ */
+
+public class ChatEvent {
+    public ChatEvent(Long qbID, boolean isVideoCall) {
+        this.qbID = qbID;
+        this.isSuccess = isVideoCall;
+    }
+
+    //  public boolean isSucesss=false;
+  public Long qbID=null;
+    public ChatEvent(boolean isVideoCall) {
+        this.isSuccess = isVideoCall;
+        mpacifyer=null;
+        this.qbID = null;
+    }
+
+    public ChatEvent(MUser mpacifyer, boolean isVideoCall) {
+        this.mpacifyer = mpacifyer;
+        this.isSuccess = isVideoCall;
+    }
+
+    public MUser mpacifyer=null;
+    public boolean isSuccess=false;
+
+
+}

@@ -32,7 +32,7 @@
                 android:src="@drawable/placeholder_user"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="2dp"/>
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:id="@+id/parent_name_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         android:padding="10dp"
 
         android:layout_height="wrap_content">
-        <com.ceino.utilitylibrary.DeviceFitImageView
+        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
 
             android:id="@+id/side_school_dimv"
             app:parameter="aspect_height"
@@ -72,12 +72,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyrapp.utilitylibrary.CustomFontTextView
             android:layout_toRightOf="@+id/side_school_dimv"
             android:id="@+id/side_school_dtxv"
             android:padding="4dp"
             android:layout_width="wrap_content"
-            android:text="My Dashboard"
+            android:text="MY DASHBOARD"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:layout_height="wrap_content" />
@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:padding="10dp"
         android:layout_height="wrap_content">
-        <com.ceino.utilitylibrary.DeviceFitImageView
+        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
             android:id="@+id/side_class_dimv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             app:parameter="aspect_height"
             app:height_percentage="5"
             />
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyrapp.utilitylibrary.CustomFontTextView
             android:layout_toRightOf="@+id/side_class_dimv"
             android:id="@+id/side_class_dtxv"
             android:text="School"
@@ -116,12 +116,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
     </FrameLayout>-->
-    <!--   <android.support.v7.widget.RecyclerView
+    <!--   <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/child_rcv"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:divider="@android:color/transparent"
-               android:visibility="gone"></android.support.v7.widget.RecyclerView>-->
+               android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>-->
 
 
 </LinearLayout>

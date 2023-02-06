@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <include layout="@layout/actionbar_grey"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/searchLayout"
+        android:orientation="horizontal"
+        android:layout_margin="15dp"
+        android:layout_below="@+id/include"
+        android:background="@drawable/resource_search_background"
+        >
+        <SearchView
+            android:id="@+id/SearchView_Resource"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:inputType="textCapSentences"
+            android:background="@android:color/transparent"
+            android:imeOptions="actionSearch"
+            android:queryHint="Article, video, presentation"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="Article, video, presentation"
+            android:layout_marginLeft="50dp"
+            android:focusable="false"
+            android:id="@+id/EditText_search"
+            ></EditText>
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/searchLayout"
+        android:layout_marginRight="10dp"
+        android:id="@+id/RecyclerViewCategory"></androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/RecyclerViewCategory"
+        android:layout_marginRight="10dp"
+        android:id="@+id/RecyclerViewList"></androidx.recyclerview.widget.RecyclerView>
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/emptyLayout"
+        android:text="No results found"
+        android:textSize="19sp"
+        android:visibility="gone"
+        android:layout_below="@+id/RecyclerViewCategory"
+        android:gravity="center">
+
+    </com.pacifyr.client.customview.MainTextView>
+</RelativeLayout>

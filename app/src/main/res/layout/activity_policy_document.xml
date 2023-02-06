@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
         android:layout_height="50dp"
         android:layout_width="match_parent"/>
@@ -19,7 +19,7 @@
         android:layout_below="@+id/include"
         android:orientation="vertical">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -35,7 +35,7 @@
             android:background="@color/grey_hex_c5"/>
 
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -50,7 +50,7 @@
             android:layout_height="1dp"
             android:background="@color/grey_hex_c5"/>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -58,7 +58,7 @@
             android:id="@+id/copyright_ctxv"
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
-            android:text="@string/copyright"/>
+            android:text="@string/copyright_dispute_policy"/>
 
 
         <View

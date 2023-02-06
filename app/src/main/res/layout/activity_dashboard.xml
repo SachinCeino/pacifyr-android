@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent"
-    tools:context="com.pacifyr.omhealthcare.home.DashboardActivity"
-    android:id="@+id/drawer_layout">
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.pacifyr.client.home.DashboardActivity"
+android:id="@+id/drawer_layout">
 
-    <!--<com.ceino.shalomworld.Adapter.PagerEnabledSlidingPaneLayout-->
-    <com.pacifyr.omhealthcare.PagerEnabledSlidingPaneLayout
+<FrameLayout
+    android:id="@+id/flFragment"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+    <com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout
         android:id="@+id/sliding_pane"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -20,521 +27,665 @@
         <LinearLayout
             android:id="@+id/left_pane"
             android:background="@android:color/white"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ScrollView
+                    android:id="@+id/view_scroll"
+                    android:layout_width="match_parent"
+                    android:fillViewport="true"
+                    android:layout_height="match_parent">
 
-        <LinearLayout
-            android:background="@android:color/white"
-            android:layout_width="match_parent"
-            android:padding="2dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:id="@+id/detail_llay">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/profile_cimv"
-                    android:src="@drawable/placeholder_user"/>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/account_rlay"
-                    android:layout_marginLeft="5dp">
-
-                    <com.ceino.utilitylibrary.CustomFontTextView
-                        android:id="@+id/detail_name_ctxv"
+                    <LinearLayout
+                        android:background="@android:color/white"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="18sp"/>
-
-                    <com.ceino.utilitylibrary.CustomFontTextView
-                        android:id="@+id/detail_mail_ctxv"
-                        android:layout_below="@+id/detail_name_ctxv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="12sp"/>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dashboard_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/dashboard_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/ic_dashboard_menu"
-                    android:layout_centerInParent="true"/>
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/dashboard_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/my_dashboard"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/mysessions_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/mesessions_dimv"
-                    android:layout_width="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_session_menu"
-                    android:layout_centerInParent="true"/>
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/mysessions_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/my_session"
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/browse_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/browse_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/ic_browsepacifyr"
-                    android:layout_centerInParent="true"/>
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/browse_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/browse_pacifyr"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/payment_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/payment_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/paymen3"
-                    android:layout_centerInParent="true"/>
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/payment_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/payment"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/message_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/message_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/message3"
-                    android:layout_centerInParent="true"
-                    />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/message_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/messages"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/support_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/support_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/support3"
-                    android:layout_centerInParent="true" />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/support_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/support"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/crisis_view"
-                android:background="@color/black"/>
-
-
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/crisis_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/crisis_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/crisis"
-                    android:layout_centerInParent="true" />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/crisis_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/crisis_info"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
-
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tutotial_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/tutotial_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/tutorial"
-                    android:layout_centerInParent="true"
-                    />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/tutotial_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/tutorial"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/policy_document_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/policy_document_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/ic_policy"
-                    android:layout_centerInParent="true"
-                    />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/policy_document_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/policy_documents"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/resourses_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/resourses_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/resources"
-                    android:layout_centerInParent="true"
-                    />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/resourses_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/resources"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/connect_pacifyr_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/connect_pacifyr_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/connect3"
-                    android:layout_centerInParent="true" />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/connect_pacifyr_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/connect_to_providers"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/logout_llay"
-                android:padding="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!--    android:paddingRight="10dp"-->
-
-                <com.ceino.utilitylibrary.DeviceFitImageView
-                    android:id="@+id/logout_dimv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    app:width_percentage="10"
-                    android:src="@drawable/ic_logout_menu"
-                    android:layout_centerInParent="true"
-                    />
-
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:id="@+id/logout_ctxv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/logout"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:id="@+id/detail_llay">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:id="@+id/profile_cimv"
+                                android:src="@drawable/placeholder_user"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/account_rlay"
+                                android:layout_marginLeft="5dp">
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:id="@+id/detail_name_ctxv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp" />
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:id="@+id/detail_mail_ctxv"
+                                    android:layout_below="@+id/detail_name_ctxv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp"/>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dashboard_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/dashboard_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+
+                                app:width_percentage="10"
+                                android:src="@drawable/ic_dashboard_menu"
+                                android:layout_centerInParent="true"/>
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/dashboard_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/my_dashboard"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/mLinearLayoutAppointments"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/mDeviceFitImageViewAppointments"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/tutorial"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/mTextViewAppointments"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/appointments"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/mysessions_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/mesessions_dimv"
+                                android:layout_width="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_session_menu"
+                                android:layout_centerInParent="true"/>
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/mysessions_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/my_session"
+                                android:layout_marginLeft="10dp"
+                                android:layout_centerInParent="true"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/mLinearLayoutPrescription"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/mDeviceFitImageViewPrescription"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/tutorial"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/mTextViewPrescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/my_prescriptions"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/connect_pacifyr_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/connect_pacifyr_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/connect3"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/connect_pacifyr_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/connect_to_wellness_experts"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:id="@+id/coupon_view"
+                            android:visibility="gone"
+                            android:background="@color/grey"/>
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/coupon_llay"
+                            android:padding="10dp"
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/coupon_code"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="COUPON CODE"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/browse_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/browse_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/ic_browsepacifyr"
+                                android:layout_centerInParent="true"/>
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/browse_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/browse_wellness_experts"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/payment_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/payment_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/paymen3"
+                                android:layout_centerInParent="true"/>
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/payment_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/PAYMENT"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:visibility="gone"
+                            android:background="@color/grey"/>
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/message_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/message_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/message3"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/message_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/messages"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/support_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView    android:padding="5dp"
+                                android:id="@+id/support_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/support3"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/support_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/SUPPORT"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:id="@+id/crisis_view"
+                            android:background="@color/grey"/>
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/crisis_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/crisis_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/crisis"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/crisis_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/CRISIS_INFO"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tutotial_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/tutotial_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/tutorial"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/tutotial_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/tutorial"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/policy_document_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView    android:padding="5dp"
+                                android:id="@+id/policy_document_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/ic_policy"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/policy_document_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/Policy_Documents"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/resourses_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/resourses_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/resources"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/resourses_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/RESOURCES"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/logout_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/logout_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/ic_logout_menu"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/logout_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/logout"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+
+                    </LinearLayout>
+
+                </ScrollView></androidx.cardview.widget.CardView>
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
         <!--<fragment android:name="TestFragment"
             android:id="@+id/left_pane"
             android:layout_width="280dp"
@@ -546,25 +697,46 @@
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:background="@android:color/white">-->
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/actionbar_three_text_image"
-                android:id="@+id/include"
-                android:layout_height="52dp"
-                android:layout_width="match_parent"></include>
-
-            <FrameLayout
-                android:id="@+id/activity_main_content_fragment"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:clickable="true"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            </FrameLayout>
+                <include layout="@layout/actionbar_three_text_image"
+                    android:clickable="true"
+                    android:id="@+id/include"
+                    android:layout_height="52dp"
+                    android:layout_width="match_parent"></include>
 
-        </LinearLayout>
+                <FrameLayout
+                    android:animateLayoutChanges="true"
+                    android:clickable="true"
+                    android:id="@+id/activity_main_content_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </FrameLayout>
+
+            </LinearLayout></androidx.cardview.widget.CardView>
         <!--            </FrameLayout>-->
-    </com.pacifyr.omhealthcare.PagerEnabledSlidingPaneLayout>
+    </com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout>
+</FrameLayout>
 
-</RelativeLayout>
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottomNavigationView"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    android:theme="@style/CustomThemeForBottomMenu"
+    app:layout_constraintStart_toStartOf="parent"
+    app:itemRippleColor="@color/colorPrimary"
+    app:labelVisibilityMode="labeled"
+    app:menu="@menu/bottom_nav_menu"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

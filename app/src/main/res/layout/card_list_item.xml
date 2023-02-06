@@ -4,25 +4,69 @@
     android:gravity="center"
     android:layout_width="wrap_content"
     android:id="@+id/card_list_llay"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
     android:layout_height="wrap_content">
 
-    <com.ceino.utilitylibrary.CustomFontTextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/card_type_ctxv"/>
+        android:id="@+id/LayoutsavedCards"
+        android:orientation="vertical"
+        android:layout_below="@+id/RelativeLayout_SubScribed">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="3dp"
+            android:background="@color/white"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/svg_creditcard"
+                        android:padding="5dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:id="@+id/ImageView_CardType"
+                        >
+
+                    </ImageView>
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:id="@+id/card_type_ctxv"
+                        android:textColor="@color/grey_dark_text"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"/>
+
+                </LinearLayout>
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Edit"
+                    android:id="@+id/SavedCardEdit"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginRight="15dp"
+                    android:gravity="end|center_vertical"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/type_ctxv"/>
+    </LinearLayout>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/card_code_ctxv"
-        android:text=""/>
 
 </LinearLayout>

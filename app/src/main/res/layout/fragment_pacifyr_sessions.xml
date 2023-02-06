@@ -2,9 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/grey_hex_f8"
-    tools:context="com.pacifyr.omhealthcare.Fragment.MySessionFragment">
+    tools:context="com.pacifyr.client.fragment.MySessionFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:layout_height="wrap_content"
             android:weightSum="3">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -27,19 +26,17 @@
                 android:id="@+id/this_wk_ctxv"
                 android:padding="10dp"
                 android:textStyle="bold"
-                android:fontFamily="@string/raleway_bold"
                 android:textColor="@color/blue_pacifyr"
                 android:text="Weekly"
                 android:gravity="center"
                 android:layout_gravity="left|center_vertical" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Monthly"
                 android:padding="10dp"
                 android:textStyle="bold"
-                android:fontFamily="@string/raleway_bold"
                 android:id="@+id/this_mnt_ctxv"
                 android:background="@color/grey_hex_f8"
                 android:textColor="@color/grey_hex_c7"
@@ -48,13 +45,12 @@
                 android:gravity="center"
                 android:layout_weight="1" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:text="Yearly"
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:fontFamily="@string/raleway_bold"
                 android:id="@+id/this_year_ctxv"
                 android:textColor="@color/grey_hex_c7"
                 android:padding="10dp"
@@ -65,7 +61,7 @@
         </LinearLayout>
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/date_type_rcv"
@@ -95,17 +91,16 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
                         android:id="@+id/session_no_ctxv"
-                        android:fontFamily="@string/raleway_bold"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:text="00"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
@@ -131,17 +126,16 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
-                            android:fontFamily="@string/raleway_bold"
                             android:id="@+id/hours_no_ctxv"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:text="00"/>
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:textColor="@color/black"
                             android:layout_height="wrap_content"
@@ -158,17 +152,16 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
-                            android:fontFamily="@string/raleway_bold"
                             android:id="@+id/minutes_no_ctxv"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:text="00"/>
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
@@ -188,17 +181,16 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        android:fontFamily="@string/raleway_bold"
                         android:id="@+id/earnings_no_ctxv"
                         android:text="00"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
@@ -237,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/redmissedsmall"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -261,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/redcallsmall"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -274,7 +266,7 @@
 
         </RelativeLayout>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/no_data_ctxv"
@@ -283,7 +275,8 @@
             android:visibility="gone"
             android:text=""
             android:gravity="center"/>
-        <android.support.v4.widget.NestedScrollView
+
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedscrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -294,31 +287,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/my_sessions_rcv"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:id="@+id/month_sessions_rcv"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:id="@+id/year_sessions_rcv"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:id="@+id/unread_sessions_rcv"/>
 
     </RelativeLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
 </FrameLayout>

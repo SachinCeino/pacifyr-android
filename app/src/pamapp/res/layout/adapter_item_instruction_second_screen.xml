@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:id="@+id/tv_instruction"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:background="@drawable/black_border_white_back_search"
+        android:text="second_screen_instructions_one"
+        android:drawableEnd="@drawable/svg_down_arrow"
+        android:layout_margin="5dp"
+        android:drawableRight="@drawable/svg_down_arrow"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/RCV_nestedRecyclerView">
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>

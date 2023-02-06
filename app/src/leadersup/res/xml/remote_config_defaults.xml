@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>forced_upgrade</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>api_us</key>
+        <value>https://app.pacifyr.net/pacifyr/v1/</value>
+    </entry>
+    <entry>
+        <key>api_india</key>
+        <value>https://app.pacifyr.net/pacifyr/v1/</value>
+    </entry>
+</defaultsMap><!-- END xml_defaults -->

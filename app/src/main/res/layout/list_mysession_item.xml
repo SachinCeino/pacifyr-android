@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:background="@color/white"
@@ -35,12 +36,14 @@
             android:layout_marginLeft="7dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textSize="17sp"
                 android:textStyle="bold"
+                android:maxLength="13"
+                android:ellipsize="end"
                 android:textColor="@color/blue_text_dark"
                 android:id="@+id/name_user_ctxv"/>
 
@@ -57,29 +60,47 @@
                     android:src="@drawable/ic_video_cam_blue"/>
 
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:layout_marginLeft="7dp"
                     android:textColor="@color/black"
-                    android:id="@+id/call_time_ctxv"/>
+                    android:id="@+id/call_time_ctxv"
+                    />
 
             </LinearLayout>
-            <com.ceino.utilitylibrary.CustomFontTextView
+
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 android:text=""
-                android:textColor="@color/grey_hex_7c"
+                android:textColor="@color/grey_dark"
                 android:id="@+id/date_ctxv"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/price_ctxv"/>
+                android:orientation="horizontal">
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="3dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/price_ctxv"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/eye_icon"
+                    android:visibility="gone"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/i_icon"/>
+            </LinearLayout>
 
 
 
@@ -89,10 +110,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
+            android:id="@+id/before_Layout"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="How you felt"
@@ -101,22 +123,23 @@
                 android:textColor="@color/grey_dark"
                 android:id="@+id/felt_ctxv"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:text="Before call"
+                android:textSize="12sp"
+                android:text="Before"
                 android:textColor="@color/grey_dark"
                 android:id="@+id/before_call_ctxv"/>
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:tint="@color/color_primary"
+                android:tint="@color/colorPrimary"
                 android:layout_marginLeft="7dp"
-                android:id="@+id/before_emotion_img"/>
+                android:id="@+id/before_emotion_img"
+                tools:ignore="UseAppTint" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -131,10 +154,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
+            android:id="@+id/after_Layout"
             android:layout_marginLeft="3dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -142,11 +166,11 @@
                 android:textStyle="bold"
                 android:textColor="@color/grey_dark"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:text="After call"
+                android:textSize="12sp"
+                android:text="After"
                 android:textColor="@color/grey_dark"
                 android:id="@+id/after_call_ctxv"/>
 
@@ -155,9 +179,10 @@
                 android:layout_height="25dp"
                 android:tint="@color/colorPrimary"
                 android:layout_marginLeft="7dp"
-                android:id="@+id/after_emotion_img"/>
+                android:id="@+id/after_emotion_img"
+                tools:ignore="UseAppTint" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"

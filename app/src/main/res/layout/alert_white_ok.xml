@@ -8,7 +8,7 @@
     android:padding="2dp">
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/title_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,21 +17,20 @@
         android:text="Edit  !"
         android:visibility="visible"
         android:layout_margin="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/grey_dark_text"
         android:textSize="@dimen/sp18" />
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/desc_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_dtxv"
-        android:maxLines="5"
         android:visibility="visible"
         android:layout_margin="10dp"
         android:padding="10dp"
         android:gravity="center"
         android:text="Alert description."
-        android:textColor="@color/black"
+        android:textColor="@color/grey_dark_text"
         android:textSize="@dimen/sp18" />
 
     <View
@@ -39,7 +38,7 @@
         android:layout_height="1dp"
         android:background="@color/transparent_black_2" />
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/ok_dtxv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,7 +53,7 @@
         android:textSize="@dimen/sp16"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:textColor="@color/grey_dark"
+        android:textColor="@color/grey_dark_text"
         jp:percentage_width="49" />
 
 </LinearLayout>

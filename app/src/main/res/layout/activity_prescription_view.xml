@@ -1,0 +1,29 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"></include>
+    <com.pacifyr.client.customview.MainTextView
+        android:id="@+id/message_edt"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="10dp"
+        android:textColorHighlight="@color/text_Color_High_light"
+        android:padding="15dp"
+        android:textColor="@color/grey_dark"
+        android:gravity="top|left"
+        android:background="@drawable/rounded_white"
+        android:inputType="textCapSentences|textMultiLine"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        />
+
+
+
+</LinearLayout>

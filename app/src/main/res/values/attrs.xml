@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="ObjectView">
+        <attr name="image" format="reference"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="MaskedImageView">
+        <attr name="mask" format="integer"/>
+    </declare-styleable>
+
+
+</resources>

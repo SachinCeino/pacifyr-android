@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_call_summary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.pacifyr.omhealthcare.home.CallSummaryActivity">
+    tools:context="com.pacifyr.client.home.CallSummaryActivity">
 
 
         <ScrollView
@@ -22,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="10dp"
-                tools:context="com.pacifyr.omhealthcare.home.LastSessionActivity">
+                tools:context="com.pacifyr.client.home.LastSessionActivity">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -41,7 +40,7 @@
                             android:layout_height="70dp"
                             android:src="@drawable/placeholder_user"/>
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="80dp"
                             android:layout_height="30dp"
                             android:layout_marginTop="5dp"
@@ -64,7 +63,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="10dp">
 
-                            <com.ceino.utilitylibrary.CustomFontTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
@@ -82,7 +81,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="10dp">
 
-                            <com.ceino.utilitylibrary.CustomFontTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
@@ -91,11 +90,11 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold"/>
 
-                            <com.ceino.utilitylibrary.DeviceFitImageView
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                            <com.ceino.utilitylibrary.CustomFontTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -113,7 +112,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="10dp">
 
-                            <com.ceino.utilitylibrary.CustomFontTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
@@ -122,7 +121,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold"/>
 
-                            <com.ceino.utilitylibrary.CustomFontTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -151,12 +150,12 @@
                     android:padding="20dp"
                     android:gravity="center">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/how_eff_ctxv"
                         android:layout_centerHorizontal="true"
-                        android:text="How effective was the call in solving customer issues"
+                        android:text="@string/call_effectiveness"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
 
@@ -184,8 +183,7 @@
                     android:orientation="vertical">
 
 
-
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -193,7 +191,7 @@
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -208,15 +206,15 @@
                      android:padding="20dp"
                      android:orientation="vertical">
 
-                     <com.ceino.utilitylibrary.CustomFontTextView
+                     <com.pacifyr.client.customview.MainTextView
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_centerHorizontal="true"
-                         android:text="How was the customer feeling at the end of the ic_call_round"
+                         android:text="How was the customer feeling at the end of the call"
                          android:textColor="@color/black"
                          android:textSize="20sp"/>
 
-                     <android.support.v7.widget.RecyclerView
+                     <androidx.recyclerview.widget.RecyclerView
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          android:id="@+id/end_rcv"/>
@@ -229,7 +227,7 @@
                     android:padding="20dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -246,7 +244,7 @@
                     android:padding="20dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -255,7 +253,7 @@
                         android:textSize="20sp"/>
 
 
-                    <com.ceino.utilitylibrary.CustomEditText
+                    <com.pacifyrapp.utilitylibrary.CustomEditText
                         android:id="@+id/comments_cedt"
                         android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
@@ -283,7 +281,7 @@
                         android:background="@drawable/blue_border_lightblue"
                         android:padding="10dp">
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submit"

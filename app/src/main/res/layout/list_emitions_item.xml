@@ -16,7 +16,7 @@
         android:src="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-    <com.ceino.utilitylibrary.DeviceFitImageView
+    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:id="@+id/emotion_dimv"
@@ -28,7 +28,7 @@
         android:src="@drawable/placeholder_user"/>
     </FrameLayout>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

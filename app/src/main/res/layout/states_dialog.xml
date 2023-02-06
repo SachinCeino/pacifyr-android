@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+
+    <com.pacifyr.client.customview.MainTextView
+        android:id="@+id/text_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:text=""
+        android:textColor="@color/grey_dark"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/list_states"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit_ctxv"
+        android:layout_below="@+id/text_selected" />
+
+    <com.pacifyr.client.customview.MainTextView
+        android:id="@+id/submit_ctxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/blue_border_lightblue"
+        android:clickable="false"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:id="@+id/LinearLayout_NostatesAvailable"
+        android:gravity="center">
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:text="@string/no_states_available"
+            android:textColor="@color/grey_dark"
+            android:textStyle="bold" />
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/blue_border_lightblue"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="Close"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>

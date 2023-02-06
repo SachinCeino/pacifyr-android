@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:background="@drawable/white_round_square"
     android:layout_height="wrap_content">
 
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_pacifyr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,17 +28,16 @@
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="@dimen/swipe_card_avatar_dia"
+                    android:layout_height="@dimen/swipe_card_avatar_dia"
                     android:id="@+id/img_prof"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder_user"/>
+                    android:src="@drawable/placeholder_user" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp">
 
                     <ImageView
@@ -50,15 +46,15 @@
                         android:id="@+id/indicator_dimv"
                         android:src="@drawable/offline"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:id="@+id/indicator_ctxv"
                         android:textStyle="bold"
-                        android:textSize="6sp"
+                        android:textSize="12sp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/grey_dark"
-                        android:text="@string/offline"/>
+                        android:text="@string/offline" />
 
                 </LinearLayout>
 
@@ -78,23 +74,25 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_name"
-                        android:textSize="17sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textColor="@color/blue_text_dark"
                         android:text=""/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey_dark"
                         android:id="@+id/specialities_ctxv"
                         android:maxLines="3"
                         android:padding="3dp"
-                        android:textSize="9sp"
+                        android:textSize="12sp"
                         android:text=""/>
 
                     <LinearLayout
@@ -105,7 +103,7 @@
                         android:layout_marginTop="3dp"
                         android:orientation="horizontal">
 
-                        <android.support.v7.widget.AppCompatRatingBar
+                        <androidx.appcompat.widget.AppCompatRatingBar
                             android:id="@+id/myRatingBar"
                             style="?android:attr/ratingBarStyleSmall"
                             android:layout_width="wrap_content"
@@ -114,21 +112,21 @@
                             android:progressTint="@color/blue_text_dark"
                             android:isIndicator="true"/>
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="88 Reviews"
                             android:id="@+id/item_review_tv"
                             android:layout_marginLeft="5dp"
                             android:textColor="@color/blue_text_dark"
-                            android:textSize="8sp"/>
+                            android:textSize="12sp" />
 
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <!--<com.ceino.utilitylibrary.CustomFontTextView
+                        <!--<com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="  "
@@ -137,7 +135,7 @@
                             android:textColor="@color/white"
                             android:textSize="13sp"/>-->
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
@@ -145,9 +143,9 @@
                             android:textColor="@color/colorPrimary"
                             android:textAlignment="center"
                             android:textStyle="bold"
-                            android:textSize="10sp"/>
+                            android:textSize="12sp" />
 
-                        <!--<com.ceino.utilitylibrary.CustomFontTextView
+                        <!--<com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="  per hour"
@@ -162,17 +160,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/chat_llay"
-                        android:background="@drawable/grey_border_white_solid_rectangle_sharp"
                         android:padding="5dp">
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
                             android:id="@+id/chat_price_ctxv"
                             android:textColor="@color/grey_dark"
                             android:textAlignment="center"
-                            android:textSize="10sp"/>
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -182,37 +179,42 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/card_pacifyr"
         android:gravity="center"
-        android:padding="10dp"
-        android:layout_below="@+id/card_pacifyr">
+        android:padding="10dp">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/description_ctxv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:textSize="15sp"
+            android:ellipsize="end"
+            android:lines="3"
             android:padding="2dp"
-            android:id="@+id/description_ctxv"
-            android:textColor="@color/grey_dark"/>
+            android:textAlignment="center"
+            android:textColor="@color/grey_dark"
+            android:textSize="@dimen/swipe_card_desc_sp" />
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/connect_pacifyr_ctxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Connect_to_Providers"
-            android:padding="7dp"
-            android:layout_marginTop="15dp"
             android:layout_below="@+id/description_ctxv"
-            android:id="@+id/connect_pacifyr_ctxv"
             android:layout_centerInParent="true"
-            android:textSize="13sp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/blue_round_square"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/round_square_for_round_cuttons"
+            android:gravity="center"
+            android:maxEms="15"
+            android:maxLines="1"
+            android:padding="5dp"
+            android:text="@string/connect_to_wellness_experts"
+            android:textColor="@color/connect_wellness_expert_color"
+            android:textSize="13sp" />
 
     </RelativeLayout>
 

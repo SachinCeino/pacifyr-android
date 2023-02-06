@@ -3,15 +3,18 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="5dp"
+    android:id="@+id/layFull"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.ceino.utilitylibrary.DeviceFitImageView
+    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:src="@drawable/placeholder_image"
         app:width_percentage="13"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         app:height_percentage="9"
         android:tint="@color/colorPrimary"
         android:scaleType="fitCenter"
@@ -19,12 +22,14 @@
         android:onClick="emotionSelected"
         android:id="@+id/emotion_dimv"/>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
-        android:textSize="@dimen/sp10"
+        android:textSize="@dimen/sp12"
+        android:ems="10"
+        android:gravity="center"
         android:textColor="@color/grey_dark"
         android:layout_height="wrap_content"
         android:id="@+id/emotion_ctxv"
-        android:text="Testing"/>
+        android:text=""/>
 
 </LinearLayout>

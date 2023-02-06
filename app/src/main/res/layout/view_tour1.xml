@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:layout_alignParentBottom="true"

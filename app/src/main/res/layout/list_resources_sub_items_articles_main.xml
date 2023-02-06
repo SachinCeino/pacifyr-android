@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:visibility="visible"
+    android:id="@+id/top_llay"
+    android:layout_height="230dp"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="6dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ImageViewImage"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/resourcebanner">
+
+    </ImageView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:alpha="0.1">
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="5 min read"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp11"
+            android:drawablePadding="3dp"
+            android:drawableLeft="@drawable/article"
+            android:drawableStart="@drawable/article">
+
+        </com.pacifyr.client.customview.MainTextView>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Article by Anthony W."
+            android:id="@+id/TextViewAuther"
+            android:textColor="@color/white"
+            android:layout_above="@id/TextViewTitle"
+            android:textSize="@dimen/sp11"
+            >
+
+        </com.pacifyr.client.customview.MainTextView>
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="On Slowing Down Time, Procrastination, and Mindfulness"
+            android:id="@+id/TextViewTitle"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp14"
+            android:layout_marginBottom="5dp"
+            >
+
+        </com.pacifyr.client.customview.MainTextView>
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

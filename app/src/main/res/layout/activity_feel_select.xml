@@ -12,7 +12,7 @@
         android:layout_width="match_parent"></include>
 
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,10 +24,10 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:orientation="vertical"
-            tools:context="com.pacifyr.omhealthcare.home.FeelSelectActivity">
+            tools:context="com.pacifyr.client.home.FeelSelectActivity">
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -36,13 +36,13 @@
                 android:textColor="@color/colorPrimary"
                 android:text="Negative"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/negative_rcv"
                 android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -51,7 +51,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="Positive"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/positive_rcv"
                 android:padding="5dp"
                 android:layout_width="match_parent"
@@ -59,6 +59,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

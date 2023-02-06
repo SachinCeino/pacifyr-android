@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="170dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="15dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="15dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/top"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.5">
+
+                <com.pacifyr.client.views.PamTextViewMedium
+                    android:id="@+id/index_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_view_sub_title"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/com_facebook_blue"
+                    android:text="" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/pacifyrImage"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_centerInParent="true"
+                    android:foregroundGravity="center"
+                    android:layout_margin="10dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/grey_dark" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.pacifyr.client.views.PamTextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:id="@+id/pacifyr_name"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/com_facebook_blue"
+                    android:text="" />
+
+                <com.pacifyr.client.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:id="@+id/pacifyr_description"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:textColor="@color/grey"
+                    android:text="" />
+
+                <include
+                    android:id="@+id/ratingbar"
+                    layout="@layout/doctor_horizontal_rating_bar"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="3dp"></include>
+
+                <com.pacifyr.client.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:id="@+id/pacifyr_addresss"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:textColor="@color/grey"
+                    android:text="" />
+
+
+                <com.pacifyr.client.views.PamTextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:id="@+id/pacifyr_timing"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:textColor="@color/com_facebook_blue"
+                    android:text="" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.5"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/color_primary"
+                    android:orientation="vertical">
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:id="@+id/pacifyr_Price"
+                        android:layout_margin="5dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+
+                    <com.pacifyr.client.views.PamTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Office Visit"
+                        android:layout_margin="5dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:backgroundTint="@color/color_primary"
+                        android:foregroundGravity="center"
+                        app:srcCompat="@drawable/svg_unfavorite_doctor" />
+
+                    <com.pacifyr.client.views.PamTextViewBold
+                        android:id="@+id/more_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="more info"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="5dp"
+                        android:textSize="12dp"
+                        android:drawableRight="@drawable/home_rightarrow"
+                        android:backgroundTint="@color/grey_dark"
+                        android:textStyle="bold"
+                        android:layout_gravity="bottom"
+                        android:textColor="@color/com_facebook_blue" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <com.pacifyr.client.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Connect Now"
+                    android:id="@+id/connect_pacifyr"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginLeft="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/blue_border_curve_fill" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/requestBook">
+
+                <com.pacifyr.client.views.PamTextViewMedium
+                    android:id="@+id/text_schedule_learn_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Schedule Appointment"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="7dp"
+                    android:textStyle="bold"
+
+                    android:padding="10dp"
+
+                    android:background="@drawable/blue_border_curve_fill" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

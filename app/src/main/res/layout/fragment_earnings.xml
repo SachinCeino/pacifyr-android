@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:circleview="http://schemas.android.com/apk/res-auto"
-    tools:context="com.pacifyr.omhealthcare.Fragment.EarningsFragment">
+    tools:context="com.pacifyr.client.fragment.EarningsFragment">
 
 
     <ScrollView
@@ -37,7 +36,7 @@
                         android:paddingLeft="10dp">
 
 
-                        &lt;!&ndash;<com.ceino.utilitylibrary.CustomFontTextView
+                        &lt;!&ndash;<com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -47,7 +46,7 @@
                             android:textStyle="bold"/>
 
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -68,7 +67,7 @@
                 android:layout_height="1dp"
                 android:background="#DFDFDF" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_weeks_rcv"
 
                 android:layout_width="match_parent"
@@ -141,19 +140,18 @@
                 android:orientation="horizontal"
                 android:padding="0dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/totol_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    app:fontName="@string/raleway_bold"
                     android:gravity="right"
                     android:text="Weekly total"
                     android:textColor="@color/black"
                     android:textSize="15sp"/>
 
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/wkly_total_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,24 +188,21 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="BONUS"
                         android:textColor="@color/bonus_green"
                         android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:fontName="@string/raleway_bold"/>
+                        android:textStyle="bold" />
 
 
-
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/text_dialog_bonusmessage"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="11sp"
-                        app:fontName="@string/raleway_bold"
+                        android:textSize="12sp"
                         android:text="Account not configured to receive bouns"
                         />
 
@@ -241,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/text_dialog_hourstowork"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -250,11 +245,10 @@
                         android:textColor="@color/text_color_black"
                         android:text="0" />
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:textSize="@dimen/sp10"
-                        app:fontName="@string/raleway_bold"
+                        android:textSize="@dimen/sp12"
                         android:layout_gravity="center"
                         android:text="hours to work" />
                 </LinearLayout>
@@ -266,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/text_dialog_hourstobonus"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -275,12 +269,11 @@
                         android:textColor="@color/text_color_black"
                         android:text="0"  />
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"
-                        app:fontName="@string/raleway_bold"
-                        android:textSize="@dimen/sp10"
+                        android:textSize="@dimen/sp12"
                         android:text="hours to bonus" />
                 </LinearLayout>
 
@@ -307,7 +300,7 @@
                 android:orientation="horizontal">
 
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -336,7 +329,7 @@
                    android:layout_marginLeft="30dp"
                    android:orientation="vertical">
 
-                   <com.ceino.utilitylibrary.CustomFontTextView
+                   <com.pacifyr.client.customview.MainTextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:textColor="@color/black"
@@ -345,7 +338,7 @@
 
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey_fit"
@@ -363,7 +356,7 @@
                     android:layout_alignParentRight="true"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -372,7 +365,7 @@
 
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey_fit"

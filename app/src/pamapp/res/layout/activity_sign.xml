@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/relative_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/logo_rlay"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_height="150dp"
+            android:layout_width="150dp"
+            android:src="@drawable/signscreenlogo" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pam_sign_background"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        ></ImageView>
+ <!--   <RelativeLayout
+        android:id="@+id/btns_rlay"
+        android:layout_width="match_parent"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/logo_rlay"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_rlay"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true">
+
+
+        <LinearLayout
+            android:id="@+id/llay_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_above="@+id/constraintLayout">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/getready_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/llay2"
+                android:orientation="vertical"
+                android:text="@string/get_ready_feel_better"
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:textColor="@color/_color_get_ready_feel_better"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteY="200dp" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/wellness_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:text="@string/connect_to_wellness"
+                android:textColor="@color/_color_connect_to_wellness"
+                android:textSize="14sp" />
+
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/free_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/thirty_free"
+                android:textAlignment="center"
+                android:textColor="@color/_color_thirty_free"
+                android:textSize="14sp" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/no_credit_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/no_credit_card"
+                android:textColor="@color/_color_no_credit_card"
+                android:textSize="14sp"
+                android:visibility="gone"
+
+                app:layout_constraintEnd_toEndOf="@+id/free_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/free_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/free_ctxv" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/emergency_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:visibility="visible"
+                android:text="@string/if_emergency2"
+                android:textColor="@color/_color_connect_to_wellness"
+                android:textSize="14sp" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/covidMessage_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/_color_connect_to_wellness"
+                android:textColorLink="@color/colorPrimary"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- <com.pacifyr.client.customview.MainTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:textStyle="bold"
+        app:fontName="@string/avenir_black"
+        android:textColor="@color/sign_blue"
+        android:textSize="15sp"
+        android:text="@string/get_ready"
+        android:layout_above="@+id/llay2"/>
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/text_or_video"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textSize="13sp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical"
+        android:textColor="@color/black"
+        android:id="@+id/llay2"
+        android:layout_above="@+id/llay3"/>
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/free_service"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textSize="13sp"
+        android:id="@+id/llay3"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/black"
+        android:orientation="vertical"
+        android:layout_above="@+id/llay4"/>
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/call_emergency"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="13sp"
+        android:id="@+id/llay4"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/black"
+        android:orientation="vertical"
+        android:layout_above="@+id/btns_rlay"/>-->
+
+        <RelativeLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp">
+
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/tv_login"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:background="@drawable/white_round_square"
+                android:gravity="center"
+                android:onClick="showLogin"
+                android:text="@string/sign_in"
+                android:layout_marginRight="10dp"
+                android:textColor="#92257c"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/tv_signup"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_login"
+                android:layout_alignBottom="@+id/tv_login"
+                android:background="@drawable/white_round_square"
+                android:gravity="center"
+                android:onClick="showSignUp"
+                android:text="@string/register"
+                android:textStyle="bold"
+                android:textColor="#92257c"
+                android:textSize="@dimen/sp18" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

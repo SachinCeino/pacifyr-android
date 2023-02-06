@@ -1,35 +1,43 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.kotlin_version = '1.3.50'
+
     repositories {
+        google()
         jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url "http://jcenter.bintray.com/" }
-        maven { url "http://repo.maven.apache.org/maven2" }
-        maven { url "http://maven.google.com" }
-        maven {
-            url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
-        }
+        maven { url "https://jcenter.bintray.com/" }
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "https://maven.google.com" }
+
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         /*  classpath 'com.google.gms:google-services:3.1.0'*/
 
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:4.3.2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0'
+
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
         mavenCentral()
-        google()
         maven {
-            url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+            url 'https://maven.google.com/'
         }
     }
 }
@@ -44,13 +52,13 @@ ext {
     // minSdkVersion = 21
     targetSdkVersion = 26
 
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     lintAbortOnError = false
 
     // QuickBlox SDK version
-    qbSdkVersion = '3.3.5'
+    qbSdkVersion = '3.9.2'
 
     versionName = '3.3.0'
 
@@ -59,12 +67,12 @@ ext {
 
     // Dependency versions
     /* playServicesVersion = '10.2.1'*/
-    playServicesVersion = '11.0.2'
-    supportV4Version = '23.1.1'
-    appcompatV7Version = '23.1.1'
-    recyclerviewV7Version = '23.2.1'
-    supportAnnotationsVersion = '23.1.1'
-    designVersion = '23.1.1'
+    playServicesVersion = '11.4.2'
+    supportV4Version = '26.1.0'
+    appcompatV7Version = '26.1.0'
+    recyclerviewV7Version = '26.1.0'
+    supportAnnotationsVersion = '26.1.0'
+    designVersion = '26.1.0'
 
     uilVersion = '1.9.0'
     glideVersion = '3.6.1'

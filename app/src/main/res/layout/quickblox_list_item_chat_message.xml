@@ -24,7 +24,7 @@
             android:layout_margin="5dp"
             tools:text="Test message" />
 
-        <com.pacifyr.omhealthcare.quickblox.chat.ui.widget.MaskedImageView
+        <com.pacifyr.client.quickblox.chat.ui.widget.MaskedImageView
             android:id="@+id/image_message_attachment"
             android:layout_width="@dimen/chat_message_attachment_size"
             android:layout_height="@dimen/chat_message_attachment_size"
@@ -42,9 +42,9 @@
             android:layout_alignParentTop="true"
             tools:text="User 2" />
     </RelativeLayout>
-
     <TextView
         android:id="@+id/text_message_info"
         style="@style/MessageInfoStyle"
+        android:text="10:50 pm"
         tools:text="10:50" />
 </LinearLayout>

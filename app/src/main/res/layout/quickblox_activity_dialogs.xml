@@ -4,22 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
         android:layout_height="60dp"
         android:layout_width="match_parent">
     </include>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_below="@+id/include"
     android:id="@+id/layout_root"
     style="@style/MatchParent"
     tools:ignore="RtlHardcoded,RtlSymmetry">
+
+        <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/noMessagesCtxv"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/grey_dark_text"
+        android:text="@string/no_messages"/>
 
     <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/swipy_refresh_layout"
@@ -44,7 +53,6 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:onClick="onStartNewChatClick"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
@@ -73,12 +81,11 @@
         style="@style/CenterProgressBarStyle"
         android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_dialogs_new_chat"
         style="@style/FabStyle"
 
         android:visibility="gone"
-        android:onClick="onStartNewChatClick"
         android:src="@drawable/ic_action_start_chat" />
-</android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </RelativeLayout>

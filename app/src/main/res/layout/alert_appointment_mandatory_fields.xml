@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="15dp">
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ZipCode"
+        android:textSize="@dimen/text_view_find_care_sub"
+        android:textStyle="bold"
+        android:textColor="@color/blue_fb" />
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Zip Code"
+        android:padding="8dp"
+        android:id="@+id/zipCode"
+        android:background="@drawable/black_border_white_back"
+        android:layout_marginBottom="15dp" />
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/blue_fb"
+        android:textSize="@dimen/text_view_find_care_sub"
+        android:textStyle="bold" />
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select one"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:id="@+id/txtv_gender"
+        android:background="@drawable/black_border_white_back_search"
+        android:layout_marginBottom="15dp"
+        android:drawableEnd="@drawable/svg_down_arrow"
+        android:drawableRight="@drawable/svg_down_arrow" />
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_Submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/blue_border_lightblue"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Update"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_view_find_care_sub"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</LinearLayout>

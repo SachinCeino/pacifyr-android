@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="25dp"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.pacifyrapp.utilitylibrary.CustomFontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:id="@+id/title"
+        android:textColor="@color/black"
+        android:text=""
+        tools:ignore="RtlCompat" />
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/rounded_white"
+      android:layout_height="250dp">
+      <TextView
+          android:id="@+id/message_edt"
+          android:layout_width="match_parent"
+          android:layout_height="250dp"
+          android:padding="15dp"
+          android:textSize="15sp"
+          android:textColor="@color/grey_dark"
+          android:gravity="top|left"
+          android:inputType="textCapSentences|textMultiLine" />
+  </ScrollView>
+
+    <LinearLayout
+
+        android:layout_gravity="center"
+        android:id="@+id/close_layout"
+        android:layout_width="335dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="43dp"
+        android:background="@drawable/blue_border_lightblue">
+
+        <com.pacifyrapp.utilitylibrary.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:gravity="center"
+            android:id="@+id/send_msg_ctxv"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -28,6 +28,15 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="appointmenttab" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/tabTextAppearance</item>
+    </style>
+    <style name="tabTextAppearance" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
+
     <style name="MyDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@color/color_scheme_trans</item>
@@ -97,6 +106,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
     </style>
+
 
 
 

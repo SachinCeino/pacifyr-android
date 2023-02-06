@@ -8,7 +8,7 @@
     android:id="@+id/drawer_layout_pacifyr">
 
     <!--<com.ceino.shalomworld.Adapter.PagerEnabledSlidingPaneLayout-->
-    <com.pacifyr.omhealthcare.PagerEnabledSlidingPaneLayout
+    <com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout
         android:id="@+id/pacifyr_sliding_pane"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     android:id="@+id/account_rlay"
                     android:layout_marginLeft="5dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/detail_name_ctxv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                         android:textColor="@color/black"
                         android:textSize="15sp"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/detail_mail_ctxv"
                         android:layout_below="@+id/detail_name_ctxv"
                         android:layout_width="match_parent"
@@ -60,6 +60,7 @@
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="12sp"/>
+
 
                 </RelativeLayout>
 
@@ -79,7 +80,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/dashboard_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,7 +89,7 @@
                     android:src="@drawable/ic_dashboard_menu"
                     android:layout_centerInParent="true"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/dashboard_ctxv"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="10dp"
@@ -113,7 +114,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/mesessions_dimv"
                     android:layout_width="wrap_content"
                     android:scaleType="centerInside"
@@ -122,7 +123,7 @@
                     android:src="@drawable/ic_session_menu"
                     android:layout_centerInParent="true"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/mysessions_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,7 +149,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/payment_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,7 +158,7 @@
                     android:src="@drawable/earningsnew"
                     android:layout_centerInParent="true"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/payment_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -183,7 +184,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/earnings_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -192,7 +193,7 @@
                     android:src="@drawable/ic_earnings"
                     android:layout_centerInParent="true"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/earnings_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -219,7 +220,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/mssages_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -228,7 +229,7 @@
                     android:src="@drawable/message2"
                     android:layout_centerInParent="true"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/mssages_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -257,7 +258,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/spport_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -266,7 +267,7 @@
                     android:src="@drawable/support2"
                     android:layout_centerInParent="true" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/spport_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -293,7 +294,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/policy_document_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -303,7 +304,7 @@
                     android:layout_centerInParent="true"
                     />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/policy_document_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -331,7 +332,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/logout_dimv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -341,7 +342,7 @@
                     android:layout_centerInParent="true"
                     />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/logout_ctxv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -391,6 +392,6 @@
         </LinearLayout>
         <!--
         </FrameLayout>-->
-    </com.pacifyr.omhealthcare.PagerEnabledSlidingPaneLayout>
+    </com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout>
 
 </RelativeLayout>

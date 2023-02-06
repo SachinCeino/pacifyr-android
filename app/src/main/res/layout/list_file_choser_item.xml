@@ -23,7 +23,7 @@
         android:src="@drawable/ic_pdf"
         android:id="@+id/file_imv"/>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""

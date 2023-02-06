@@ -1,0 +1,542 @@
+package com.pacifyr.client.utils;
+
+import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
+import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
+import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+import com.pacifyr.client.R;
+import com.pacifyr.client.activity.SplashScreen;
+import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.RateSessionEvent;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.receiver.NotificationUtils;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.utility.FCMMasterToken;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    private static final String TAG = "MyFirebaseMsgService";
+    private static boolean isCall = false;
+    String typeId = null;
+    private PrefManager prefM;
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+        PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.FCM_TOKEN, s);
+        new FCMMasterToken(getApplicationContext(),s);
+        sendRegistrationToServer(s);
+    }
+
+    public Boolean isValid(Object object) {
+        return object != null;
+
+    }
+
+    public String getAccessToken() {
+        return PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.ACCESSTOKEN, null);
+
+    }
+
+    public String getUserID() {
+        return PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.USERID, null);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        // TODO: Implement this method to send token to your app server.
+        if (!isValid(getUserID())) {
+            Log.d(TAG, "Invalid userId cancelling sendRegistrationToServer");
+            return;
+        }
+        if (!isValid(getAccessToken())) {
+            Log.d(TAG, "Invalid access token cancelling sendRegistrationToServer");
+            return;
+        }
+        installationIsSuccess=false;
+        new AmazonSNSTokenHandler(getApplicationContext()).register();
+    }
+
+    /**
+     * Called when message is received.
+     *
+     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
+     */
+    // [START receive_message]
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        // [START_EXCLUDE]
+        // There are two types of messages data messages and notification messages. Data messages
+        // are handled
+        // here in onMessageReceived whether the app is in the foreground or background. Data
+        // messages are the type
+        // traditionally used with GCM. Notification messages are only received here in
+        // onMessageReceived when the app
+        // is in the foreground. When the app is in the background an automatically generated
+        // notification is displayed.
+        // When the user taps on the notification they are returned to the app. Messages
+        // containing both notification
+        // and data payloads are treated as notification messages. The Firebase console always
+        // sends notification
+        // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
+        // [END_EXCLUDE]
+
+        //{author=VINEESH PROVIDER, message_index=79, message_sid=IM9f6b2b703ce04b2e8c0892849ad88ef9, twi_message_type=twilio.conversations.new_message, conversation_sid=CHebc610cca1024fb3a0b4d8dcde547995, twi_message_id=RUae803f11a10835b93fb1f1567ee337d6, twi_body=VINEESH PROVIDER: Hhvv, conversation_title=60daf972a8c03f049816a93e}
+
+        // TODO(developer): Handle FCM messages here.
+        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        prefM = PrefManager.getInstance(getApplicationContext());
+        String data = remoteMessage.getData().toString();
+        Log.d("@@@@/noti", "From: " + remoteMessage);
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Log.d("@@@@/noti", "From: " + remoteMessage.getData());
+
+            if(data.contains("screen")){
+                try {
+                    JSONObject j= new JSONObject(data);
+                  //  DynamicLink.setScreenFromNotification(j.getString("screen"),j.getString("screen_data"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            else{
+                handleNow(remoteMessage);
+            }
+
+
+        }
+        //2020-07-09 12:00:00.786 31831-4123/com.pacifyr.pacifyrapp D/@@@@/noti: From: {typeId=5f06b2e0afdb7539ae8b1d66, type=reminder, sound=default, message=Please start your session with provider "Niva Live Provider"}
+
+        // Check if message contains a notification payload.
+
+
+        if (remoteMessage.getNotification() != null) {
+            String title = "";
+            String body = "";
+            String type = null;
+            if (remoteMessage.getNotification().getTitle() != null) {
+                title = remoteMessage.getNotification().getTitle();
+            }
+            if (remoteMessage.getNotification().getBody() != null) {
+                body = remoteMessage.getNotification().getBody();
+            }
+            if (remoteMessage.getData().containsKey("type")) {
+                type = remoteMessage.getData().get("type");
+            }
+
+            if (remoteMessage.getData().containsKey("twi_message_type")) {
+                type = remoteMessage.getData().get("twi_message_type");
+            }
+            if (remoteMessage.getData().containsKey("twi_body")) {
+                body = remoteMessage.getData().get("twi_body");
+            }
+
+            if (type != null && type.equalsIgnoreCase("chat")) {
+                return;
+            }
+            if (!title.isEmpty() && !body.isEmpty()) {
+                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT_GENERAL);
+                intent.putExtra("title", title);
+                intent.putExtra("body", body);
+                LocalBroadcastManager.getInstance(MyFirebaseMessagingService.this).sendBroadcast(intent);
+            }
+        }
+        // Also if you intend on generating your own notifications as a result of a received FCM
+        // message, here is where that should be initiated. See sendCardAddedNotification method below.
+    }
+
+    private void handleNow(RemoteMessage remoteMessage) {
+        final Context context = getApplicationContext();
+        if (remoteMessage != null) {
+
+            if (isValid(PrefManager.getInstance(context).getUserID())) {
+
+                try {
+                    String message = null;
+                    String text = null;
+                    String _id = null;
+                    String actual_type = null;
+                    String conversation_sid = null;
+
+                    if (remoteMessage.getData().containsKey("message")) {
+                        message = remoteMessage.getData().get("message") + "";
+                    }
+                    if (remoteMessage.getData().containsKey("text")) {
+                        text = remoteMessage.getData().get("text") + "";
+                    }
+                    if (remoteMessage.getData().containsKey("id")) {
+                        _id = remoteMessage.getData().get("id");
+                    }
+                    if (remoteMessage.getData().containsKey("type")) {
+                        actual_type = remoteMessage.getData().get("type");
+                    }
+                    if (remoteMessage.getData().containsKey("typeId")) {
+                        typeId = remoteMessage.getData().get("typeId");
+                    }
+                    if (remoteMessage.getData().containsKey("twi_message_type")) {
+                        actual_type = remoteMessage.getData().get("twi_message_type");
+                    }
+                    if (remoteMessage.getData().containsKey("twi_body")) {
+                        message = remoteMessage.getData().get("twi_body");
+                    }
+                    if (remoteMessage.getData().containsKey("conversation_sid")) {
+                        conversation_sid = remoteMessage.getData().get("conversation_sid");
+                    }
+
+                    /*if (actual_type.equals("reminder") && isValid(typeId))
+                    {
+                        Intent i=new Intent(context, DashboardActivity.class);
+                        i.putExtra("typeId",typeId);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                    }*/
+
+                    if (actual_type != null && (actual_type.equals("billing"))) {
+                        Intent callIntent = new Intent(CallEvent.CALL_EVENT);
+                        callIntent.putExtra("type", actual_type);
+                        callIntent.putExtra("id", _id);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
+                    } else if (actual_type != null && actual_type.equals("rating")) {
+
+                        EventBus.getDefault().post(new RateSessionEvent(_id, message));
+                    } else if (actual_type != null && actual_type.equalsIgnoreCase("survey")) {
+                        Intent callIntent = new Intent("Survey_event");
+                        callIntent.putExtra("type", actual_type);
+                        callIntent.putExtra("id", _id);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
+                    }
+
+                    LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
+                    LogUtils.LOGD("app_rec", "PR  onReceive actual_type " + actual_type);
+                    LogUtils.LOGD("app_rec", "PR  onReceive _id " + _id);
+
+                    if (actual_type != null) {
+                        if (message != null && !message.equalsIgnoreCase("") && !message.equalsIgnoreCase("null")) {
+
+
+                            SplashScreen.trigger = "fromNotification";
+
+
+                            if (isAppIsInBackground(context)) {
+                                if (actual_type.equalsIgnoreCase("session")) {
+                                    isCall = true;
+                                    showNotification(context, _id, message, actual_type, conversation_sid);
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            LogUtils.LOGD("app_reca", "app live notification tempseesionid cleaed");
+                                        }
+                                    }, 10000);
+
+
+                                } else {
+
+                                    isCall = false;
+                                    showNotification(context, _id, message, actual_type, conversation_sid);
+                                }
+                            } else if (actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("payment")) {
+                                Log.w("@@@", "PAYTM_PAYMENT_EVENT");
+                                Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
+                                /*intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                intent.putExtra("id", _id);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);*/
+                            } else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("sessionExtensionAccepted")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equals("reminder") && isValid(typeId)) {
+                                Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
+                                intent.putExtra("typeId", typeId);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+                                mp1.start();
+                            }
+                            //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
+
+                            else if (actual_type.equals("sessionDeclined")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equals("sessionWaiting")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("confirmBooking")
+                                    || actual_type.equalsIgnoreCase("rejectBooking")
+                                    || actual_type.equalsIgnoreCase("reminder"))
+                            {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type != null && actual_type.equals("chat")
+                                    || actual_type.equalsIgnoreCase("twilio.conversations.new_message")
+                                    ) {//twilio.conversations.new_message
+
+                                Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
+                                if (actual_type.equals("twilioChat")) {
+                                    conversation_sid = _id;
+                                }
+
+                                if (isValid(conversation_sid)) {
+                                    intent1.putExtra("conversation_sid", conversation_sid);
+                                }
+
+                                if (message.contains("_image"))
+                                {
+                                    String currentString =message;
+                                    String[] separated = currentString.split(":");
+                                    message=separated[0]+": Photo";
+                                }
+
+                                else if (message.contains("_file"))
+                                {
+                                    String currentString =message;
+                                    String[] separated = currentString.split(":");
+                                    message=separated[0]+": File";
+                                }
+
+                                intent1.putExtra("type", actual_type);
+                                intent1.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
+                            }
+
+                        }
+                    }
+                    else {
+                        if (isAppIsInBackground(context)) {
+                            isCall = false;
+                            if (actual_type.equalsIgnoreCase("session")) {
+                                isCall = true;
+                                //  showNotification(context,_id,message,actual_type);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        LogUtils.LOGD("app_recc", "app live notification tempseesionid cleaed");
+                                    }
+                                }, 10000);
+                            }
+
+
+                        } else {
+                            isCall = false;
+                            if (actual_type.equalsIgnoreCase("session")) {
+                                isCall = true;
+
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        LogUtils.LOGD("app_recd", "app live notification tempseesionid cleaed");
+                                    }
+                                }, 5000);
+
+
+                            } else if (actual_type.equals("sessionDeclined")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equals("sessionWaiting")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                                //intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            }
+                        }
+                    }
+
+
+                    LogUtils.LOGD("app_rec", "PR  onReceive End ");
+                } catch (Exception e) {
+                    LogUtils.LOGD("app_rec", "notification" + " exception: " + e.getMessage());
+                }
+            }
+        }
+
+    }
+
+    // [END receive_message]
+
+
+    // [START on_new_token]
+
+
+    /**
+     * Create and show a simple notification containing the received FCM message.
+     *
+
+     */
+    public Boolean isValid(String text) {
+        if (text != null) return !text.trim().equalsIgnoreCase("");
+        return false;
+
+    }
+
+    private void showNotification(Context context, String qsid, String message, String actualType,String conversation_sid) {
+
+        PrefManager prefM=PrefManager.getInstance(context);
+        int count=0;
+        if (prefM.getBadgeValue()!=0)
+        {
+            count=prefM.getBadgeValue()+1;
+            prefM.saveBadgeValue(count);
+        }
+        else
+        {
+            count=1;
+            prefM.saveBadgeValue(count);
+        }
+
+
+
+        Intent cIntent = null;
+        PendingIntent pendingIntent = null;
+        if (actualType.equals("twilio.conversations.new_message"))//actualType.equals("twilio.conversations.new_message") ||
+        {
+            if (actualType.equals("twilioChat"))
+                conversation_sid =qsid;
+            if (message.contains("_image"))
+            {
+                String currentString =message;
+                String[] separated = currentString.split(":");
+                message=separated[0]+": Photo";
+            }
+
+            else if (message.contains("_file"))
+            {
+                String currentString =message;
+                String[] separated = currentString.split(":");
+                message=separated[0]+": File";
+            }
+
+            cIntent = new Intent(context, TwilioConversationActivity.class);
+            cIntent.putExtra("conversation_sid", conversation_sid);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntentWithParentStack(cIntent);
+            pendingIntent =
+                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
+        }
+        else if (actualType.equals("reminder") && isValid(typeId)){
+
+            cIntent = new Intent(context, DashboardActivity.class);
+            cIntent.putExtra("typeId", typeId);
+            cIntent.putExtra("type", "reminder");
+            cIntent.putExtra("isNeedToOpenAppointments", true);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            cIntent.setAction(Long.toString(System.currentTimeMillis()));
+
+            pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
+                    cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        else {
+            boolean isNeedToOpenAppointments = actualType.equals("confirmBooking") || actualType.equalsIgnoreCase("rejectBooking") || actualType.equals("reminder");
+
+            cIntent = new Intent(context, SplashScreen.class);
+            Bundle b = new Bundle();
+            // b.putString("type", type);
+            b.putString("id", qsid);
+            b.putString("actualType", actualType);
+            cIntent.putExtra("Bundle", b);
+            cIntent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            cIntent.setAction(Long.toString(System.currentTimeMillis()));
+
+            pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
+                    cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        // cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.getChannelId(context));
+        builder.setSmallIcon(R.drawable.ic_pacifyr_notification);
+        builder.setContentText(message);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+        builder.setContentTitle(getResources().getString(R.string.app_name));
+        builder.setContentIntent(pendingIntent);
+        builder.setBadgeIconType(BADGE_ICON_SMALL);
+        builder.setNumber(prefM.getBadgeValue());
+        builder.setAutoCancel(true);
+
+        if (actualType.equals("reminder")&& isValid(typeId))
+        {
+            builder.setNotificationSilent();
+            MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+            mp1.start();
+        }
+        else
+        {
+            builder.setSound(notificationSound);
+        }
+        Notification notification = builder.build();
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+        final int mNotificationId = 1;
+        mNotificationManager.notify(mNotificationId, notification);
+
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            isMarshmallowabove=true;
+        }*/
+        if (isCall) {
+            isCall = false;
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+
+                        //setScreenLockOff();
+                    } catch (Exception e) {
+
+                    }
+                }
+            }, 2000);
+          /*  if(!isMarshmallowabove)
+                mNotificationManager.notify(notificationIdInt, notification);
+        } else {
+            mNotificationManager.notify(notificationIdInt, notification);*/
+        }
+
+    }
+
+
+}

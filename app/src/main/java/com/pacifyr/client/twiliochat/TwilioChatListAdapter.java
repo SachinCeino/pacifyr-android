@@ -1,0 +1,203 @@
+package com.pacifyr.client.twiliochat;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.format.DateUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
+import com.pacifyr.client.utils.Utility;
+import com.squareup.picasso.Picasso;
+import com.twilio.conversations.Message;
+
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+
+public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAdapter.ViewHolder> {
+
+    private Context mContext;
+    private List<TwilioConversationCreate> results;
+    private String userId;
+
+
+
+    public TwilioChatListAdapter(Context mContext, List<TwilioConversationCreate> results, String userId) {
+        this.mContext=mContext;
+        this.results=results;
+        this.userId=userId;
+    }
+
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        final TextView mName,tvLastMsg,tvUnreadCount, tvDate;
+        CircleImageView mImage;
+        ImageView imgArrow;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            mName = itemView.findViewById(R.id.mtv_name);
+            tvLastMsg = itemView.findViewById(R.id.mtv_last_message);
+            mImage=itemView.findViewById(R.id.mImage);
+            tvUnreadCount=itemView.findViewById(R.id.mtv_unread_count);
+            tvDate=itemView.findViewById(R.id.mtv_date);
+            imgArrow=itemView.findViewById(R.id.img_arrow);
+        }
+    }
+
+    @NonNull
+    @Override
+    public TwilioChatListAdapter
+            .ViewHolder onCreateViewHolder(ViewGroup parent,
+                                           int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_twilio_chat_participant_list, parent, false);
+
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.tvUnreadCount.setVisibility(View.INVISIBLE);
+
+        TwilioConversationCreate object=results.get(position);
+        if (isValid(object) && isValid(object.getPacifyr()))
+        {
+            holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.text_color_black));
+            String name="";
+            if (isValid(object.getPacifyr().getFirstName()) && isValid(object.getPacifyr().getLastName()))
+            {
+                name= object.getPacifyr().getFirstName() + " " + object.getPacifyr().getLastName();
+            }
+            else {
+                name= object.getPacifyr().getFirstName();
+            }
+
+            holder.mName.setText(name);
+
+            if(isValid(object.getLastMessage())){
+                 holder.tvLastMsg.setVisibility(View.VISIBLE);
+                holder.tvLastMsg.setText(object.getLastMessage());
+
+
+                String date = Utility.getRelativeDateTimeString(mContext,object.getLastMessageAt());
+
+                if(date != null && !date.isEmpty()){
+                     holder.tvDate.setText(date);
+                }
+
+            }else {
+                holder.tvLastMsg.setVisibility(View.GONE);
+            }
+
+            if(isValid(object.getUnreadStatus())){
+                List<TwilioConversationCreate.Unreadstatus> unreadList = object.getUnreadStatus();
+
+                int unreadCount= 0;
+                for (int i= 0; i<unreadList.size(); i++){
+                    if (unreadList.get(i).getUserId().equals(userId)){
+                        unreadCount = unreadList.get(i).getUnreadCount();
+                        break;
+                    }
+                }
+
+
+                if(unreadCount > 0){
+                    holder.imgArrow.setVisibility(View.GONE);
+                    holder.tvUnreadCount.setVisibility(View.VISIBLE);
+                    holder.tvUnreadCount.setText(String.valueOf(unreadCount));
+                } else {
+                    holder.imgArrow.setVisibility(View.VISIBLE);
+                    holder.tvUnreadCount.setVisibility(View.GONE);
+                }
+            }
+
+            String imgUrl = null;
+            if (isValid(object.getPacifyr().getImage()))
+            {
+                 imgUrl= GLOBAL_IMAGE_URL+object.getPacifyr().getImage();
+
+            }
+            Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.img_chat_avatar).into(holder.mImage);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isValid(object) && isValid(object.getTwilioConversationId()))
+                    {
+                        if (mContext instanceof TwilioCoversationListActivity )
+                        ((TwilioCoversationListActivity) mContext).clearUnreadCount(object,position);
+                        if (mContext instanceof DashboardActivity) {
+                            if (ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                                if (isValid(object.getTwilioConversationId()))
+                                {
+                                    results.get(position).getUnreadStatus().clear();
+                                    TwilioConversationActivity.startWithoutFlag(mContext,object);
+
+                                }
+
+                            }else {
+
+                                ((DashboardActivity)mContext).showInternetNotAvailablePopup();
+                            }
+                        }
+
+                    }
+                }
+            });
+        }else if (isValid(object) && !isValid(object.getPacifyr())) {
+            holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.red_missed_txt));
+            holder.mName.setText(R.string.deleted_user);
+
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return results.size();
+    }
+
+    public Boolean isValid(List list)
+    {
+        if(list!=null)
+            return list.size() > 0;
+        return  false;
+
+    }
+
+    public Boolean isValid(List list, int position)
+    {
+        if(isValid(list))
+            return list.size() >= position;
+        return  false;
+
+    }
+
+    public Boolean isValid(Object object)
+    {
+        return object != null;
+
+    }
+
+    public Boolean isValid(String text) {
+        if (text != null) return !text.trim().equalsIgnoreCase("");
+        return false;
+
+    }
+}
+

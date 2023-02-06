@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"  android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
 
-
-    <android.support.percent.PercentRelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.percentlayout.widget.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -48,7 +45,7 @@
 
             <ImageView
                 android:layout_width="150dp"
-                android:src="@drawable/omhealth_icon_orange"
+                android:src="@drawable/powered_logo"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/logo_blue"/>
@@ -72,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -81,7 +78,7 @@
                 android:textColor="@color/black_pacifyr"
                 android:text="@string/e_con_code"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:gravity="center"
@@ -105,7 +102,7 @@
             android:layout_height="wrap_content">
 
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:layout_width="match_parent"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp17"
@@ -121,7 +118,7 @@
                 android:background="@drawable/blue_border_lightblue"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/create_account"
@@ -134,7 +131,7 @@
 
             </RelativeLayout>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
 
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp12"
@@ -143,7 +140,7 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="@string/didnt_get_code"
-                android:textColor="#3063f9"
+                android:textColor="@color/blue_text_dark"
                 android:textStyle="bold"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="15dp"
@@ -158,7 +155,7 @@
 
         </LinearLayout>
 
-    </android.support.percent.PercentRelativeLayout>
+    </androidx.percentlayout.widget.PercentRelativeLayout>
 
 
 </ScrollView>

@@ -1,49 +1,12 @@
 <resources>
     <!-- <string name="app_name">Utility library</string>-->
     <!--<string name="facebook_app_id">448702782150953</string>-->
-   <!-- <string name="gcm_project_number">774565074522</string>-->
+    <!-- <string name="gcm_project_number">774565074522</string>-->
     <string name="gcm_project_number">179562392190</string>
     <string name="avenir_roman">CenturyGothic.ttf</string>
 
     <!--Pacifyr Raleway Font-->
-    <string name="raleway_bold">Raleway-Bold.ttf</string>
-    <string name="raleway_light">Raleway-Light.ttf</string>
-    <string name="raleway_medium">Raleway-Medium.ttf</string>
-    <string name="raleway_semi_bold">Raleway-SemiBold.ttf</string>
-    <string name="raleway_thin">Raleway-Thin.ttf</string>
 
-
-    <string name="avenir_black">GOTHICB.ttf</string>
-    <string name="avenir_book">GOTHICB.ttf</string>
-    <string name="avenir_medium">CenturyGothic.ttf</string>
-    <string name="CenturyGothic">CenturyGothic.ttf</string>
-
-
-    <string name="avanti_std_bk">ITCAvantGardeStd-Bk.otf</string>
-    <string name="avanti_std__bk_cn">ITCAvantGardeStd-BkCn.otf</string>
-    <string name="avanti_std__bk_cn_obl">ITCAvantGardeStd-BkCnObl.otf</string>
-    <string name="avanti_std__bk_obl">ITCAvantGardeStd-BkObl.otf</string>
-
-    <string name="avanti_std_bold">ITCAvantGardeStd-Bold.otf</string>
-    <string name="avanti_std__bold_cn">ITCAvantGardeStd-BoldCn.otf</string>
-    <string name="avanti_std__bold_cn_obl">ITCAvantGardeStd-BoldCnObl.otf</string>
-    <string name="avanti_std__bold_obl">ITCAvantGardeStd-BoldObl.otf</string>
-
-    <string name="avanti_demi">ITCAvantGardeStd-Demi.otf</string>
-    <string name="avanti_std_demi_cn">ITCAvantGardeStd-DemiCn.otf</string>
-    <string name="avanti_std__demi_cn_obl">ITCAvantGardeStd-DemiCnObl.otf</string>
-    <string name="avanti_std__demi_obl">ITCAvantGardeStd-DemiObl.otf</string>
-
-
-    <string name="avanti_std_md">ITCAvantGardeStd-Md.otf</string>
-    <string name="avanti_std__md_cn">ITCAvantGardeStd-MdCn.otf</string>
-    <string name="avanti_std__md_cn_obl">ITCAvantGardeStd-MdCnObl.otf</string>
-    <string name="avanti_std__md_obl">ITCAvantGardeStd-MdObl.otf</string>
-
-    <string name="avanti_std_xlt">ITCAvantGardeStd-.XLtotf</string>
-    <string name="avanti_std__xlt_cn">ITCAvantGardeStd-XLtCn.otf</string>
-    <string name="avanti_std__xlt_cn_obl">ITCAvantGardeStd-XLtCnObl.otf</string>
-    <string name="avanti_std__xlt_obl">ITCAvantGardeStd-XLtObl.otf</string>
 
 
     <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
@@ -61,47 +24,47 @@
     <string name="dollar">$</string>
     <string name="get_sessions_date_range">Get sessions date range</string>
     <string name="earnings_api">Earnings API</string>
-    <string name="get_all_pacifyr_sessions">Get all pacifyr sessions</string>
+    <string name="get_all_pacifyr_sessions">Get all Provider sessions</string>
     <string name="get_saved_cards">Get saved cards</string>
     <string name="get_session_details">Get session details</string>
     <string name="get_session_rating">Get session rating</string>
-    <string name="list_negative_emotions">List neagative emotions</string>
+    <string name="list_negative_emotions">List negative emotions</string>
     <string name="list_positive_emotions">List positive emotions</string>
-    <string name="pacifyr_dashboard">Pacifyr Dashboard</string>
+    <string name="pacifyr_dashboard">Provider Dashboard</string>
     <string name="list_emotions">List emotions</string>
     <string name="list_all_employees">List all employees</string>
     <string name="edit_profile_request">Edit profile request</string>
     <string name="edit_profile_response">Edit profile response</string>
     <string name="post_rate_customer_session">Post rate customer session</string>
-    <string name="post_rate_pacifyr">Rate pacifyr</string>
-    <string name="post_rate_pacifyr_session">Rate pacifyr session</string>
-    <string name="search_pacifyr_with_option_response">Search pacifyr with option response</string>
-    <string name="search_pacifyr_with_option_request">Search pacifyr with option request</string>
+    <string name="post_rate_pacifyr">Rate Provider</string>
+    <string name="post_rate_pacifyr_session">Rate Provider session</string>
+    <string name="search_pacifyr_with_option_response">Search Provider with option response</string>
+    <string name="search_pacifyr_with_option_request">Search Provider with option request</string>
     <string name="post_registration">Post registration</string>
     <string name="stop_session_with_pacifyr">Stop Session With Pacifyr</string>
-    <string name="resp_start_session_with_pacifyr">Response Start Session With Pacifyr</string>
+    <string name="resp_start_session_with_pacifyr">Response Start Session With Provider</string>
     <string name="resp_set_session_as_connected">Set session as connected</string>
-    <string name="start_session_with_pacifyr">Start Session With Pacifyr</string>
+    <string name="start_session_with_pacifyr">Start Session With Provider</string>
 
     <!--//Facebook-->
     <string name="facebook_app_id">180931982441982</string>
     <string name="fb_login_protocol_scheme">fb180931982441982</string>
 
     <!-- Strings related to login -->
-    <string name="signup">sign up</string>
-    <string name="login">login</string>
+    <string name="validate">Validate</string>
+    <string name="login">log in</string>
     <string name="snapshot">Snapshot</string>
-    <string name="login_fb">Continue with Facebook</string>
+    <string name="login_fb">continue with facebook</string>
     <string name="log_out">LogOut</string>
     <string name="prompt_name">Name</string>
-    <string name="year_of_birth">Year of Birth</string>
+    <string name="year_of_birth">Date of birth</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_collage">Enter your collage/university</string>
-    <string name="prompt_amont">Enter Amount</string>
+    <string name="prompt_collage">Enter your college/University</string>
+    <string name="prompt_amont">Enter amount</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_phone">Phone number</string>
-    <string name="signup_fb">Sign up via Facebook</string>
+    <string name="signup_fb">Register via facebook</string>
     <string name="e_phonenumber">Enter your phone number </string>
     <string name="e_con_code">Enter confirmation code</string>
     <string name="phone">Phone number</string>
@@ -112,24 +75,24 @@
     <string name="submit">Submit</string>
     <string name="send">Send</string>
     <string name="save">Save</string>
-    <string name="read_understand">I have read, understand, and agree to be bound by the</string>
-    <string name="agree_terms_alert">You need to agree to Terms of use before signing up</string>
-    <string name="term_of_use">Pacifyr Terms of Use</string>
+    <string name="read_understand">I have read, Understand, And agree to be bound by the</string>
+    <string name="agree_terms_alert">Please accept our Terms of use and Privacy policy</string>
+    <string name="term_of_use">OMHealthCare Terms of Use</string>
     <string name="terms_of_use">Terms of Use</string>
-    <string name="send_confirmcode">Send Confirmation code </string>
-    <string name="didnt_get_code">Did not receive a code? Resend </string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="send_confirmcode">Send confirmation code </string>
+    <string name="didnt_get_code">Did not receive the verification code? Make sure the number entered is correct or tap on resend</string>
+    <string name="action_sign_in">Sign in or Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-    <string name="how_you_rate">How do you rate your Pacifyr / Therapist?</string>
+    <string name="how_you_rate">How do you rate your Provider / Therapist?</string>
 
-    <string name="find_helping_pacifyr">Find a Wllness expert who can help you</string>
+    <string name="find_helping_pacifyr">Find a Provider who can help you</string>
     <string name="specify_emotion">Specify your emotion</string>
-    <string name="talk_to_pacifyr">Talk to your pacifyr using chat,audio or video</string>
+    <string name="talk_to_wellness_expert">Talk to your Provider using chat,audio or video</string>
     <string name="skip">Skip</string>
 
 
@@ -137,26 +100,28 @@
 
     //Prfile
     <string name="per_hour"> per hour</string>
+    <string name="per_session"> per session</string>
 
     //HomeScreen Related
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
     <string name="session_expired">Session expired</string>
     <string name="this_week">THIS WEEK</string>
-    <string name="This_Week">This Week</string>
+
     <!--<string name="pref_pacifyrs">PREFFERED PACIFYRS</string>-->
-    <string name="pref_pacifyrs">Preffered Providers</string>
+
     <!--<string name="my_last_session">MY LAST SESSION</string>-->
     <string name="my_last_session">My Last Session</string>
     <string name="how_you_feel">HOW ARE YOU FEELING?</string>
     <string name="my_last_emotion">My Last Emotion</string>
     <string name="how_you_feel_now">How are you feeling now?</string>
     <string name="sessions">SESSIONS</string>
+    <string name="sessionS">SESSIONS</string>
     <string name="last_session">LAST SESSION</string>
     <string name="hours">HOURS</string>
     <string name="minutes">MINUTES</string>
     <string name="hrs">hrs</string>
-    <string name="mns">mns</string>
+    <string name="mns">mins</string>
     <string name="Session_Summary">Session Summary</string>
     <string name="session_summary">SESSION SUMMARY</string>
     <string name="available_min">AVAILABLE MIN</string>
@@ -165,16 +130,18 @@
     <string name="earned">EARNED</string>
     <string name="starts">5 stars</string>
     <string name="customers">CUSTOMERS</string>
-    <string name="today">TODAY</string>
+    <string name="today">today</string>
     <string name="current_rating">CURRENT RATING</string>
     <string name="upcoming_session">UPCOMING SESSION</string>
     <string name="press_back_again_to_exit">Press back again to exit...!</string>
     <string name="logout">LOGOUT</string>
-    <string name="Connect_to_Providers">Connect to Providers</string>
-    <string name="connect_to_providers">CONNECT TO PROVIDERS</string>
-    <string name="browse_pacifyr">BROWSE PACIFYRS</string>
-    <string name="support">SUPPORT</string>
-    <string name="payment">PAYMENT</string>
+    <string name="Connect_to_Wellness_Experts">Connect to Provider</string>
+    <string name="connect_to_wellness_experts">CONNECT TO PROVIDER</string>
+    <string name="browse_wellness_experts">BROWSE PROVIDERS</string>
+    <string name="SUPPORT">SUPPORT</string>
+    <string name="support">support</string>
+    <string name="PAYMENT">PAYMENT</string>
+    <string name="payment">payment</string>
     <string name="message">MESSAGE</string>
     <string name="messages">MESSAGES</string>
     <string name="tab_title">Title</string>
@@ -183,10 +150,18 @@
     <string name="my_dashboard">MY DASHBOARD</string>
     <string name="online">ONLINE</string>
     <string name="offline">OFFLINE</string>
+    <string name="message_string">message</string>
+    <string name="error">error</string>
+    <string name="status">status</string>
 
 
+    <string name="talk_to_pacifyr">Talk to your Provider using chat,audio or video</string>
 
-
+    <string name="connect_pacifyr">CONNECT TO PROVIDERS</string>
+    <string name="connect_pacifyr_underline"><u>CONNECT TO PROVIDERS</u></string>
+    <string name="browse_pacifyr">BROWSE PROVIDERS</string>
+    <string name="pref_pacifyrs">PREFERRED PROVIDERS</string>
+    <string name="signup">Sign in</string>
 
 
     <!--quickblok-->
@@ -217,7 +192,7 @@
     <string name="action_screen_share">Screen share</string>
     <string name="action_update_opponens_list">Update opponents list</string>
     <string name="action_logout">Logout</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">Sign in</string>
     <string name="action_start_video_call">Video call</string>
     <string name="action_start_audio_call">Audio call</string>
 
@@ -330,7 +305,7 @@
 
     <string name="pref_disconnect_time_interval_key">disconnect_time_interval</string>
     <string name="pref_disconnect_time_interval_title">Disconnect Time Interval (10&#8211;90s)</string>
-    <string name="pref_disconnect_time_interval_default_value">10</string>
+    <string name="pref_disconnect_time_interval_default_value">20</string>
     <integer name="pref_disconnect_time_interval_min_value">10</integer>
     <integer name="pref_disconnect_time_interval_max_value">90</integer>
     <integer name="pref_disconnect_time_interval_step_size">5</integer>
@@ -386,5 +361,22 @@
 
     <string name="missed">Missed</string>
     <string name="declined">Declined</string>
+    <string name="pref_wellness_experts">Preferred Providers</string>
+    <string name="This_Week">This Week</string>
+    <string name="opening_location">Location</string>
+    <string name="opening_count">No of open position</string>
+    <string name="opening_salary">Starting Salary</string>
+    <string name="number_of_opening">Number of opening</string>
+
+    <string name="main_font_medium">Avenir-Medium.ttf</string>
+    <string name="free_pacifyr">freePacifyr</string>
+    <string name="please_login_to_continue">Session expired. Please login to continue.</string>
+    <string name="plan_amount">plan amount</string>
+    <string name="plan_sessions">plan sessions</string>
+    <string name="plan_minutes">plan minutes</string>
+
+    <string name="plan_amount_case">Plan Amount</string>
+    <string name="plan_sessions_case">Plan Sessions</string>
+    <string name="plan_minutes_case">Plan Minutes</string>
 
 </resources>

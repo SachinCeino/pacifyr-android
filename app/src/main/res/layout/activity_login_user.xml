@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -12,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"></include>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/signup_view" />
+        android:background="@color/signup_view" />-->
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
@@ -27,11 +28,11 @@
 
         <ImageView
             android:id="@+id/logo_blue"
-            android:layout_width="170dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="160dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:src="@drawable/omhealth_icon_orange"
+            android:src="@drawable/powered_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,27 +51,25 @@
             app:layout_constraintTop_toBottomOf="@+id/logo_blue"
             app:layout_marginTopPercent="10%">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/enter_phone_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/e_phonenumber"
                 android:textColor="@color/black"
-                android:textSize="17sp"
-                app:fontName="@string/raleway_bold" />
+                android:focusedByDefault="false"
+                android:textSize="17sp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:id="@+id/LinearLayout_phone"
+                android:background="@drawable/edittext_black_curve"
                 android:gravity="center"
                 android:padding="5dp">
 
-                <!--<com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />-->
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -80,13 +79,14 @@
                     android:layout_below="@+id/textView" />
 
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/phone_cedit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/phone"
+                    android:layout_height="40dp"
+                    android:hint="Phone number"
                     android:inputType="phone"
+                    android:background="@null"
+                    android:theme="@style/OMEditTheme"
                     android:maxLength="10"
                     android:maxLines="1"
                     android:textColorHint="@color/phone_grey"
@@ -94,10 +94,16 @@
 
             </LinearLayout>
 
-            <View
+            <TextView
+                android:id="@+id/TextView_phone_error"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/signup_view" />
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
 
         </LinearLayout>
 
@@ -126,16 +132,15 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/request_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    app:fontName="@string/avanti_std_bk"
                     android:text="@string/send_confirmcode"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
 
             </RelativeLayout>
@@ -149,7 +154,7 @@
                 android:layout_marginRight="10dp"
                 android:visibility="gone" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,8 +162,8 @@
                 android:layout_margin="5dp"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="@string/sms_text_login"
-                android:textColor="@color/medium_grey_pacifyr"
+                android:id="@+id/sms_text_login"
+                android:textColor="@color/black"
                 android:textSize="@dimen/sp12" />
 
         </LinearLayout>
@@ -184,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -191,12 +197,12 @@
                     android:layout_height="1dp"
                     android:background="@color/signup_view" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:text="or"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey_dark"
                     android:textSize="@dimen/sp16" />
 
                 <View
@@ -211,27 +217,27 @@
                 android:id="@+id/facebook_rlay"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:background="@drawable/fb_signup_btn"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/fb_tcv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    app:fontName="@string/avanti_std_bk"
                     android:text="@string/login_fb"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="7dp"
                     android:padding="3dp"
                     android:src="@drawable/facebook" />
 
@@ -240,7 +246,7 @@
         </LinearLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

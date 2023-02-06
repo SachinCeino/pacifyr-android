@@ -3,32 +3,32 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:textStyle="bold"
+        android:textSize="13sp"
         android:id="@+id/edu_title_ctxv"
-        android:textColor="@color/education_title"
-        android:text=""/>
-
-    <com.ceino.utilitylibrary.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:id="@+id/edu_desc_ctxv"
-        android:layout_centerHorizontal="true"
         android:textColor="@color/education_desc"
         android:text=""/>
 
-
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="11sp"
+        android:textSize="12sp"
+        android:id="@+id/edu_desc_ctxv"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/education_desc"
+        android:layout_marginLeft="3dp"
+        android:text=""/>
+
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
         android:id="@+id/edu_duration_ctxv"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="3dp"
         android:textColor="@color/education_desc" />
 
 

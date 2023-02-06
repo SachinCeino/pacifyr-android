@@ -18,8 +18,8 @@
             android:gravity="center">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="50dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/user_cimv"
                 android:src="@drawable/placeholder_user"/>
 
@@ -35,12 +35,13 @@
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jithish"
+                android:text=""
                 android:textSize="17sp"
                 android:textStyle="bold"
+                android:minEms="10"
                 android:textColor="@color/blue_text_dark"
                 android:id="@+id/name_user_ctxv"/>
             <LinearLayout
@@ -54,7 +55,7 @@
                     android:id="@+id/call_type_img"
                     android:src="@drawable/ic_video_cam_blue"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -65,10 +66,10 @@
             </LinearLayout>
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 android:layout_marginTop="10dp"
                 android:text="01-03-2018 10.27 am"
                 android:textColor="@color/grey_dark"

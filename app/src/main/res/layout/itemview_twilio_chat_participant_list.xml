@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="14dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingEnd="0dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/img_chat_avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fl_go_arrow"
+            app:layout_constraintStart_toEndOf="@+id/mImage"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/mtv_name"
+                style="@style/DialogNameStyle"
+                tools:text="Room name" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/mtv_last_message"
+                style="@style/DialogLastMessageStyle"
+                tools:text="on the right side works on the right side works" />
+        </LinearLayout>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_last_massage"
+            android:id="@+id/mtv_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="14dp"
+            tools:text="Yesterday" />
+
+        <FrameLayout
+            android:id="@+id/fl_go_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mtv_date">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/mtv_unread_count"
+                style="@style/DialogUnreadCounterStyle"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_date"
+                tools:text="4"
+                android:layout_marginEnd="14dp"/>
+
+            <ImageView
+                android:layout_height="35dp"
+                android:layout_width="35dp"
+                android:id="@+id/img_arrow"
+                android:src="@drawable/ic_go_arrow"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/color_chat_list_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="14dp"/>
+
+
+    <!--<LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@color/profile_background" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/mName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

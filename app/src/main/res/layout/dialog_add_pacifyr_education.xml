@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/collage_edt"
                 android:padding="10dp"
-                android:inputType="textCapWords"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textCursorDrawable="@color/grey_hex_4c"
                 android:background="@null"
                 android:hint="@string/prompt_collage"/>
@@ -81,7 +81,7 @@
                 android:background="@color/grey_hex_6c"
                 app:layout_constraintEnd_toEndOf="@+id/name_txv"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp18"
@@ -95,7 +95,7 @@
                 android:background="@color/grey_hex_6c"
                 app:layout_constraintEnd_toEndOf="@+id/name_txv"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp18"
@@ -139,7 +139,7 @@
                 jp:ignore="MissingConstraints" />-->
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/save_ctxv"
                 android:layout_width="80dp"
                 android:gravity="center"

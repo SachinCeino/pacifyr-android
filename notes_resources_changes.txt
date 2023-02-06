@@ -1,0 +1,33 @@
+
+* FONT
+        1.ActionBarCommonFont.otf ---->Action bar Title font
+
+
+
+* DRAWABLE XML
+        1.gray_actionbar_background.xml--->Action bar background
+        2.sign_in_background_round_corner.xml -->signin and register button style..fill color or transparent
+
+
+
+* DRAWABLE IMAGES
+        1.signscreenlogo.png  --->sign page logo
+        2.loginbg.png---->login background image
+        3.splash.png--->splash background
+        4.powered_logo.png-->inregister screen logo
+        5.welcometour1,welcometour2,welcometour3
+
+
+
+* COLORS
+        1.check the commented line //new colour codes common colours are kept in last
+         these are the changing colour when we need to build  new app
+
+
+
+* STRING CHANGES
+        1.get_ready_feel_better
+        2.Free Introductory call time
+        3.register_terms_text
+        4.check the commented line /** URLS **/ uder this comneted line  string should change
+         respectively when new app build.

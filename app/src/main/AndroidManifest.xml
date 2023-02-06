@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pacifyr.omhealthcare">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.pacifyr.client">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -9,45 +10,54 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-    <uses-permission
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--<uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="18" />-->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <!--<uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-feature android:name="android.hardware.cameraImage.front" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--<uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>-->
+    <!--<uses-feature android:name="android.hardware.cameraImage.front" />-->
     <uses-feature android:name="android.hardware.microphone" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <uses-feature android:name="android.hardware.cameraImage" />
-    <uses-feature android:name="android.hardware.cameraImage.autofocus" />
-    <uses-feature android:name="android.hardware.cameraImage" />
-    <uses-feature android:name="android.hardware.cameraImage.autofocus" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.hardware.sensor.proximity"/>
+    <!--<uses-feature android:name="android.hardware.cameraImage" />-->
+    <!--<uses-feature android:name="android.hardware.cameraImage.autofocus" />-->
+    <!--  <uses-feature android:name="android.hardware.cameraImage" />
+      <uses-feature android:name="android.hardware.cameraImage.autofocus" />
+  -->
+    <!--for android 10 call notification UI-->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <!-- android:name=".application.PacifyerApplication" -->
+    <!-- android:name=".application.PacifyrApplication" -->
     <application
-        android:name=".quickblox.App"
+        android:name="com.pacifyr.client.quickblox.App"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:launchMode="singleInstance"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/CustomNoActionBarTheme2">
+        android:largeHeap="true"
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/CustomNoActionBarDarkTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -68,126 +78,180 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.WelcomeTourActivity" />
+        <activity android:name="com.pacifyr.client.home.WelcomeTourActivity"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".activity.SplachScreen"
+            android:name="com.pacifyr.client.activity.SplashScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen"
+            android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!--        Firebase dynamic link-->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="pacifyrapp.page.link"
+                    android:scheme="https" />
+                <data
+                    android:host="pacifyrapp.com"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
+
+
+        <activity android:name="com.paytm.pgsdk.PaytmPGActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+
+        <activity
+            android:name="com.pacifyr.client.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.sign.LogInCodeVerifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.pacifyr.client.sign.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.IdentityDocumnetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.pacifyr.client.home.account.AccountEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.pacifyr.client.sign.SignActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen" />
+        <activity
+            android:name="com.pacifyr.client.sign.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/CustomNoActionBarTheme2" />
 
         <activity
-            android:name=".sign.LogInCodeVerifyActivity"
+            android:name="com.pacifyr.client.activity.ActivityChangeEmotionFromCall"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".sign.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".home.account.AccountEditActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".sign.SignActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".sign.SignUpActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <service
-            android:name=".network.NetworkService"
+            android:name="com.pacifyr.client.network.NetworkService"
             android:exported="false" />
 
         <activity
-            android:name=".sign.LoginActivity"
+            android:name="com.pacifyr.client.sign.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".sign.LoginPhoneActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.sign.LoginPhoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.ListPacifyrScreenActivity"
+            android:name="com.pacifyr.client.home.ListPacifyrScreenActivity"
             android:label="@string/title_activity_home_screen"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".quickblox.chat.ui.activity.AttachmentImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark" />
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
 
-        <service
-            android:name=".network.NetworkService"
-            android:exported="false" />
 
         <activity
-            android:name=".home.PacifyrDashboardActivity"
+            android:name="com.pacifyr.client.home.PacifyrDashboardActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <!--<activity
+            android:name=".home.EmployerList"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/CustomNoActionBarTheme2" />-->
         <activity
-            android:name=".home.DashboardActivity"
+            android:name="com.pacifyr.client.home.DashboardActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen" />
         <activity
-            android:name=".home.FeelSelectActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".sign.PacifyrTermsPolicyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.CallSummaryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.CustomerListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.SessionSummaryActivity"
+            android:name="com.pacifyr.client.home.FeelSelectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.MissedandDeclinedActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".home.EarningsActivity"
+            android:name="com.pacifyr.client.sign.PacifyrTermsPolicyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.LastSessionActivity"
+            android:name="com.pacifyr.client.home.CallSummaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.SummaryDetailActivity"
+            android:name="com.pacifyr.client.home.CustomerListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.RatingDetailActivity"
+            android:name="com.pacifyr.client.home.SessionSummaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.CustomerDetailActivity"
+            android:name="com.pacifyr.client.home.MissedandDeclinedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".Payment.AddCreditCardActivity"
+            android:name="com.pacifyr.client.home.EarningsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".Payment.AlertAddCrediCardActivty"
+            android:name="com.pacifyr.client.home.LastSessionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.home.OfficeVisitSummary"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.home.SummaryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.home.RatingDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.home.CustomerDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.Payment.AddCreditCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.Payment.AlertAddCreditCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -197,96 +261,89 @@
         <activity android:name=".quickblox.VideoChatActivity" />
         -->
         <activity
-            android:name=".sign.RegisterVerifyActivity"
+            android:name="com.pacifyr.client.sign.RegisterVerifyActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".sign.CodeVerifyActivity"
+            android:name="com.pacifyr.client.sign.CodeVerifyActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".activity.TermsOfUseActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.activity.TermsOfUseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.ConnectToPacifyrActivity"
-            android:launchMode="singleTop"
+            android:name="com.pacifyr.client.activity.AppointmentDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name=".home.MainVideoPlayerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
 
+        <activity
+            android:name="com.pacifyr.client.activity.ResourceAllActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.home.ConnectToPacifyrActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.sign.DiscountCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name=".activity.PrescriptionViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+
+
         <!-- android:launchMode = "singleInstance" -->
         <activity
-            android:name=".home.ProfileScreenActivity"
+            android:name="com.pacifyr.client.home.ProfileScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <!-- <activity android:name=".videocall.StartVideoActivity" /> -->
         <activity
-            android:name=".home.ConnectToSinglePacifyrActivity"
-            android:launchMode="singleTop"
+            android:name="com.pacifyr.client.home.ConnectToSinglePacifyrActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/CustomNoActionBarTheme2" />
+
+        <activity
+            android:name="com.pacifyr.client.quickblox.activities.PermissionsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
-            android:name=".quickblox.activities.CallActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:excludeFromRecents="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseAppTheme" />
-        <activity
-            android:name=".quickblox.activities.OpponentsActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".quickblox.activities.PermissionsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".quickblox.activities.SettingsActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Payment.EditCardActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- quickblox chat -->
 
         <activity
-            android:name=".quickblox.chat.ui.activity.SelectUsersActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".quickblox.chat.ui.activity.DialogsActivity"
+            android:name="com.pacifyr.client.Payment.EditCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
-            android:name=".quickblox.chat.ui.activity.ChatActivity"
+
+
+        <!--<activity
+            android:name=".home.CheckinActivity"
+            android:label="@string/activity_checkin"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!-- android:theme="@style/ChatActivityTheme" -->
-        <activity
-            android:name=".quickblox.chat.ui.activity.ChatInfoActivity"
-            android:label="@string/chat_info"
-            android:screenOrientation="portrait" />
+            android:theme="@style/CustomNoActionBarTheme2" />-->
 
-        <service
-            android:name=".quickblox.chat.gcm.GcmChatPushListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service android:name=".quickblox.services.CallService" />
 
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+        <!-- <receiver
+             android:name="com.google.android.gms.gcm.GcmReceiver"
+             android:exported="true"
+             android:permission="com.google.android.c2dm.permission.SEND">
+             <intent-filter>
+                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.quickblox.sample.groupchatwebrtc" />
-            </intent-filter>
-        </receiver>
-        <receiver
+                 <category android:name="com.quickblox.sample.groupchatwebrtc" />
+             </intent-filter>
+         </receiver>-->
+        <!--<receiver
             android:name=".receiver.PacifyrReceiver"
             android:enabled="true"
             android:exported="true"
@@ -300,70 +357,139 @@
 
                 <category android:name="com.pacifyr.pacifyrapp" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
-        <service
-            android:name=".quickblox.services.gcm.GcmPushListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.quickblox.messages.services.gcm.QBGcmPushInstanceIDService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>
 
-        <meta-data
-            android:name="com.quickblox.messages.TYPE"
-            android:value="GCM" />
-        <meta-data
-            android:name="com.quickblox.messages.SENDER_ID"
-            android:value="@string/sender_id" />
-        <meta-data
-            android:name="com.quickblox.messages.QB_ENVIRONMENT"
-            android:value="DEVELOPMENT" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+
 
         <activity
-            android:name=".home.ReviewListingActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.home.ReviewListingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.PolicyDocumentActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.home.PolicyDocumentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.MySessionsActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.home.MySessionsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".home.PaymentActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.home.PaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".sign.PacifyrRequestAccessActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.sign.PacifyrRequestAccessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".sign.AddPacifyrEducationActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.pacifyr.client.sign.AddPacifyrEducationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <activity
-            android:name=".sign.AddPacifyrCertificatesActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".sign.UploadActivity" />
+            android:name="com.pacifyr.client.sign.AddPacifyrCertificatesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity android:name="com.pacifyr.client.sign.UploadActivity"
+            android:theme="@style/CustomNoActionBarTheme2" />
+
+        <!--//Events-->
+        <!--<activity
+            android:name=".events.activity.EventActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name=".events.activity.CaptureActivityPortrait"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+
+        &lt;!&ndash;//offers&ndash;&gt;
+        <activity
+            android:name=".events.activity.MyInterviewsActvity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />-->
+
+        <activity
+            android:name=".utility.PdfViewer"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+
+        <activity
+            android:name=".twiliochat.TwilioConversationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".twiliochat.TwilioCoversationListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".twilio.VideoActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:launchMode="singleInstance"
+            android:resizeableActivity="true"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:excludeFromRecents="true"
+            android:supportsPictureInPicture="true"/>
+
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.pacifyr.omhealthcare.android.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".sign.CrisisActivity"></activity>
+        <activity
+            android:name="com.pacifyr.client.sign.CrisisActivity"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.emotionupdate.SelectEmotionActivity"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.home.AndroidDashoardActivity"
+            android:label="@string/title_activity_android_dashoard"
+            android:theme="@style/CustomNoActionBarTheme2"></activity>
+
+        <service
+            android:name="com.pacifyr.client.utils.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+        <receiver
+            android:name=".netconnectionlistener.ConnectionCheck"
+            android:exported="false">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".netconnectionlistener.CheckNetworkJob"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+
     </application>
 
 </manifest>

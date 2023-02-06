@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -27,7 +26,7 @@
         android:layout_below="@+id/include2"
         android:background="@color/white">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -45,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_image_upload" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/name_txv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +54,7 @@
                 android:background="@null"
                 android:hint="@string/prompt_name"
                 android:textColor="@color/black"
-                android:inputType="textCapWords"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textCursorDrawable="@color/grey_hex_c5"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -72,7 +71,7 @@
                 app:layout_constraintStart_toStartOf="@+id/name_txv"
                 app:layout_constraintTop_toBottomOf="@+id/name_txv" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/email_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -111,7 +110,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/email_txv" />
 
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/phone_cedit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -139,7 +138,7 @@
                 app:layout_constraintStart_toStartOf="@+id/phone_cedit"
                 app:layout_constraintTop_toBottomOf="@+id/phone_cedit" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/birth_year_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -161,7 +160,7 @@
                 app:layout_constraintStart_toStartOf="@+id/birth_year_txv"
                 app:layout_constraintTop_toBottomOf="@+id/birth_year_txv" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/snapshot_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -169,7 +168,7 @@
                 android:background="@null"
                 android:ems="10"
                 android:hint="@string/snapshot"
-                android:inputType="textMultiLine"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@color/grey_hex_c5"
                 app:layout_constraintEnd_toEndOf="@+id/birth_year_txv"
@@ -185,7 +184,7 @@
                 app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
                 app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -196,7 +195,7 @@
                 app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
                 app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/cost_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -230,7 +229,7 @@
                 app:layout_constraintStart_toStartOf="@+id/cost_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/cost_ctxv">
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/education_cedt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -239,7 +238,7 @@
                     android:text="@string/educations"
                     android:textColor="@color/grey_hex_4e" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/add_education_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -250,7 +249,7 @@
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintHorizontal_bias="1.0" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/education_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -258,7 +257,7 @@
                     android:layout_marginTop="15dp"
                     android:visibility="visible">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <View
                     android:id="@+id/edu_view"
@@ -281,19 +280,19 @@
                 app:layout_constraintStart_toStartOf="@+id/education_rlay"
                 app:layout_constraintTop_toBottomOf="@+id/education_rlay">
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/certificates_cedt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:ems="10"
                     android:enabled="false"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:text="@string/certificates"
                     android:textColor="@color/grey_hex_4e"
                     app:layout_constraintHorizontal_bias="0.0" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/add_certificates_cedit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -307,7 +306,7 @@
                     android:layout_marginLeft="8dp"
                     android:gravity="end" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/certificates_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -315,7 +314,7 @@
                     android:layout_marginTop="15dp"
                     android:visibility="visible">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <View
                     android:id="@+id/certificates_view"
@@ -328,7 +327,7 @@
 
             </RelativeLayout>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/specialities_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -351,7 +350,7 @@
                 app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/upload_docs_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -383,12 +382,12 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/document_upload_instruction"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/upload_docs_ctxv"
                 app:layout_constraintStart_toStartOf="@+id/upload_docs_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/upload_docs_ctxv" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/file_list_rcv"
@@ -403,7 +402,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/accept_policy_text"
+                android:text="@string/register_terms_text"
                 app:layout_constraintEnd_toEndOf="@+id/file_list_rcv"
                 app:layout_constraintStart_toStartOf="@+id/file_list_rcv"
                 app:layout_constraintTop_toBottomOf="@+id/file_list_rcv" />
@@ -424,7 +423,7 @@
                 app:layout_constraintStart_toStartOf="@+id/terms_of_use_cbox"
                 app:layout_constraintTop_toBottomOf="@+id/terms_of_use_cbox">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/request_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -439,7 +438,7 @@
             </RelativeLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 

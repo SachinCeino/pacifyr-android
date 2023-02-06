@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+
+                    >
+
+                    <com.pacifyr.client.events.views.EventTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtv_position_title"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="3dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/opening_location"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey_hex_8b"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:padding="3dp"
+                            android:layout_marginBottom="3dp" />
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/txtv_opening_location"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey_hex_8b"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:padding="3dp"
+                            android:text=":  Android Developer"
+                            android:layout_marginBottom="3dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/opening_count"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey_hex_8b"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:padding="3dp"
+                            android:layout_marginBottom="3dp" />
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/txtv_numberOf_openings"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey_hex_8b"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:padding="3dp"
+                            android:text=":  8"
+                            android:layout_marginBottom="3dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/opening_salary"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey_hex_8b"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:padding="3dp"
+                            android:layout_marginBottom="3dp" />
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/txtv_salary"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey_hex_8b"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:padding="3dp"
+                            android:text=":  80000K"
+                            android:layout_marginBottom="3dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_color"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                </View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.pacifyr.client.events.views.EventTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/title_size_in_detail"
+                            android:textStyle="bold"
+                            android:text="@string/bennefits"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:id="@+id/layout_bennefits"></LinearLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_color"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                </View>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.pacifyr.client.events.views.EventTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/title_size_in_detail"
+                            android:textStyle="bold"
+                            android:text="@string/qualification"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="3dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:id="@+id/layout_qualification"></LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_color"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                </View>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.pacifyr.client.events.views.EventTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/title_size_in_detail"
+                            android:textStyle="bold"
+                            android:text="@string/website"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="3dp" />
+
+                        <com.pacifyr.client.events.views.EventTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/event_sub_title_size_in_detail"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:id="@+id/txtv_company_website"
+                            android:padding="3dp"
+                            android:layout_marginBottom="3dp" />
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </RelativeLayout>
+</RelativeLayout>

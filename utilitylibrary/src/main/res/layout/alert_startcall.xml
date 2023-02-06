@@ -20,16 +20,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyrapp.utilitylibrary.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="8dp"
             android:layout_centerVertical="true"
-            android:text="Connect to"
-            android:textSize="15sp"/>
+            android:text="Connect to Provider"
+            app:fontName="@string/main_font_medium"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/connectTo"
+             />
 
-        <com.ceino.utilitylibrary.DeviceFitImageView
+        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:width_percentage="9"
@@ -37,76 +40,125 @@
             android:id="@+id/close_dimv"
             android:scaleType="fitXY"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_clear_black_24dp"/>
+            android:src="@drawable/ic_clear_black_24dp"
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 
+    <com.pacifyrapp.utilitylibrary.CustomFontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginTop="3dp"
+        android:id="@+id/pacifyr_call_intro"
+        android:visibility="gone"
+        app:fontName="@string/main_font_medium"
+        android:gravity="left"
+        android:textColor="#646464"
+        android:textStyle="bold"
+        android:layout_gravity="left"
+        android:layout_marginBottom="3dp"
+        ></com.pacifyrapp.utilitylibrary.CustomFontTextView>
 
 
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/grey"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"></View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:weightSum="2"
+        android:padding="15dp"
+        android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_height="70dp"
-            android:layout_width="70dp"
-            android:layout_gravity="center"
-            android:id="@+id/image_dialog_icon"
-            android:src="@drawable/placeholder_user"/>
-
-        <com.ceino.utilitylibrary.CustomFontTextView
-            android:id="@+id/text_dialog_name"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:padding="2dp"
-            android:textSize="@dimen/sp14"
-            jp:fontName="@string/raleway_light"
-            android:text="Name" />
-
-        <com.ceino.utilitylibrary.CustomFontTextView
-            android:id="@+id/text_dialog_message"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:padding="2dp"
-            android:text="Message"
-            android:textSize="@dimen/sp14"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            />
+            android:gravity="center">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_height="90dp"
+                android:layout_width="90dp"
+                android:layout_gravity="center"
+                android:id="@+id/image_dialog_icon"
+                android:src="@drawable/placeholder_user"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
+                android:id="@+id/text_dialog_name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:padding="2dp"
+                android:textSize="@dimen/sp14"
+                app:fontName="@string/main_font_medium"
+                android:text="Name" />
+
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
+                android:id="@+id/text_dialog_message"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:padding="2dp"
+                android:text="Message"
+                android:textSize="@dimen/sp14"
+                app:fontName="@string/main_font_medium"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
+                android:id="@+id/text_wallet_balance"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:padding="2dp"
+                android:text=""
+                android:visibility="gone"
+                android:textSize="@dimen/sp14"
+                app:fontName="@string/main_font_medium"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
+
+            <RelativeLayout
+                android:layout_gravity="left"
+                android:id="@+id/save_rlay"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                >
+
+                <com.pacifyrapp.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Call"
+                    android:gravity="left"
+                    android:id="@+id/save_ctxv"
+                    android:textSize="@dimen/sp15"
+                    android:background="@drawable/blue_border_curved"
+                    app:fontName="@string/main_font_medium"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimary" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
 
 
 
 
     </LinearLayout>
-
-
-
-
-
-    <RelativeLayout
-
-        android:layout_gravity="center"
-        android:id="@+id/save_rlay"
-        android:layout_width="match_parent"
-        android:layout_marginTop="2dp"
-        android:padding="3dp"
-        android:layout_height="wrap_content"
-        >
-
-        <com.ceino.utilitylibrary.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start Call"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/save_ctxv"
-            android:textSize="@dimen/sp15"
-            android:textColor="@color/colorPrimary" />
-
-    </RelativeLayout>
 
 
 </LinearLayout>

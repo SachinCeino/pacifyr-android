@@ -12,12 +12,12 @@
         android:id="@+id/text_tv"
         android:text="Hello World!" />
 
-    <com.pacifyr.omhealthcare.activity.CompoundView
+    <com.pacifyr.client.activity.CompoundView
         android:layout_width="match_parent"
         android:layout_below="@+id/text_tv"
         android:padding="20dp"
         android:layout_height="match_parent">
 
-    </com.pacifyr.omhealthcare.activity.CompoundView>
+    </com.pacifyr.client.activity.CompoundView>
 
 </RelativeLayout>

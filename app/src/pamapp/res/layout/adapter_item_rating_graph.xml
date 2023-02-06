@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="30dp"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:gravity="center"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center">
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:id="@+id/graphLaoyutColor"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="#FF7E57"
+            android:gravity="center_horizontal">
+
+
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/indicator"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="7dp"
+            app:srcCompat="@drawable/doctor_rating_marker" />
+    </RelativeLayout>
+</RelativeLayout>

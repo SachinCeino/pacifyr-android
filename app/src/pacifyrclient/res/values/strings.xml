@@ -1,0 +1,133 @@
+<resources>
+    <string name="app_name">Pacifyr for Clients</string>
+    <string name="tutorial">TUTORIAL</string>
+    <string name="policy_document">POLICY DOCUMENTS</string>
+    <string name="app_pacifyr">Pacifyr</string>
+    <string name="title_activity_home_screen">HomeScreenActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title">Title</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="lest_us_know">Let us know if you have any issues or questions</string>
+    <string name="question_or_issue">Type your question or issue</string>
+
+    <string name="add">Add</string>
+    <string name="cost_for_one_hour">Cost for one hour</string>
+    <string name="price">Price</string>
+
+    <string name="sms_text_login">will send you an SMS message to confirm your phone number</string>
+    <string name="call_emergency">If this is an emergency call, please hang up and dial 911 or rush to the nearest hospital.</string>
+    <string name="card_number">Card Number</string>
+
+    <!--new adding-->
+    <string name="get_ready_feel_better">Feel better with pacifyr</string>
+    <string name="connect_to_wellness">Connect to wellness/ health Expert through video, audio or chat.</string>
+    <string name="thirty_free">Free Introductory call time.</string>
+    <string name="no_credit_card">Free Introductory call time.</string>
+    <string name="if_emergency">If in emergency call 911 or rush to an emergency room.</string>
+
+
+    <string name="term_of_use2">Terms of Use</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="bussines_agrement">Business Associate Agreement</string>
+    <string name="show_all">Show all</string>
+    <string name="copyright">Copyright</string>
+    <string name="request_access_for_pacifyrs">Request access for Providers</string>
+    <string name="register_terms_text">I have read, understood and agree to be bound by the</string>
+    <string name="education">Education</string>
+    <string name="add_education">Add Education</string>
+    <string name="add_certificate">Add Certification</string>
+    <string name="certificates">Certificates</string>
+    <string name="specialities">Specialities</string>
+    <string name="upload_documents">Upload Documents</string>
+    <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
+    <string name="request">Request</string>
+    <string name="year">Year</string>
+    <string name="payout">PAYOUT</string>
+    <string name="no_pacifyr">There is no Provider available for selected Category.</string>
+    <string name="educations">Education</string>
+    <string name="user_type_error">This is a Provider account. Please use Pacifyr for counselors app to sign in</string>
+    <string name="if_emergency2">If there is an emergency, please call 911 or rush to the nearest hospital.</string>
+
+    <string name="CRISIS_INFO">CRISIS INFO</string>
+    <string name="crisis_info">Crisis Info</string>
+
+    <string name="signout_message">Are you sure you want to logout ?</string>
+
+
+    <string name="suicide_header">National Suicide Prevention Lifeline</string>
+    <string name="suicide_url"><u>www.suicidepreventionlifeline.org</u></string>
+    <string name="suicide_http_url">https://suicidepreventionlifeline.org/</string>
+    <string name="suicide_talk">1-800-273-TALK (8255)</string>
+    <string name="suicicde_tty">TTY: 1-800-799-4889</string>
+    <string name="suicide_description">24-hour toll-free, private suicide prevention lifeline,
+Yor call is routed to the nearest crisis center.</string>
+
+
+    <string name="samhsa_header">SAMHSA Referral Helpline</string>
+    <string name="samhsa_talk">1-800-662-HELP (4357)</string>
+    <string name="samhsa_tty">TTY: 1-800-487-4889</string>
+    <string name="samhsa_description">24-hour free and private treatment referral and
+        information about mental and/or substance disorders, prevention, and recovery.
+        Calls in Englisi and Spanish.</string>
+
+    <string name="veterans_header">Veterans Crisis Line</string>
+    <string name="veterans_url"><u>www.veteranscrisisline.net</u></string>
+    <string name="veterans_http_url">https://www.veteranscrisisline.net/</string>
+    <string name="veterans_talk">1-800-273-8255</string>
+    <string name="veterans_tty">TTY: 1-800-799-4889</string>
+    <string name="veterans_description">Connects vetarans in crisis with a qualified and
+        caring Department of Vetarans Affairs (VA) responders. User private,
+        free hotline, chat, or text. Also for families and friends..</string>
+    <string name="Reviews">Reviews</string>
+    <string name="RESOURCES">RESOURCES</string>
+    <string name="resources">RESOURCES</string>
+    <string name="start_session">Session Started</string>
+
+    <string name="pacifyr_audio">PACIFYR AUDIO CALL</string>
+    <string name="pacifyr_video">PACIFYR VIDEO CALL</string>
+
+    <string name="have_discount_code">Have a coupon code?</string>
+    <string name="skip_this_step">Skip this step</string>
+    <string name="validate">Validate</string>
+    <string name="user_first_time_emotion">Select your emotion before your call</string>
+    <string name="more_wellness_experts">Browse all Providers</string>
+
+
+
+
+    /** URLS **/
+   <string name="CHANNEL_ID">pacifyr_general_notifications</string>
+    <string name="APP_SOURCE">pacifyr</string>
+    <string name="URL_PRIVACY_POLICY">https://pacifyr.com/privacy.html</string>
+    <string name="URL_TERMS">https://pacifyr.com/terms.html</string>
+    <string name="URL_DISPUTE_POLICY">https://pacifyr.com/copyright.html</string>
+
+    <string name="URL_PRIVACY_POLICY_INDIA">https://pacifyr.com/India_Privacy_Policy.pdf</string>
+    <string name="URL_TERMS_INDIA">https://pacifyr.com/Terms_of_Use%20_Clients.pdf</string>
+    <string name="URL_DISPUTE_POLICY_INDIA">https://pacifyr.com/Indian_Copyright_Dispute_Policy.pdf</string>
+
+    <string name="audio_call">AUDIO CALL</string>
+    <string name="video_call">VIDEO CALL</string>
+    <string name="pref_wellness_experts">Preferred Providers</string>
+    <string name="This_Week">This Week</string>
+    <string name="sessions_summary">SESSIONS SUMMARY</string>
+    <string name="no_wellness_experts_category">No provider in the list</string>
+
+    <string name="note_add_tilte">Add Notes</string>
+
+    <string name="register">Register</string>
+    <string name="main_font_bold">Raleway-SemiBold.ttf</string>
+    <string name="main_font_medium">Raleway-SemiBold.ttf</string>
+    <string name="invalid_coupon_code">Invalid coupon code</string>
+</resources>

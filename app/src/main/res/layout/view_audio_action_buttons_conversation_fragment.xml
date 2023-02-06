@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_action_buttons"
     style="@style/MatchWidth"
-    android:layout_alignParentBottom="true"
+    android:layout_above="@+id/billing_status"
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="@dimen/element_fragment_margin_small"
     android:background="@android:color/transparent"
@@ -13,7 +13,6 @@
         android:layout_width="@dimen/toggle_button_params"
         android:layout_height="@dimen/toggle_button_params"
         android:layout_gravity="center_vertical"
-
         android:background="@drawable/call_speaker_toggle_background"
         android:checked="true"
         android:visibility="visible"

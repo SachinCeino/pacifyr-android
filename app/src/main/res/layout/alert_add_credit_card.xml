@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:padding="15dp"
-    android:background="@color/transparent"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 <LinearLayout
 
     android:layout_width="match_parent"
@@ -20,7 +18,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.ceino.utilitylibrary.CustomFontTextView
+
+        <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -29,7 +28,7 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="25sp"/>
-    <com.ceino.utilitylibrary.DeviceFitImageView
+    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
         android:id="@+id/close_dimv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +38,7 @@
         app:height_percentage="4"
         app:parameter="aspect_height" />
     </RelativeLayout>
-    <com.ceino.utilitylibrary.CustomEditText
+    <com.pacifyrapp.utilitylibrary.CustomEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -55,7 +54,7 @@
         android:orientation="horizontal">
 
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -65,7 +64,7 @@
             android:maxLength="2"
             android:hint="MM"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -75,7 +74,7 @@
             android:maxLength="2"
             android:hint="YY"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="51dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -101,7 +100,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/blue_border_lightblue">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
