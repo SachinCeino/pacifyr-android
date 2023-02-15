@@ -64,25 +64,38 @@
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:id="@+id/rating_ctxv"
-                android:text="88 Reviews"/>
+                android:text="88 Reviews" />
 
         </LinearLayout>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:id="@+id/profile_cimv"
-            android:src="@drawable/placeholder_user"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_cimv"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_user" />
+
+            <ImageView
+                android:id="@+id/icon_medallion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end|bottom" />
+        </FrameLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
             android:id="@+id/online_offline_imv"
             android:src="@drawable/offline"/>
 

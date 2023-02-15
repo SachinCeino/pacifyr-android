@@ -1,5 +1,10 @@
 package com.pacifyr.client.home;
 
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +16,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
@@ -22,20 +26,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CertificationProfileAdapter;
 import com.pacifyr.client.adapter.EducationProfileAdapter;
-import com.pacifyr.client.adapter.SpecilaListProfileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
-import com.pacifyr.client.event.CallEvent;
-import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
@@ -52,9 +53,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -69,11 +68,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
@@ -676,14 +670,18 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             {
                 indicateOnline.setImageDrawable(getResources().getDrawable(R.drawable.online));
                 isonlineCtxv.setText("ONLINE");
-                if(!pacifyerDetial.getCurrentlyAvailable())
-                {
+                if (!pacifyerDetial.getCurrentlyAvailable()) {
                     indicateOnline.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
                     isonlineCtxv.setText("In-Session");
                 }
-            }else {
+            } else {
                 indicateOnline.setImageDrawable(getResources().getDrawable(R.drawable.offline));
                 isonlineCtxv.setText("OFFLINE");
+            }
+
+            if (isValid(pacifyerDetial.getMedallion())) {
+                ImageView iconMedallion = findViewById(R.id.icon_medallion);
+                Glide.with(context).load(GLOBAL_IMAGE_URL + pacifyerDetial.getMedallion()).into(iconMedallion);
             }
 
             //String ed[] = searchResults.get(position).getEducation();

@@ -77,6 +77,8 @@ public class MUser implements Serializable{
 
     private String image;
 
+    private String medallion;
+
     private boolean termsAccepted;
 
     private boolean chatSubscriptionRequired;
@@ -114,6 +116,7 @@ public class MUser implements Serializable{
     private String reasonForTheCall;
 
     private String zipCode;
+
     private boolean favorite;
     private String thoroughnessOfExamination;
     private String inclusionInDecisions;
@@ -135,7 +138,6 @@ public class MUser implements Serializable{
     public Boolean getDisabled() {
         return isDisabled;
     }
-
     public void setDisabled(Boolean disabled) {
         isDisabled = disabled;
     }
@@ -182,6 +184,14 @@ public class MUser implements Serializable{
 
     public void setVisitType(String visitType) {
         this.visitType = visitType;
+    }
+
+    public String getMedallion() {
+        return medallion;
+    }
+
+    public void setMedallion(String medallion) {
+        this.medallion = medallion;
     }
 
 

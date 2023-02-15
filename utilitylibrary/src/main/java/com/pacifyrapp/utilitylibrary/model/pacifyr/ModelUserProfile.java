@@ -130,7 +130,10 @@ public class ModelUserProfile
 
     private String rating;
 
+    private String medallion;
+
     //for leadersup
+
     private String zipCode;
     private String getPaidForQuickSurveys;
     private String refferedOrganisation;
@@ -140,7 +143,6 @@ public class ModelUserProfile
     private String educationStatus;
     private String schoolName;
     private String address1;
-
     private Company company;
 
     private int numberOfPredefinedSessions;
@@ -177,6 +179,14 @@ public class ModelUserProfile
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getMedallion() {
+        return medallion;
+    }
+
+    public void setMedallion(String medallion) {
+        this.medallion = medallion;
     }
 
     public String getGetPaidForQuickSurveys() {

@@ -10,331 +10,342 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-    app:layout_constraintStart_toStartOf="@+id/margin_left_guideline"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_marginTop="15dp"
-    android:layout_marginRight="10dp"
-    android:orientation="vertical">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_prof"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:contentDescription="@string/profile"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_user"
-         />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/indicator_dimv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/offline" />
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+            app:layout_constraintStart_toStartOf="@+id/margin_left_guideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_prof"
+                    android:layout_width="@dimen/swipe_card_avatar_dia"
+                    android:layout_height="@dimen/swipe_card_avatar_dia"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_user" />
+
+                <ImageView
+                    android:id="@+id/icon_medallion"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|bottom" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/indicator_dimv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/offline" />
+
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/indicator_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    android:text="@string/offline"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/margin_left_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp"
+            app:layout_constraintGuide_end="326dp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="126dp" />
 
 
         <com.pacifyr.client.customview.MainTextView
-            android:id="@+id/indicator_ctxv"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/offline"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Samsad CV"
+            android:textColor="@color/blue_text_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/right_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/specialities_ctxv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="3"
             android:textColor="@color/grey_dark"
             android:textSize="12sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-</LinearLayout>
-
-
-        <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/margin_left_guideline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp"
-        app:layout_constraintGuide_end="326dp"
-        app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="126dp"
-       />
-
-
-        <com.pacifyr.client.customview.MainTextView
-        android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Samsad CV"
-        android:textColor="@color/blue_text_dark"
-        android:textSize="20sp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/right_guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-        <com.pacifyr.client.customview.MainTextView
-        android:id="@+id/specialities_ctxv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLines="3"
-        android:textColor="@color/grey_dark"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_name"
-        app:layout_constraintHorizontal_bias="0.095"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_name"
+            app:layout_constraintHorizontal_bias="0.095"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
 
         <androidx.appcompat.widget.AppCompatRatingBar
-        android:id="@+id/myRatingBar"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:progressTint="@color/blue_text_dark"
-        app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
-        app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
+            android:id="@+id/myRatingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressTint="@color/blue_text_dark"
+            app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
+            app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
 
         <com.pacifyr.client.customview.MainTextView
-        android:id="@+id/item_review_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="88 Reviews"
-        android:textColor="@color/blue_text_dark"
+            android:id="@+id/item_review_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="88 Reviews"
+            android:textColor="@color/blue_text_dark"
             android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRatingBar"
-        app:layout_constraintEnd_toEndOf="@+id/tv_name"
-        app:layout_constraintStart_toEndOf="@+id/myRatingBar"
-        app:layout_constraintTop_toTopOf="@+id/myRatingBar" />
+            app:layout_constraintBottom_toBottomOf="@+id/myRatingBar"
+            app:layout_constraintEnd_toEndOf="@+id/tv_name"
+            app:layout_constraintStart_toEndOf="@+id/myRatingBar"
+            app:layout_constraintTop_toTopOf="@+id/myRatingBar" />
 
 
         <com.pacifyr.client.customview.MainTextView
-        android:id="@+id/price_dollar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginTop="8dp"
-        android:gravity="left"
-        android:textColor="@color/colorPrimary"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/item_review_tv"
-        app:layout_constraintStart_toStartOf="@+id/myRatingBar"
-        app:layout_constraintTop_toBottomOf="@+id/myRatingBar" />
+            android:id="@+id/price_dollar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="8dp"
+            android:gravity="left"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/item_review_tv"
+            app:layout_constraintStart_toStartOf="@+id/myRatingBar"
+            app:layout_constraintTop_toBottomOf="@+id/myRatingBar" />
 
 
         <com.pacifyr.client.customview.MainTextView
-        android:id="@+id/chat_price_ctxv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/white_round_square"
-        android:textAlignment="center"
-        android:textColor="@color/blue_text_dark"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/price_dollar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/price_dollar"
-        app:layout_constraintTop_toBottomOf="@+id/price_dollar" />
+            android:id="@+id/chat_price_ctxv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/white_round_square"
+            android:textAlignment="center"
+            android:textColor="@color/blue_text_dark"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/price_dollar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/price_dollar"
+            app:layout_constraintTop_toBottomOf="@+id/price_dollar" />
 
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/grey_hex_c3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_price_ctxv" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/grey_hex_c3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chat_price_ctxv" />
 
-    <RelativeLayout
+        <RelativeLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" >
-
-        <com.pacifyr.client.customview.MainTextView
-            android:id="@+id/description_ctxv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="4dp"
-            android:maxLines="3"
-            android:textAlignment="center"
-            android:textColor="@color/grey_dark"
-            android:textSize="13sp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description_ctxv"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <RelativeLayout
-            android:id="@+id/videocall_rlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/blue_cirlce"
-            android:gravity="center"
-            android:padding="10dp">
-
-            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                android:id="@+id/start_video_cimv"
-                android:layout_width="wrap_content"
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/description_ctxv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_video_white_2"
-                app:aspect_ratio="1"
-                app:height_percentage="9"
-                app:parameter="aspect_width"
-                app:width_percentage="8" />
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="4dp"
+                android:maxLines="3"
+                android:textAlignment="center"
+                android:textColor="@color/grey_dark"
+                android:textSize="13sp" />
 
-        </RelativeLayout>
-        <!--      <de.hdodenhof.circleimageview.CircleImageView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:scaleType="centerCrop"
-                  android:layout_centerInParent="true"
-                  android:id="@+id/start_video_cimv"
-                  android:src="@drawable/ic_video_white_2"
-                  android:background="@color/blue_pacifyr"/>-->
-        <RelativeLayout
-            android:id="@+id/audiocall_rlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:background="@drawable/blue_cirlce"
-            android:gravity="center"
-            android:padding="10dp">
 
-            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                android:id="@+id/start_audio_cimv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/connectaudio2"
-                app:aspect_ratio="1"
-                app:height_percentage="9"
-                app:parameter="aspect_width"
-                app:width_percentage="8" />
+                android:layout_below="@+id/description_ctxv"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/videocall_rlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_cirlce"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/start_video_cimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_video_white_2"
+                        app:aspect_ratio="1"
+                        app:height_percentage="9"
+                        app:parameter="aspect_width"
+                        app:width_percentage="8" />
+
+                </RelativeLayout>
+                <!--      <de.hdodenhof.circleimageview.CircleImageView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:scaleType="centerCrop"
+                          android:layout_centerInParent="true"
+                          android:id="@+id/start_video_cimv"
+                          android:src="@drawable/ic_video_white_2"
+                          android:background="@color/blue_pacifyr"/>-->
+                <RelativeLayout
+                    android:id="@+id/audiocall_rlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/blue_cirlce"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/start_audio_cimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/connectaudio2"
+                        app:aspect_ratio="1"
+                        app:height_percentage="9"
+                        app:parameter="aspect_width"
+                        app:width_percentage="8" />
+
+                </RelativeLayout>
 
 
-        <!--          <de.hdodenhof.circleimageview.CircleImageView
+                <!--          <de.hdodenhof.circleimageview.CircleImageView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:scaleType="centerCrop"
+                              android:id="@+id/start_audio_cimv"
+                              android:layout_marginLeft="25dp"
+                              android:layout_centerInParent="true"
+                              android:src="@drawable/connectaudio2"
+                              android:background="@color/blue_pacifyr"/>-->
+                <RelativeLayout
+                    android:id="@+id/chat_rlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/blue_cirlce"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:visibility="visible">
+
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/start_chat_cimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_chat_white"
+                        app:aspect_ratio="1"
+                        app:height_percentage="9"
+                        app:parameter="aspect_width"
+                        app:width_percentage="8" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/schedule_rlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/blue_cirlce"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/img_schedule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:padding="2dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_schedule"
+                        app:aspect_ratio="1"
+                        app:height_percentage="9"
+                        app:parameter="aspect_width"
+                        app:width_percentage="8" />
+
+                </RelativeLayout>
+
+                <!--  <de.hdodenhof.circleimageview.CircleImageView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:tint="@color/blue_pacifyr"
+                      android:id="@+id/start_chat_cimv"
                       android:scaleType="centerCrop"
-                      android:id="@+id/start_audio_cimv"
-                      android:layout_marginLeft="25dp"
                       android:layout_centerInParent="true"
-                      android:src="@drawable/connectaudio2"
+                      android:layout_marginLeft="25dp"
+                      android:src="@drawable/ic_chat_white"
                       android:background="@color/blue_pacifyr"/>-->
-        <RelativeLayout
-            android:id="@+id/chat_rlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:background="@drawable/blue_cirlce"
-            android:gravity="center"
-            android:padding="10dp"
-            android:visibility="visible">
 
-            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                android:id="@+id/start_chat_cimv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_chat_white"
-                app:aspect_ratio="1"
-                app:height_percentage="9"
-                app:parameter="aspect_width"
-                app:width_percentage="8" />
+            </LinearLayout>
 
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginLeft="25dp"
-            android:id="@+id/schedule_rlay"
-            android:background="@drawable/blue_cirlce">
-
-            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/img_schedule"
-                app:height_percentage="9"
-                app:parameter="aspect_width"
-                app:width_percentage="8"
-                app:aspect_ratio="1"
-                android:padding="2dp"
-                android:scaleType="fitCenter"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_schedule" />
-
-        </RelativeLayout>
-
-        <!--  <de.hdodenhof.circleimageview.CircleImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:tint="@color/blue_pacifyr"
-              android:id="@+id/start_chat_cimv"
-              android:scaleType="centerCrop"
-              android:layout_centerInParent="true"
-              android:layout_marginLeft="25dp"
-              android:src="@drawable/ic_chat_white"
-              android:background="@color/blue_pacifyr"/>-->
-
-    </LinearLayout>
-
-    </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

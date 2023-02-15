@@ -1,5 +1,7 @@
 package com.pacifyr.client.adapter;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
@@ -38,7 +41,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,8 +52,6 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 
 public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
@@ -164,6 +164,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         }
         if(isValid(searchResults)){
             imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
+            String medallion = GLOBAL_IMAGE_URL + searchResults.get(position).getMedallion();
             namePacifyr= searchResults.get(position).getFirstName() + " " + searchResults.get(position).getLastName();
             pos=position;
             rating=searchResults.get(position).getRating();
@@ -193,7 +194,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
             TextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
             TextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
-
+            ImageView iconMedallion = v.findViewById(R.id.icon_medallion);
 
            /* RelativeLayout chat_rlay = (RelativeLayout) v.findViewById(R.id.chat_rlay);
             RelativeLayout audiocall_rlay = (RelativeLayout) v.findViewById(R.id.audiocall_rlay);
@@ -203,21 +204,21 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             if(isOnline){
                 indicatorDimv.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
                 indicatorCtxv.setText("ONLINE");
-                if(!searchResults.get(position).getCurrentlyAvailable())
-                {
+                if(!searchResults.get(position).getCurrentlyAvailable()) {
                     indicatorDimv.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
                     indicatorCtxv.setText("In-Session");
                 }
-            }
-            else{
+            } else {
                 indicatorDimv.setImageDrawable(context.getResources().getDrawable(R.drawable.offline));
                 indicatorCtxv.setText("OFFLINE");
             }
 
+            if (isValid(searchResults.get(position).getMedallion())) {
+                Glide.with(context).load(medallion).into(iconMedallion);
+            }
 
 
-            if (isValid(searchResults.get(position).getDescription()))
-            {
+            if (isValid(searchResults.get(position).getDescription())) {
                 descriptionCtxv.setText(searchResults.get(position).getDescription());
             }
 
@@ -259,7 +260,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 //            RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
 
             if (isValidhtml(imgURL))
-                Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
+                Glide.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
