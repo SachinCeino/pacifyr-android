@@ -22,14 +22,30 @@
         android:id="@+id/profile_llay">
 
 
-        <com.pacifyr.client.customview.MainTextView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
+                android:layout_centerInParent="true"
                 android:textColor="@color/blue_text_dark"
-                android:textAlignment="center"
+                android:layout_gravity="center_vertical"
                 android:id="@+id/profile_name_ctxv"
-                android:text="Pacifyr Name"/>
+                android:layout_marginStart="20dp"
+                android:maxEms="13"
+                android:textSize="18sp"
+                android:text="Pacifyr Name" />
+
+            <ImageView
+                android:id="@+id/icon_medallion"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical" />
+        </RelativeLayout>
 
 
         <!-- <com.pacifyr.client.customview.MainTextView
@@ -68,23 +84,13 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_cimv"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_user" />
-
-            <ImageView
-                android:id="@+id/icon_medallion"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="end|bottom" />
-        </FrameLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_cimv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_user" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -96,20 +102,20 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            android:id="@+id/online_offline_imv"
-            android:src="@drawable/offline"/>
+                android:id="@+id/online_offline_imv"
+                android:src="@drawable/offline" />
 
-        <com.pacifyr.client.customview.MainTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:id="@+id/isonline_ctxv"
-            android:text="OFFLINE"/>
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/isonline_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="OFFLINE"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -224,7 +230,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tint="@color/white"
+                app:tint="@color/white"
                 android:id="@+id/schedule_rlay"
                 android:layout_marginLeft="25dp"
                 android:layout_gravity="top"
