@@ -79,19 +79,18 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="3dp">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:orientation="horizontal">
 
                         <com.pacifyr.client.customview.MainTextView
                             android:id="@+id/tv_name"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.8"
                             android:ellipsize="end"
                             android:maxLines="2"
+                            android:maxEms="13"
                             android:text=""
                             android:textColor="@color/blue_text_dark"
                             android:textSize="18sp"
@@ -99,12 +98,23 @@
 
                         <ImageView
                             android:id="@+id/icon_medallion"
-                            android:layout_width="0dp"
+                            android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_gravity="end"
-                            android:layout_weight="0.2" />
+                            android:layout_alignParentEnd="true" />
 
-                    </LinearLayout>
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/label_medallion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/icon_medallion"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="3dp"
+                            android:maxEms="5"
+                            android:textAlignment="center"
+                            android:textSize="8sp" />
+
+
+                    </RelativeLayout>
 
                     <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"

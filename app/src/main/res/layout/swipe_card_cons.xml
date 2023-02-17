@@ -104,6 +104,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/label_medallion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:maxEms="5"
+            android:textAlignment="center"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_medallion" />
+
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/specialities_ctxv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

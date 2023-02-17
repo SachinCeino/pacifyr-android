@@ -195,6 +195,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             TextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
             TextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
             ImageView iconMedallion = v.findViewById(R.id.icon_medallion);
+            TextView labelMedallion = v.findViewById(R.id.label_medallion);
 
            /* RelativeLayout chat_rlay = (RelativeLayout) v.findViewById(R.id.chat_rlay);
             RelativeLayout audiocall_rlay = (RelativeLayout) v.findViewById(R.id.audiocall_rlay);
@@ -213,8 +214,9 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 indicatorCtxv.setText("OFFLINE");
             }
 
-            if (isValid(searchResults.get(position).getMedallion())) {
+            if (isValid(searchResults.get(position).getMedallion()) && isValid(searchResults.get(position).getMedallionText())) {
                 Glide.with(context).load(medallion).into(iconMedallion);
+                labelMedallion.setText(searchResults.get(position).getMedallionText());
             }
 
 

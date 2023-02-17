@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
@@ -679,9 +680,11 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 isonlineCtxv.setText("OFFLINE");
             }
 
-            if (isValid(pacifyerDetial.getMedallion())) {
+            if (isValid(pacifyerDetial.getMedallion()) && isValid(pacifyerDetial.getMedallionText())) {
                 ImageView iconMedallion = findViewById(R.id.icon_medallion);
+                TextView labelMedallion = findViewById(R.id.label_medallion);
                 Glide.with(context).load(GLOBAL_IMAGE_URL + pacifyerDetial.getMedallion()).into(iconMedallion);
+                labelMedallion.setText(pacifyerDetial.getMedallionText());
             }
 
             //String ed[] = searchResults.get(position).getEducation();

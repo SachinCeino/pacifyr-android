@@ -132,9 +132,12 @@ public class ModelUserProfile
 
     private String medallion;
 
-    //for leadersup
+    private String medallionText;
 
+
+    //for leadersup
     private String zipCode;
+
     private String getPaidForQuickSurveys;
     private String refferedOrganisation;
     private String region;
@@ -144,7 +147,6 @@ public class ModelUserProfile
     private String schoolName;
     private String address1;
     private Company company;
-
     private int numberOfPredefinedSessions;
 
     private boolean enableScheduling;
@@ -211,6 +213,14 @@ public class ModelUserProfile
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getMedallionText() {
+        return medallionText;
+    }
+
+    public void setMedallionText(String medallionText) {
+        this.medallionText = medallionText;
     }
 
     public String getReferredServices() {

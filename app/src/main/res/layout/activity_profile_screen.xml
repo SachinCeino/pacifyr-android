@@ -45,6 +45,18 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/label_medallion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon_medallion"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
+                android:maxEms="5"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
         </RelativeLayout>
 
 
