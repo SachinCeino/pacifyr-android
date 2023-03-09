@@ -3,27 +3,22 @@ package com.pacifyr.client.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.BaseFragment;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONObject;
 
 
 public class PrescriptionWhileCallFragment extends BaseFragment {
@@ -45,7 +40,9 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
     private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
-    public static String prescrption="";
+    public static String prescrption = "";
+    private TextView text_header;
+
     public PrescriptionWhileCallFragment() {
         // Required empty public constructor
     }
@@ -62,6 +59,7 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_prescription_while_call, container, false);
         etv_notes = root.findViewById(R.id.etv_notes);
+        text_header = root.findViewById(R.id.text_header);
         etv_notes.setMovementMethod(new ScrollingMovementMethod());
         Bundle bundle = getArguments();
 
@@ -72,6 +70,14 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
         if (isValid(mPrescriptionFile) && !mPrescriptionFile.equals(""))
             etv_notes.setText(mPrescriptionFile);
         onSetActionBar(root);
+
+        if (VideoActivity.mSessionDetailRoot != null) {
+            String header = getString(R.string.doc_name) +
+                    VideoActivity.mSessionDetailRoot.getUser().getFirstName()
+                    + " " + VideoActivity.mSessionDetailRoot.getUser().getLastName() + "\n\n";
+            header += getString(R.string.prescription_date) + Utility.getDateForDisplay(getActivity());
+            text_header.setText(header);
+        }
 
         return root;
 

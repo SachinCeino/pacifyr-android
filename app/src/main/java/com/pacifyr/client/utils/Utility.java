@@ -1,7 +1,8 @@
 package com.pacifyr.client.utils;
 
+import static com.pacifyr.client.sign.PacifyrRequestAccessActivity.getPath;
+
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,7 +31,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -57,16 +57,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -75,8 +71,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-
-import static com.pacifyr.client.sign.PacifyrRequestAccessActivity.getPath;
 
 /**
  * Created by User on 01-06-2016.
@@ -1718,6 +1712,18 @@ public class Utility {
             e.printStackTrace();
         }
         return dateat;
+    }
+
+    public static String getDateForDisplay(Context context) {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat df = null;
+        String country = PrefManager.getInstance(context).getCountry();
+        if (country.equals("India")) {
+            df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        } else {
+            df = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        }
+        return df.format(date);
     }
 
 }

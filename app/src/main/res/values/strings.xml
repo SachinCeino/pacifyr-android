@@ -1153,5 +1153,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="minutes_case">minutes</string>
     <string name="connect_pacifyr_case">Connect to Providers</string>
     <string name="file_format_not_supported">File format not supported.</string>
+    <string name="doc_name">"Doctor Name : "</string>
+    <string name="prescription_date">"Prescription Date : "</string>
 
 </resources>
