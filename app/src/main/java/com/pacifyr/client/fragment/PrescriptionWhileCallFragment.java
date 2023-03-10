@@ -71,10 +71,10 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
             etv_notes.setText(mPrescriptionFile);
         onSetActionBar(root);
 
-        if (VideoActivity.mSessionDetailRoot != null) {
+        if (VideoActivity.mSessionDetailRoot != null && VideoActivity.mSessionDetailRoot.getPacifyr() != null) {
             String header = getString(R.string.doc_name) +
-                    VideoActivity.mSessionDetailRoot.getUser().getFirstName()
-                    + " " + VideoActivity.mSessionDetailRoot.getUser().getLastName() + "\n\n";
+                    VideoActivity.mSessionDetailRoot.getPacifyr().getFirstName()
+                    + " " + VideoActivity.mSessionDetailRoot.getPacifyr().getLastName() + "\n\n";
             header += getString(R.string.prescription_date) + Utility.getDateForDisplay(getActivity());
             text_header.setText(header);
         }
