@@ -1,5 +1,8 @@
 package com.pacifyr.client.adapter;
 
+import static com.pacifyr.client.home.ConnectToPacifyrActivity.customerEmotion;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,37 +12,27 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
-import com.pacifyr.client.model.ModelSpecialityByCategory;
+import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.pacifyr.client.home.ConnectToPacifyrActivity.customerEmotion;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.mCurrentUser;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 
 /**
 
@@ -50,17 +43,18 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
     ArrayList<ModelSpecialityByEmotion.Results> list;
     Context context;
     Activity activity;
-    private String userRole;
+    private final String userRole;
     public SwipeDeckConnectPacifyrAdapter adapter;
     //    SwipeDeck cardStack;
     RecyclerView imgRcv;
-    public static  String reason_forcall=null;
+    public static String reason_forcall = null;
     //ImageView emotionDimv;
 
-    private PrefManager prefM;
-    private String userID,acessToken;
-    private String companyID;
-    private String customerRole;
+    private final PrefManager prefM;
+    private final String userID;
+    private final String acessToken;
+    private final String companyID;
+    private final String customerRole;
     private boolean employeeFlag;
     private boolean showAllFlag;
 
@@ -70,7 +64,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
     private String category;
 
     public EmotionSpecialityAdapter(Context context, ArrayList<ModelSpecialityByEmotion.Results> mListEmotions) {
-        this.context=context;
+        this.context = context;
         list=mListEmotions;
         reason_forcall=null;
         prefM= PrefManager.getInstance(context);
@@ -161,22 +155,22 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                 {
                     if(i==position){
                         list.get(position).setClicked(true);
-                    }
-                    else{
+                    } else {
                         list.get(i).setClicked(false);
                     }
                 }
                 notifyDataSetChanged();
 
 
-
                 activity.findViewById(R.id.select_emotion_detail_rlay).setVisibility(View.GONE);
                 activity.findViewById(R.id.select_list_pacifyr_rlay).setVisibility(View.VISIBLE);
-
+                if (activity instanceof ConnectToSinglePacifyrActivity) {
+                    ((ConnectToSinglePacifyrActivity) activity).showBundleBuyOption(true);
+                }
 
 
                 category = list.get(position).getTitle();
-                customerEmotion=list.get(position).getTitle();
+                customerEmotion = list.get(position).getTitle();
 
 
                 imgRcv = activity.findViewById(R.id.image_rcv);

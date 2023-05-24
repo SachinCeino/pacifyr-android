@@ -354,7 +354,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginTop="-20dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_list_pacifyr_rlay"
@@ -461,8 +461,9 @@
             </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_call_chat_controls"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             android:layout_marginStart="20dp"
@@ -569,6 +570,20 @@
         </LinearLayout>
 
 
+            <Button
+                android:id="@+id/action_get_bundles"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/blue_border_curved"
+                android:ems="10"
+                android:text="@string/get_bundles"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
         </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>

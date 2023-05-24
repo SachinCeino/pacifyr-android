@@ -1,5 +1,7 @@
 package com.pacifyr.client.adapter;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,16 +26,15 @@ import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.BuyBundles;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
-import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
@@ -59,15 +60,13 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
-
 
 public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
     //private List<String> data;
-  //  public static List<RespSearchPacifyrWOption.Results> searchResults;
-    public static List<MUser> searchResults;
-    private Context context;
+    //  public static List<RespSearchPacifyrWOption.Results> searchResults;
+    public static ArrayList<MUser> searchResults;
+    private final Context context;
 
     public String imgURL;
     public String namePacifyr;
@@ -90,16 +89,17 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
     public SharedPrefsHelper sharedPrefsHelper;
 
-    private ArrayList<String> myList=new ArrayList();
-    private ArrayList<Certification> certificateList= new ArrayList<>();
-    private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
+    private final ArrayList<String> myList = new ArrayList();
+    private final ArrayList<Certification> certificateList = new ArrayList<>();
+    private final ArrayList<ModelUserProfile.Education> educationsList = new ArrayList<>();
     Activity activity;
     private boolean isChatSubscriptionRequired;
     private int priceForChat;
 
     MainTextView chatPriceCtxv;
     private LinearLayout chatLlay;
-    private  RelativeLayout schedule_rlay;
+    private RelativeLayout schedule_rlay;
+    private View buy_bundles;
 
     /* public SwipeDeckConnectPacifyrAdapter(ArrayList<MUser> resultsList, Context context) {
          this.searchResults = resultsList;
@@ -153,9 +153,24 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 //v = inflater.inflate(R.layout.swipecard_connect, parent, false);
                 v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
                 chatPriceCtxv = v.findViewById(R.id.chat_price_ctxv);
+                buy_bundles = v.findViewById(R.id.action_get_bundles);
+                if (prefM.getCountry().equalsIgnoreCase("us")) {
+                    buy_bundles.setVisibility(View.VISIBLE);
+                    buy_bundles.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(view.getContext(), BuyBundles.class);
+                            i.putExtra("providerId", searchResults.get(position).getId());
+                            i.putExtra("providerName", searchResults.get(position).getName());
+                            view.getContext().startActivity(i);
+                        }
+                    });
+                } else {
+                    buy_bundles.setVisibility(View.GONE);
+                }
                 //chatLlay = (LinearLayout) v.findViewById(R.id.chat_llay);
 
-                schedule_rlay= v.findViewById(R.id.schedule_rlay);
+                schedule_rlay = v.findViewById(R.id.schedule_rlay);
 
                 imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
                 namePacifyr = searchResults.get(position).getFirstName() + " " + searchResults.get(position).getLastName();

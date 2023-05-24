@@ -250,6 +250,21 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/action_get_bundles"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/blue_border_curved"
+            android:ems="10"
+            android:text="@string/get_bundles"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <ScrollView

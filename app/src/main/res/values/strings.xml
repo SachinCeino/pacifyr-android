@@ -1155,5 +1155,14 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="file_format_not_supported">File format not supported.</string>
     <string name="doc_name">"Doctor Name : "</string>
     <string name="prescription_date">"Prescription Date : "</string>
+    <string name="no_session_bundles_found">No session bundles found.</string>
+    <string name="session_packs">SESSION PACKS</string>
+    <string name="bundles">Bundles</string>
+    <string name="get_bundles">Buy bundles</string>
+    <string name="buy">Buy</string>
+    <string name="session_pack_purchased">Bundle purchased.</string>
+    <string name="session_pack_already_purchased">Bundle already purchased. Do you want to buy it again?</string>
+    <string name="session_pack_purchase_failed">Bundle purchase failed. Please contact admin.</string>
+    <string name="buy_again">Buy again</string>
 
 </resources>

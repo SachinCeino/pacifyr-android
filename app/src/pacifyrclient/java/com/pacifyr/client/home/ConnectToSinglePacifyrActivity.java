@@ -1,5 +1,10 @@
 package com.pacifyr.client.home;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,9 +28,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.BuyBundles;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.adapter.NegativeEmotionsAdapter;
 import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
@@ -68,11 +72,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
@@ -125,6 +124,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     private Timer trackTimer_check_online;
     private TimerTask trackTimerTask_check_online;
     private ImageView image_logo;
+    private View action_get_bundles;
 
     public static void start(Context context, MUser results) {
         Intent intent = new Intent(context, ConnectToSinglePacifyrActivity.class);
@@ -241,7 +241,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         pac_name_ctxv = findViewById(R.id.pac_name_ctxv);
         pac_des_ctxv = findViewById(R.id.pac_des_ctxv);
         pac_rate_ctxv = findViewById(R.id.pac_rate_ctxv);
-        schedule_rlay= findViewById(R.id.schedule_rlay);
+        schedule_rlay = findViewById(R.id.schedule_rlay);
+        action_get_bundles = findViewById(R.id.action_get_bundles);
 
         status_indicator_dimv = findViewById(R.id.status_indicator_dimv);
         status_indicator_ctxv = findViewById(R.id.status_indicator_ctxv);
@@ -332,7 +333,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 selectFeelingRlay.setVisibility(View.GONE);
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
-                listPacifyrRlay.setVisibility(View.VISIBLE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    showBundleBuyOption(true);
                 }
                 else
                 {
@@ -405,18 +407,40 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
         if (prefM != null && prefM.getCompanyLogo() != null) {
             showImageWithAnim(prefM.getCompanyLogo(), image_logo);
-        }
-        else{
+        } else {
             hideImageWithAnim(image_logo);
         }
 
 
     }
 
+    public void showBundleBuyOption(boolean show) {
+        if (show) {
+            if (prefM.getCountry().equalsIgnoreCase("us")) {
+                action_get_bundles.setVisibility(View.VISIBLE);
+                action_get_bundles.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (pacifyer_obj != null) {
+                            Intent i = new Intent(view.getContext(), BuyBundles.class);
+                            i.putExtra("providerId", pacifyer_obj.getId());
+                            i.putExtra("providerName", pacifyer_obj.getName());
+                            view.getContext().startActivity(i);
+                        }
+                    }
+                });
+            } else {
+                action_get_bundles.setVisibility(View.GONE);
+            }
+        } else {
+            action_get_bundles.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
     }
 
     @Override

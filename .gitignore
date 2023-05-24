@@ -9,3 +9,6 @@ local.properties
 /captures
 .idea
 build.gradle
+/quickblox-chat/build/
+/quickblox-core/build/
+/quickblox-videochat-webrtc/build/

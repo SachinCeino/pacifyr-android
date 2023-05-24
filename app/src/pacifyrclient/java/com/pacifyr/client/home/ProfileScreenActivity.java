@@ -32,6 +32,7 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.BuyBundles;
 import com.pacifyr.client.adapter.CertificationProfileAdapter;
 import com.pacifyr.client.adapter.EducationProfileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -142,6 +143,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private Context context;
     private ImageView schedule_rlay;
     private LinearLayout linearLayout_chat_price_description_layout;
+    private View action_get_bundles;
 
     public static void start(Context context,String id,boolean flag ) {
         Intent intent = new Intent(context, ProfileScreenActivity.class);
@@ -168,13 +170,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_screen);
+
+        action_get_bundles = findViewById(R.id.action_get_bundles);
         linearLayout_chat_price_description_layout = findViewById(R.id.chat_price_layout);
         if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup"))
             linearLayout_chat_price_description_layout.setVisibility(View.GONE);
 
         initFields();
         //checker = new PermissionsChecker(ProfileScreenActivity.this);
-      //  permissionCheck();
+        //  permissionCheck();
         context = ProfileScreenActivity.this;
         prefM = PrefManager.getInstance(context);
         Bundle extras = getIntent().getExtras();
@@ -449,6 +453,21 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                         showScheduleDialogueFragment(mpacifyerDetial);
                     }
                 });
+
+                if (prefM.getCountry().equalsIgnoreCase("us")) {
+                    action_get_bundles.setVisibility(View.VISIBLE);
+                    action_get_bundles.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(view.getContext(), BuyBundles.class);
+                            i.putExtra("providerId", mpacifyerDetial.getId());
+                            i.putExtra("providerName", mpacifyerDetial.getName());
+                            view.getContext().startActivity(i);
+                        }
+                    });
+                } else {
+                    action_get_bundles.setVisibility(View.GONE);
+                }
             }
             catch (Exception e)
             {
