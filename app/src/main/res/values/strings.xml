@@ -1161,8 +1161,13 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="get_bundles">Buy bundles</string>
     <string name="buy">Buy</string>
     <string name="session_pack_purchased">Bundle purchased.</string>
+    <string name="session_pack_subscribed">Bundle subscribed.</string>
     <string name="session_pack_already_purchased">Bundle already purchased. Do you want to buy it again?</string>
+    <string name="session_pack_already_subscribed">Bundle already subscribed. Do you want to subscribe it again?</string>
     <string name="session_pack_purchase_failed">Bundle purchase failed. Please contact admin.</string>
     <string name="buy_again">Buy again</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="purchased">Purchased</string>
+    <string name="subscribed">Subscribed</string>
 
 </resources>

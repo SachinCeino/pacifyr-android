@@ -14,7 +14,7 @@ public class WebService {
     private final Context context;
     private final String accessToken;
     private final String userId;
-    private final ApiService client;
+    private ApiService client;
 
     public WebService(Context context) {
         this.context = context;
@@ -24,6 +24,7 @@ public class WebService {
     }
 
     public void getBundles(int skip, int limit, String providerId, Callback<SessionPacks> callBack) {
+        this.client = ApiClient.getClient().create(ApiService.class);
         client.getSessionBundles(accessToken, providerId, skip, limit).enqueue(callBack);
     }
 

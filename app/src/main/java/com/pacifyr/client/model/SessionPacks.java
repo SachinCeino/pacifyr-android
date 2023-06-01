@@ -29,6 +29,11 @@ public class SessionPacks implements Serializable {
         @SerializedName("subscribed")
         @Expose
         private Boolean isSubscribed;
+
+        @SerializedName("purchased")
+        @Expose
+        private Boolean purchased;
+
         @SerializedName("expired")
         @Expose
         private Boolean expired;
@@ -56,6 +61,14 @@ public class SessionPacks implements Serializable {
         @SerializedName("updatedAt")
         @Expose
         private Object updatedAt;
+
+        public Boolean getPurchased() {
+            return purchased;
+        }
+
+        public void setPurchased(Boolean purchased) {
+            this.purchased = purchased;
+        }
 
         public String getCreatedAt() {
             return createdAt;

@@ -4,9 +4,12 @@ public class SessionPackInput {
     String userId;
     String sessionPackId;
 
-    public SessionPackInput(String userId, String sessionPackId) {
+    boolean isSubscribed;
+
+    public SessionPackInput(String userId, String sessionPackId, boolean isSubscribed) {
         this.userId = userId;
         this.sessionPackId = sessionPackId;
+        this.isSubscribed = isSubscribed;
     }
 
     public String getUserId() {
@@ -25,4 +28,12 @@ public class SessionPackInput {
         this.sessionPackId = sessionPackId;
     }
 
+
+    public boolean isSubscribed() {
+        return isSubscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        isSubscribed = subscribed;
+    }
 }

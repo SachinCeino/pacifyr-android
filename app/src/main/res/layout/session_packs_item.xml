@@ -113,6 +113,17 @@
         app:layout_constraintTop_toBottomOf="@+id/value_price" />
 
     <Button
+        android:id="@+id/action_subscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/blue_border_curved"
+        android:text="@string/subscribe"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/action_buy"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
         android:id="@+id/action_buy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

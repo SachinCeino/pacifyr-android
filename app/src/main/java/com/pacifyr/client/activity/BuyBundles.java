@@ -82,12 +82,26 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                                 @Override
                                 public void onBuy(String sessionPackId, boolean subscribed) {
                                     if (!subscribed) {
-                                        buy(sessionPackId);
+                                        buy(sessionPackId, false);
                                     } else {
                                         showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_already_purchased), getString(R.string.buy_again), new iOSDialogClickListener() {
                                             @Override
                                             public void onClick(iOSDialog dialog) {
-                                                buy(sessionPackId);
+                                                buy(sessionPackId, false);
+                                            }
+                                        }, getString(R.string.cancel));
+                                    }
+                                }
+
+                                @Override
+                                public void onSubscribe(String sessionPackId, boolean subscribed) {
+                                    if (!subscribed) {
+                                        buy(sessionPackId, true);
+                                    } else {
+                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_already_purchased), getString(R.string.buy_again), new iOSDialogClickListener() {
+                                            @Override
+                                            public void onClick(iOSDialog dialog) {
+                                                buy(sessionPackId, false);
                                             }
                                         }, getString(R.string.cancel));
                                     }
@@ -175,16 +189,22 @@ public class BuyBundles extends PacifyrAppCompactActivity {
 
     }
 
-    private void buy(String sessionPackId) {
+    private void buy(String sessionPackId, boolean isSubscribed) {
         showProgress();
-        SessionPackInput input = new SessionPackInput(userId, sessionPackId);
+        SessionPackInput input = new SessionPackInput(userId, sessionPackId, isSubscribed);
         WebService webService = new WebService(BuyBundles.this);
         webService.subscribeBundle(input, new Callback<ResponseMessage>() {
             @Override
             public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
                 hideProgress();
                 if (response.isSuccessful()) {
-                    showIOSDialogOK(getString(R.string.success), getString(R.string.session_pack_purchased), getString(R.string.dlg_ok), new iOSDialogClickListener() {
+                    String message = "";
+                    if (isSubscribed) {
+                        message = getString(R.string.session_pack_subscribed);
+                    } else {
+                        message = getString(R.string.session_pack_purchased);
+                    }
+                    showIOSDialogOK(getString(R.string.success), message, getString(R.string.dlg_ok), new iOSDialogClickListener() {
                         @Override
                         public void onClick(iOSDialog dialog) {
                             dialog.dismiss();
