@@ -82,7 +82,13 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                                 @Override
                                 public void onBuy(String sessionPackId, boolean subscribed) {
                                     if (!subscribed) {
-                                        buy(sessionPackId, false);
+                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_buy_confirm, getString(R.string.buy)), getString(R.string.buy),
+                                                new iOSDialogClickListener() {
+                                                    @Override
+                                                    public void onClick(iOSDialog dialog) {
+                                                        buy(sessionPackId, false);
+                                                    }
+                                                }, getString(R.string.cancel));
                                     } else {
                                         showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_already_purchased), getString(R.string.buy_again), new iOSDialogClickListener() {
                                             @Override
@@ -96,12 +102,19 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                                 @Override
                                 public void onSubscribe(String sessionPackId, boolean subscribed) {
                                     if (!subscribed) {
-                                        buy(sessionPackId, true);
+                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_buy_confirm, getString(R.string.subscribe)), getString(R.string.subscribe),
+                                                new iOSDialogClickListener() {
+                                                    @Override
+                                                    public void onClick(iOSDialog dialog) {
+                                                        buy(sessionPackId, true);
+                                                    }
+                                                }, getString(R.string.cancel));
+
                                     } else {
-                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_already_purchased), getString(R.string.buy_again), new iOSDialogClickListener() {
+                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_already_subscribed), getString(R.string.buy_again), new iOSDialogClickListener() {
                                             @Override
                                             public void onClick(iOSDialog dialog) {
-                                                buy(sessionPackId, false);
+                                                buy(sessionPackId, true);
                                             }
                                         }, getString(R.string.cancel));
                                     }
