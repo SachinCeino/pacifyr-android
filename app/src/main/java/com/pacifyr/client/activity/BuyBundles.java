@@ -70,7 +70,7 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                 title_txv.setText(providerName);
             }
             if (providerId != null) {
-                setLoading();
+                setLoading(getString(R.string.loading));
                 showProgress();
                 webService.getBundles(skip, limit, providerId, new Callback<SessionPacks>() {
                     @Override
