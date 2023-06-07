@@ -33,4 +33,9 @@ public interface ApiService {
 
     @POST("payment/sessionPack/subscribe")
     Call<ResponseMessage> subscribeSessionBundle(@Header("AccessToken") String token, @Body SessionPackInput body);
+
+    @GET("sessionPack/subscription/list/{userId}")
+    @Headers("Content-Type: application/json")
+    Call<SessionPacks> getSubscribedSessionPacks(@Header("AccessToken") String token, @Path("userId") String userId,
+                                                 @Query("skip") int skip, @Query("limit") int limit);
 }

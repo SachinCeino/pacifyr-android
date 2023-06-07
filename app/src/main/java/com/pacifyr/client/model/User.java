@@ -25,7 +25,7 @@ public class User implements Serializable {
     private Integer numberOfReviews;
     @SerializedName("rating")
     @Expose
-    private Integer rating;
+    private Float rating;
     @SerializedName("freeChatAvailable")
     @Expose
     private Boolean freeChatAvailable;
@@ -199,11 +199,11 @@ public class User implements Serializable {
         this.numberOfReviews = numberOfReviews;
     }
 
-    public Integer getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

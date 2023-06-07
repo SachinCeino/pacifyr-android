@@ -41,6 +41,7 @@ import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.network.WebService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.receiver.NotificationUtils;
@@ -144,6 +145,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private ImageView schedule_rlay;
     private LinearLayout linearLayout_chat_price_description_layout;
     private View action_get_bundles;
+    private WebService webServices;
 
     public static void start(Context context,String id,boolean flag ) {
         Intent intent = new Intent(context, ProfileScreenActivity.class);

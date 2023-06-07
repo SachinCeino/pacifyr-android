@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -24,11 +27,14 @@ import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.SessionPacksAccountAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.model.SessionPacks;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.network.WebService;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.PdfViewer;
@@ -42,6 +48,9 @@ import org.json.JSONObject;
 import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -50,6 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountFragment extends BaseFragment {
 
+    private static final String TAG = AccountFragment.class.getSimpleName();
     private LinearLayout profileLlay;
     private CircleImageView profileCimv;
     private MainTextView profileNameCtxv;
@@ -61,10 +71,15 @@ public class AccountFragment extends BaseFragment {
     private CardView aboutmeCard;
     private MainTextView aboutmeCtxv;
     private TextView TextView_Document;
-    private CardView CardView_Document_Field,wallet_card;
+    private CardView CardView_Document_Field, wallet_card;
     private TextView TextView_walletBalence;
     private TextView label_balance;
     private TextView label_document_type;
+    private WebService webServices;
+    private SessionPacks subscribedPacks;
+    private SessionPacksAccountAdapter adapter;
+    private View bundle_card;
+    private RecyclerView recycler_bundles;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -81,6 +96,37 @@ public class AccountFragment extends BaseFragment {
 
         return inflater.inflate(R.layout.fragment_current_user_profile, null);
 
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        webServices = new WebService(getActivity());
+        webServices.getSubscribedSessionPacks(0, 10, new Callback<SessionPacks>() {
+            @Override
+            public void onResponse(Call<SessionPacks> call, Response<SessionPacks> response) {
+                if (response.isSuccessful()) {
+                    subscribedPacks = response.body();
+                    if (!subscribedPacks.getResults().isEmpty()) {
+                        adapter = new SessionPacksAccountAdapter(subscribedPacks.getResults());
+                        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+                        manager.setOrientation(RecyclerView.VERTICAL);
+                        recycler_bundles.setLayoutManager(manager);
+                        recycler_bundles.addItemDecoration(new DividerItemDecoration(getActivity(), RecyclerView.VERTICAL));
+                        recycler_bundles.setAdapter(adapter);
+                    } else {
+                        bundle_card.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SessionPacks> call, Throwable t) {
+                Log.e(TAG, "Error " + t.getMessage());
+                bundle_card.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -231,9 +277,10 @@ public class AccountFragment extends BaseFragment {
             wallet_card = view.findViewById(R.id.wallet_card);
             TextView_walletBalence = view.findViewById(R.id.TextView_walletBalence);
             label_balance = view.findViewById(R.id.label_balance);
+            bundle_card = view.findViewById(R.id.bundle_card);
+            recycler_bundles = view.findViewById(R.id.recycler_bundles);
 
             onSetValues(view);
-
 
 
         }catch (Exception e)

@@ -1170,5 +1170,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="purchased">Purchased</string>
     <string name="subscribed">Subscribed</string>
     <string name="session_pack_buy_confirm">Are you sure you want to %s the session</string>
+    <string name="total_sessions">Total sessions</string>
+    <string name="rem_sessions">Remaining sessions</string>
+    <string name="purchased_subscribed">Purchased/Subscribed bundles</string>
 
 </resources>

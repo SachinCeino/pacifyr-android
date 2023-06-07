@@ -129,6 +129,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             if (intent != null && intent.hasExtra("id")) {
                 Log.d(TAG, "Survey event " + intent.getStringExtra("id"));
                 banners.clear();
+                if (mViewPagerAdapter != null) {
+                    mViewPagerAdapter.notifyDataSetChanged();
+                }
                 checkIsThereAnyActiveSessionsAvailable();
                 handleActionCustomerDashboard();
             }
@@ -597,6 +600,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 return;
             if (banners != null) {
                 banners.clear();
+                if (mViewPagerAdapter != null) {
+                    mViewPagerAdapter.notifyDataSetChanged();
+                }
                 ImageView_Prev.setVisibility(GONE);
             }
             checkIsThereAnyActiveSessionsAvailable();
@@ -1691,6 +1697,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             }
         }
         banners.removeAll(toRemove);
+        if (mViewPagerAdapter != null) {
+            mViewPagerAdapter.notifyDataSetChanged();
+        }
     }
 
     ViewPagerAdapter mViewPagerAdapter;

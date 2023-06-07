@@ -31,4 +31,9 @@ public class WebService {
     public void subscribeBundle(SessionPackInput input, Callback<ResponseMessage> callBack) {
         client.subscribeSessionBundle(accessToken, input).enqueue(callBack);
     }
+
+    public void getSubscribedSessionPacks(int skip, int limit, Callback<SessionPacks> responseCallback) {
+        this.client = ApiClient.getClient().create(ApiService.class);
+        client.getSubscribedSessionPacks(accessToken, userId, skip, limit).enqueue(responseCallback);
+    }
 }

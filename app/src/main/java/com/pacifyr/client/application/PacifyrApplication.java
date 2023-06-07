@@ -2,7 +2,6 @@ package com.pacifyr.client.application;
 
 import android.content.Context;
 
-import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 /**
@@ -14,14 +13,14 @@ public class PacifyrApplication extends MultiDexApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(this);
+        //MultiDex.install(this);
     }
 
     @Override
     public void onCreate() {
         instance=this;
         super.onCreate();
-        MultiDex.install(this);
+        //MultiDex.install(this);
 
     }
     public static Context getContext(){

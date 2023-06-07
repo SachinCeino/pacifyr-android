@@ -14,7 +14,7 @@ android {
         versionCode 24
         versionName "1.4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+        //multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 //        resConfigs "en", "hi"
     }
