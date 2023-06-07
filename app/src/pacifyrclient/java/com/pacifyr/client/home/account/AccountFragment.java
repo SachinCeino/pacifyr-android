@@ -118,6 +118,8 @@ public class AccountFragment extends BaseFragment {
                     } else {
                         bundle_card.setVisibility(View.GONE);
                     }
+                } else {
+                    bundle_card.setVisibility(View.GONE);
                 }
             }
 
