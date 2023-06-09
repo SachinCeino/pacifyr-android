@@ -103,32 +103,6 @@ public class AccountFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         webServices = new WebService(getActivity());
-        webServices.getSubscribedSessionPacks(0, 10, new Callback<SessionPacks>() {
-            @Override
-            public void onResponse(Call<SessionPacks> call, Response<SessionPacks> response) {
-                if (response.isSuccessful()) {
-                    subscribedPacks = response.body();
-                    if (!subscribedPacks.getResults().isEmpty()) {
-                        adapter = new SessionPacksAccountAdapter(subscribedPacks.getResults());
-                        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-                        manager.setOrientation(RecyclerView.VERTICAL);
-                        recycler_bundles.setLayoutManager(manager);
-                        recycler_bundles.addItemDecoration(new DividerItemDecoration(getActivity(), RecyclerView.VERTICAL));
-                        recycler_bundles.setAdapter(adapter);
-                    } else {
-                        bundle_card.setVisibility(View.GONE);
-                    }
-                } else {
-                    bundle_card.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SessionPacks> call, Throwable t) {
-                Log.e(TAG, "Error " + t.getMessage());
-                bundle_card.setVisibility(View.GONE);
-            }
-        });
     }
 
     @Override
@@ -158,17 +132,47 @@ public class AccountFragment extends BaseFragment {
                 }
             }
         });
+        getSubscribedPacks();
+    }
+
+    private void getSubscribedPacks() {
+        webServices.getSubscribedSessionPacks(0, 10, new Callback<SessionPacks>() {
+            @Override
+            public void onResponse(Call<SessionPacks> call, Response<SessionPacks> response) {
+                if (response.isSuccessful()) {
+                    subscribedPacks = response.body();
+                    if (!subscribedPacks.getResults().isEmpty()) {
+                        adapter = new SessionPacksAccountAdapter(subscribedPacks.getResults());
+                        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+                        manager.setOrientation(RecyclerView.VERTICAL);
+                        recycler_bundles.setLayoutManager(manager);
+                        recycler_bundles.addItemDecoration(new DividerItemDecoration(getActivity(), RecyclerView.VERTICAL));
+                        recycler_bundles.setAdapter(adapter);
+                    } else {
+                        bundle_card.setVisibility(View.GONE);
+                    }
+                } else {
+                    bundle_card.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SessionPacks> call, Throwable t) {
+                Log.e(TAG, "Error " + t.getMessage());
+                bundle_card.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void setUpProfileValues(ModelUserProfile modelUserProfile) {
 
         try {
-            if(isValid(NetworkService.mCurrentUser)) {
+            if (isValid(NetworkService.mCurrentUser)) {
                 if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
                     Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
                 }
-                defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
-                defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
+                defSetText(profileNameCtxv, NetworkService.mCurrentUser.getName());
+                defSetText(mailDtxv, NetworkService.mCurrentUser.getEmail());
                 defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
                 defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
                 CardView_Document_Field.setVisibility(View.GONE);
