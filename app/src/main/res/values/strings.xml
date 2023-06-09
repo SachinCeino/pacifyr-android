@@ -1173,5 +1173,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="total_sessions">Total sessions</string>
     <string name="rem_sessions">Remaining sessions</string>
     <string name="purchased_subscribed">Purchased/Subscribed bundles</string>
-
+    <string name="select_bundle">Select a bundle option</string>
+    <string name="pay_upfront">Pay upfront</string>
+    <string name="pay_as_you_go">Pay as you go</string>
+    <string name="prepay_desc">Prepay for all the sessions at a discounted price and attend sessions without worrying about payment, billing, etc.</string>
+    <string name="pay_as_you_go_desc">Pay when the session is completed based on the specified session rate.</string>
 </resources>

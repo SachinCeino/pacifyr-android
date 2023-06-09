@@ -1,8 +1,12 @@
 package com.pacifyr.client.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,6 +25,7 @@ import com.pacifyr.client.model.SessionPacks;
 import com.pacifyr.client.network.WebService;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.PaginationScrollListener;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.response.ResponseMessage;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
@@ -45,6 +50,8 @@ public class BuyBundles extends PacifyrAppCompactActivity {
     private boolean isLastPage = false;
     private boolean isLoading = false;
 
+
+    AlertDialog dialog = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,8 +87,18 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                             Log.d(TAG, "Get bundles successful");
                             adapter = new SessionPackAdapter(response.body().getResults(), new SessionPackAdapter.BuyListener() {
                                 @Override
-                                public void onBuy(String sessionPackId, boolean subscribed) {
-                                    if (!subscribed) {
+                                public void onBuy(String sessionPackId) {
+                                    SessionPacks.Result mPack = null;
+                                    for (SessionPacks.Result item : response.body().getResults()) {
+                                        if (item.getId().equals(sessionPackId)) {
+                                            mPack = item;
+                                            break;
+                                        }
+                                    }
+                                    if (mPack != null) {
+                                        showBundleOptions(mPack);
+                                    }
+                                    /*if (!subscribed) {
                                         showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_buy_confirm, getString(R.string.buy)), getString(R.string.buy),
                                                 new iOSDialogClickListener() {
                                                     @Override
@@ -96,28 +113,7 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                                                 buy(sessionPackId, false);
                                             }
                                         }, getString(R.string.cancel));
-                                    }
-                                }
-
-                                @Override
-                                public void onSubscribe(String sessionPackId, boolean subscribed) {
-                                    if (!subscribed) {
-                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_buy_confirm, getString(R.string.subscribe)), getString(R.string.subscribe),
-                                                new iOSDialogClickListener() {
-                                                    @Override
-                                                    public void onClick(iOSDialog dialog) {
-                                                        buy(sessionPackId, true);
-                                                    }
-                                                }, getString(R.string.cancel));
-
-                                    } else {
-                                        showIOSDialogOKCancel(getString(R.string.title_info), getString(R.string.session_pack_already_subscribed), getString(R.string.buy_again), new iOSDialogClickListener() {
-                                            @Override
-                                            public void onClick(iOSDialog dialog) {
-                                                buy(sessionPackId, true);
-                                            }
-                                        }, getString(R.string.cancel));
-                                    }
+                                    }*/
                                 }
                             });
                             list_bundles.setAdapter(adapter);
@@ -180,6 +176,53 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                 });
             }
         }
+    }
+
+    private void showBundleOptions(SessionPacks.Result mPack) {
+        View mView = LayoutInflater.from(BuyBundles.this).inflate(R.layout.bundle_options, null, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BuyBundles.this);
+        builder.setView(mView);
+
+        RadioGroup selectionGroup = mView.findViewById(R.id.opt_select);
+        TextView label_desc = mView.findViewById(R.id.label_bundle_desc);
+        TextView num_sessions = mView.findViewById(R.id.val_num_sessions);
+        TextView val_price = mView.findViewById(R.id.val_price);
+        label_desc.setText(getString(R.string.prepay_desc));
+        Button action_submit = mView.findViewById(R.id.action_submit);
+
+        selectionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == R.id.radio_upfront) {
+                    label_desc.setText(getString(R.string.prepay_desc));
+                } else if (i == R.id.radio_as_you_go) {
+                    label_desc.setText(getString(R.string.pay_as_you_go_desc));
+                }
+            }
+        });
+
+        selectionGroup.check(R.id.radio_upfront);
+        num_sessions.setText(mPack.getNumberOfSessions() + " sessions");
+        val_price.setText(Utility.getPriceSign(BuyBundles.this) + "" + mPack.getPrice());
+
+        action_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                switch (selectionGroup.getCheckedRadioButtonId()) {
+                    case R.id.radio_upfront:
+                        buy(mPack.getId(), false);
+                        break;
+                    case R.id.radio_as_you_go:
+                        buy(mPack.getId(), true);
+                        break;
+                }
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
     }
 
     @Override

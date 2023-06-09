@@ -56,41 +56,24 @@ public class SessionPackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (items.get(holder.getAdapterPosition()).getExpired()) {
             itemHolder.value_expired.setVisibility(View.VISIBLE);
             itemHolder.actionBuy.setVisibility(View.GONE);
-            itemHolder.actionSubscribe.setVisibility(View.GONE);
         } else {
             itemHolder.value_expired.setVisibility(View.GONE);
         }
 
-        itemHolder.actionSubscribe.setVisibility(View.VISIBLE);
         itemHolder.actionBuy.setVisibility(View.VISIBLE);
         if (items.get(holder.getAdapterPosition()).getPurchased()) {
             setButtonState(itemHolder.itemView.getContext(), itemHolder.actionBuy, false, R.string.purchased);
-            itemHolder.actionSubscribe.setVisibility(View.GONE);
+        } else if (items.get(holder.getAdapterPosition()).getSubscribed()) {
+            setButtonState(itemHolder.itemView.getContext(), itemHolder.actionBuy, false, R.string.subscribed);
         } else {
             setButtonState(itemHolder.itemView.getContext(), itemHolder.actionBuy, true, R.string.buy);
-        }
-        if (items.get(holder.getAdapterPosition()).getSubscribed()) {
-            setButtonState(itemHolder.itemView.getContext(), itemHolder.actionSubscribe, false, R.string.subscribed);
-            itemHolder.actionBuy.setVisibility(View.GONE);
-        } else {
-            setButtonState(itemHolder.itemView.getContext(), itemHolder.actionSubscribe, true, R.string.subscribe);
         }
 
         itemHolder.actionBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (buyListener != null) {
-                    buyListener.onBuy(items.get(itemHolder.getAdapterPosition()).getId(),
-                            items.get(itemHolder.getAdapterPosition()).getPurchased());
-                }
-            }
-        });
-        itemHolder.actionSubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (buyListener != null) {
-                    buyListener.onSubscribe(items.get(itemHolder.getAdapterPosition()).getId(),
-                            items.get(itemHolder.getAdapterPosition()).getSubscribed());
+                    buyListener.onBuy(items.get(itemHolder.getAdapterPosition()).getId());
                 }
             }
         });
@@ -115,9 +98,7 @@ public class SessionPackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public interface BuyListener {
-        void onBuy(String sessionPackId, boolean subscribed);
-
-        void onSubscribe(String sessionPackId, boolean subscribed);
+        void onBuy(String sessionPackId);
     }
 
     private class ItemHolder extends RecyclerView.ViewHolder {
@@ -130,12 +111,10 @@ public class SessionPackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final TextView label_description;
         private final TextView label_name;
         private final TextView value_expired;
-        private final Button actionSubscribe;
 
         public ItemHolder(View itemView) {
             super(itemView);
             actionBuy = itemView.findViewById(R.id.action_buy);
-            actionSubscribe = itemView.findViewById(R.id.action_subscribe);
             value_price = itemView.findViewById(R.id.value_price);
             value_duration = itemView.findViewById(R.id.value_duration);
             value_no_of_sessions = itemView.findViewById(R.id.value_no_of_sessions);
