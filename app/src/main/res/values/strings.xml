@@ -117,6 +117,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="mydashboard">MY DASHBOARD</string>
     <string name="mysessions">MY SESSIONS</string>
     <string name="confirmation">confirmation</string>
+    <string name="confirm">Confirm</string>
     <string name="avantica_bold_header">fonts/ActionBarCommonFont.otf</string>
 
     <string name="register_terms_text">I have read, understand, and agree to be bound by the OMHealthCare Terms of Use</string>
@@ -1178,4 +1179,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="pay_as_you_go">Pay as you go</string>
     <string name="prepay_desc">Prepay for all the sessions at a discounted price and attend sessions without worrying about payment, billing, etc.</string>
     <string name="pay_as_you_go_desc">Pay when the session is completed based on the specified session rate.</string>
+    <string name="paying_using_wallet">Paying for this appointment using wallet balance</string>
+    <string name="remaining_wallet_balance">Remaining wallet balance</string>
+    <string name="paying_using_bundle">Paying for this appointment using Bundle balance</string>
+    <string name="remaining_bundle_balance">Remaining bundle balance</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.pacifyr.client.network;
 
+import com.pacifyr.client.model.BalanceResponse;
 import com.pacifyr.client.model.SessionPackInput;
 import com.pacifyr.client.model.SessionPacks;
 import com.pacifyrapp.utilitylibrary.model.response.ResponseMessage;
@@ -38,4 +39,11 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     Call<SessionPacks> getSubscribedSessionPacks(@Header("AccessToken") String token, @Path("userId") String userId,
                                                  @Query("skip") int skip, @Query("limit") int limit);
+
+    @GET("user/booking/balance")
+    @Headers("Content-Type: application/json")
+    Call<BalanceResponse> getBookingBalances(@Header("AccessToken") String token, @Query("userId") String userId,
+                                             @Query("timeSlotId") String timeSlotId);
+
+
 }

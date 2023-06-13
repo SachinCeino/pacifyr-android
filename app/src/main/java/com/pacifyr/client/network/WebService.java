@@ -2,6 +2,7 @@ package com.pacifyr.client.network;
 
 import android.content.Context;
 
+import com.pacifyr.client.model.BalanceResponse;
 import com.pacifyr.client.model.SessionPackInput;
 import com.pacifyr.client.model.SessionPacks;
 import com.pacifyrapp.utilitylibrary.model.response.ResponseMessage;
@@ -35,5 +36,10 @@ public class WebService {
     public void getSubscribedSessionPacks(int skip, int limit, Callback<SessionPacks> responseCallback) {
         this.client = ApiClient.getClient().create(ApiService.class);
         client.getSubscribedSessionPacks(accessToken, userId, skip, limit).enqueue(responseCallback);
+    }
+
+    public void getBookingBalances(String timeSlotId, Callback<BalanceResponse> responseCallback) {
+        this.client = ApiClient.getClient().create(ApiService.class);
+        client.getBookingBalances(accessToken, userId, timeSlotId).enqueue(responseCallback);
     }
 }

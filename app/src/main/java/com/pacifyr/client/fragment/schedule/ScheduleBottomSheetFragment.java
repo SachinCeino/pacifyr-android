@@ -51,9 +51,11 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.PaymentActivity;
+import com.pacifyr.client.model.BalanceResponse;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.network.WebService;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -81,14 +83,21 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     MUser pacifyer_obj;
     private TextView text_loading;
+    private TextView balance_first_line;
+    private TextView balance_second_line;
+    private WebService webService;
 
     public ScheduleBottomSheetFragment() {
 
     }
+
     public KProgressHUD hud_progress = null;
     public KProgressHUD hud_status = null;
 
@@ -191,10 +200,12 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         confirmLayout = view.findViewById(R.id.confirmLayout);
         pacifyr_avatar = view.findViewById(R.id.pacifyr_avatar);
         pacifyr_name = view.findViewById(R.id.pacifyr_name);
+        balance_first_line = view.findViewById(R.id.balance_line1);
+        balance_second_line = view.findViewById(R.id.balance_line2);
         appointment_date_and_time = view.findViewById(R.id.appointment_date_and_time);
         appointmentDoneLayout = view.findViewById(R.id.appointmentDoneLayout);
         confirmationMessageText = view.findViewById(R.id.confirmationMessageText);
-        message_comments=view.findViewById(R.id.message_comments);
+        message_comments = view.findViewById(R.id.message_comments);
         l1 = view.findViewById(R.id.l1);
         message_comments.setVisibility(GONE);
 
@@ -295,14 +306,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                 }*/
                 else if (txtv_next.getText().equals("Proceed to pay") ||
-                        txtv_next.getText().equals(getString(R.string.continue_btn_text))) {
+                        txtv_next.getText().equals(getString(R.string.continue_btn_text)) ||
+                        txtv_next.getText().equals(getString(R.string.confirm))) {
                     if (isValid(SlotForNextClick)) {
                         //for Indian customers
                         callSlotBookApi(SlotForNextClick);
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
-                   dismiss();
+                    dismiss();
                 }
             }
         });
@@ -480,6 +492,37 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         confirmLayout.setVisibility(View.VISIBLE);
         appointmentDoneLayout.setVisibility(GONE);
         ll_prev_week.setVisibility(View.INVISIBLE);
+
+        setLoading();
+        showProgress();
+        webService.getBookingBalances(slotForNextClick.getId(), new Callback<BalanceResponse>() {
+            @Override
+            public void onResponse(Call<BalanceResponse> call, Response<BalanceResponse> response) {
+                hideProgress();
+                if (response.isSuccessful()) {
+                    BalanceResponse balances = response.body();
+                    if (balances != null) {
+                        txtv_next.setText(getString(R.string.confirm));
+                        balance_first_line.setVisibility(VISIBLE);
+                        balance_second_line.setVisibility(VISIBLE);
+                        if (balances.getType().equals(BalanceResponse.TYPE_WALLET)) {
+                            balance_first_line.setText(getString(R.string.paying_using_wallet));
+                            balance_second_line.setText(getString(R.string.remaining_wallet_balance)
+                                    + " : " + Utility.getPriceSign(getActivity()) + balances.getRemainingWalletBalances());
+                        } else if (balances.getType().equals(BalanceResponse.TYPE_SESSION_PURCHASED)) {
+                            balance_first_line.setText(getString(R.string.paying_using_bundle));
+                            balance_second_line.setText(getString(R.string.remaining_bundle_balance)
+                                    + ": " + balances.getNumberOfRemainingBundleSessions() + " sessions");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BalanceResponse> call, Throwable t) {
+                hideProgress();
+            }
+        });
         Glide.with(getActivity())
                 .load(GLOBAL_IMAGE_URL + pacifyer_obj.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -892,7 +935,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-Log.w("WWW","onCreate");
+        Log.w("WWW", "onCreate");
+        webService = new WebService(getActivity());
     }
 
     @Override
@@ -1379,8 +1423,11 @@ Log.w("WWW","onCreate");
                                                     if (isValid(paytmOrderId)) {
                                                         bookingRequestPaymentId = paytmOrderId;
                                                         if (Math.round(cost) <= 0) { //EAP counselors have price set as 0. Continue with booking
-
-                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("", getResources().getString(R.string.You_will_not_charged_) , "Yes","No", new View.OnClickListener() {
+                                                            String message = "Confirm";
+                                                            if (mSchedulePayment != null && mSchedulePayment.getBookingRequestPayment() != null) {
+                                                                message = mSchedulePayment.getBookingRequestPayment().getMessage();
+                                                            }
+                                                            ((PacifyrActivity) getActivity()).setAlertStatusInWhiteNoInternet("", message, "Yes", "No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();

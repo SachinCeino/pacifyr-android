@@ -37,6 +37,10 @@ public class BookingRequestPayment {
     @Expose
     private Boolean charged;
 
+    @SerializedName("message")
+    @Expose
+    private String message;
+
     public String getTimeSlotId() {
         return timeSlotId;
     }
@@ -59,6 +63,14 @@ public class BookingRequestPayment {
 
     public void setCost(float cost) {
         this.cost = cost;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getId() {
