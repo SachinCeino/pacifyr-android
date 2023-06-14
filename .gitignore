@@ -9,6 +9,7 @@ local.properties
 /captures
 .idea
 build.gradle
+app/pacifyrclient/release/*
 /quickblox-chat/build/
 /quickblox-core/build/
 /quickblox-videochat-webrtc/build/
