@@ -24,7 +24,6 @@ import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.BuyBundles;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.CallEvent;
@@ -87,7 +86,6 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     private final List<MUser> tempPAcifyrSearchList;
 
     private RelativeLayout schedule_rlay;
-    private View buy_bundles;
 
     public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context, boolean emoSelected) {
         searchResults = resultsList;
@@ -249,21 +247,6 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
             }
 
-            buy_bundles = v.findViewById(R.id.action_get_bundles);
-            if (prefM.getCountry().equalsIgnoreCase("us")) {
-                buy_bundles.setVisibility(View.VISIBLE);
-                buy_bundles.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(view.getContext(), BuyBundles.class);
-                        i.putExtra("providerId", searchResults.get(position).getId());
-                        i.putExtra("providerName", searchResults.get(position).getName());
-                        view.getContext().startActivity(i);
-                    }
-                });
-            } else {
-                buy_bundles.setVisibility(View.GONE);
-            }
 
             ((TextView) v.findViewById(R.id.tv_name)).setText(namePacifyr);
             //((TextView) v.findViewById(R.id.angr_mgmt)).setText(emotion);

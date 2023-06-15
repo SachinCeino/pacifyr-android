@@ -33,68 +33,70 @@
 
     <ImageView
         android:id="@+id/label_no_of_sessions"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/noofsessions"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/value_price"
         app:layout_constraintTop_toBottomOf="@+id/label_description" />
 
     <com.pacifyr.client.customview.MainTextView
         android:id="@+id/value_no_of_sessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:text=""
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/label_no_of_sessions"
         app:layout_constraintTop_toTopOf="@+id/label_no_of_sessions" />
 
     <ImageView
         android:id="@+id/label_duration"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/duration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_no_of_sessions" />
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/value_no_of_sessions"
+        app:layout_constraintTop_toBottomOf="@+id/label_description" />
 
 
     <com.pacifyr.client.customview.MainTextView
         android:id="@+id/value_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:text=""
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/label_duration"
         app:layout_constraintTop_toTopOf="@+id/label_duration" />
 
     <ImageView
         android:id="@+id/label_price"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/amount"
+        android:src="@drawable/icon_dollar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_duration" />
+        app:layout_constraintTop_toBottomOf="@+id/label_description" />
 
 
     <com.pacifyr.client.customview.MainTextView
         android:id="@+id/value_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:text=""
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/label_price"
         app:layout_constraintTop_toTopOf="@+id/label_price" />
@@ -115,12 +117,12 @@
 
     <Button
         android:id="@+id/action_buy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:background="@drawable/blue_border_curved"
         android:text="@string/buy"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/value_price"
+        app:layout_constraintTop_toBottomOf="@+id/label_duration"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

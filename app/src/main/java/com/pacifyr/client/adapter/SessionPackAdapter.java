@@ -66,7 +66,7 @@ public class SessionPackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (items.get(holder.getAdapterPosition()).getSubscribed()) {
             setButtonState(itemHolder.itemView.getContext(), itemHolder.actionBuy, false, R.string.subscribed);
         } else {
-            setButtonState(itemHolder.itemView.getContext(), itemHolder.actionBuy, true, R.string.buy);
+            setButtonState(itemHolder.itemView.getContext(), itemHolder.actionBuy, true, R.string.buy_bundle);
         }
 
         itemHolder.actionBuy.setOnClickListener(new View.OnClickListener() {

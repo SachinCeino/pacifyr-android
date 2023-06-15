@@ -1182,5 +1182,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="paying_using_wallet">Paying for this appointment using wallet balance</string>
     <string name="remaining_wallet_balance">Remaining wallet balance</string>
     <string name="paying_using_bundle">Paying for this appointment using Bundle balance</string>
-    <string name="remaining_bundle_balance">Remaining bundle balance</string>
+    <string name="remaining_bundle_balance">Remaining sessions in bundle</string>
+    <string name="buy_bundle">Buy Bundle</string>
 </resources>

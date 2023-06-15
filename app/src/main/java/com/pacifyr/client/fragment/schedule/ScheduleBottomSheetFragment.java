@@ -502,14 +502,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 if (response.isSuccessful()) {
                     BalanceResponse balances = response.body();
                     if (balances != null) {
-                        txtv_next.setText(getString(R.string.confirm));
                         balance_first_line.setVisibility(VISIBLE);
                         balance_second_line.setVisibility(VISIBLE);
                         if (balances.getType().equals(BalanceResponse.TYPE_WALLET)) {
+                            txtv_next.setText(getString(R.string.confirm));
                             balance_first_line.setText(getString(R.string.paying_using_wallet));
                             balance_second_line.setText(getString(R.string.remaining_wallet_balance)
                                     + " : " + Utility.getPriceSign(getActivity()) + balances.getRemainingWalletBalances());
                         } else if (balances.getType().equals(BalanceResponse.TYPE_SESSION_PURCHASED)) {
+                            txtv_next.setText(getString(R.string.confirm));
                             balance_first_line.setText(getString(R.string.paying_using_bundle));
                             balance_second_line.setText(getString(R.string.remaining_bundle_balance)
                                     + ": " + balances.getNumberOfRemainingBundleSessions() + " sessions");

@@ -53,10 +53,10 @@
 
     <ImageView
         android:id="@+id/label_price"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/amount"
+        android:src="@drawable/icon_dollar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_bundle_desc" />
 
@@ -67,15 +67,15 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
         android:text=""
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/label_price"
         app:layout_constraintTop_toTopOf="@+id/label_price" />
 
     <ImageView
         android:id="@+id/label_sessions"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/noofsessions"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
         android:text=""
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/label_sessions"
         app:layout_constraintTop_toTopOf="@+id/label_sessions" />
