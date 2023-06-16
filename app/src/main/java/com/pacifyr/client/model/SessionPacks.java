@@ -39,7 +39,7 @@ public class SessionPacks implements Serializable {
         private Boolean expired;
         @SerializedName("price")
         @Expose
-        private Integer price;
+        private Float price;
         @SerializedName("name")
         @Expose
         private String name;
@@ -98,11 +98,11 @@ public class SessionPacks implements Serializable {
             this.expired = expired;
         }
 
-        public Integer getPrice() {
+        public Float getPrice() {
             return price;
         }
 
-        public void setPrice(Integer price) {
+        public void setPrice(Float price) {
             this.price = price;
         }
 

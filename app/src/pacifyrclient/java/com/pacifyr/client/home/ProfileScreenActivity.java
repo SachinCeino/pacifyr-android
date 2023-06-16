@@ -32,7 +32,6 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.BuyBundles;
 import com.pacifyr.client.adapter.CertificationProfileAdapter;
 import com.pacifyr.client.adapter.EducationProfileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -456,8 +455,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     }
                 });
 
-                if (prefM.getCountry().equalsIgnoreCase("us")) {
-                    action_get_bundles.setVisibility(View.VISIBLE);
+                /*if (prefM.getCountry().equalsIgnoreCase("us")) {
+                    //action_get_bundles.setVisibility(View.VISIBLE);
                     action_get_bundles.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -469,7 +468,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     });
                 } else {
                     action_get_bundles.setVisibility(View.GONE);
-                }
+                }*/
             }
             catch (Exception e)
             {

@@ -28,7 +28,6 @@ import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.BuyBundles;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
@@ -154,7 +153,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
                 chatPriceCtxv = v.findViewById(R.id.chat_price_ctxv);
                 buy_bundles = v.findViewById(R.id.action_get_bundles);
-                if (prefM.getCountry().equalsIgnoreCase("us")) {
+                /*if (prefM.getCountry().equalsIgnoreCase("us")) {
                     buy_bundles.setVisibility(View.VISIBLE);
                     buy_bundles.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -167,7 +166,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                     });
                 } else {
                     buy_bundles.setVisibility(View.GONE);
-                }
+                }*/
                 //chatLlay = (LinearLayout) v.findViewById(R.id.chat_llay);
 
                 schedule_rlay = v.findViewById(R.id.schedule_rlay);

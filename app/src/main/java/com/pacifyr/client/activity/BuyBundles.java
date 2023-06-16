@@ -195,15 +195,16 @@ public class BuyBundles extends PacifyrAppCompactActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.radio_upfront) {
                     label_desc.setText(getString(R.string.prepay_desc));
+                    val_price.setText(Utility.getPriceSign(BuyBundles.this) + "" + mPack.getPrice());
                 } else if (i == R.id.radio_as_you_go) {
                     label_desc.setText(getString(R.string.pay_as_you_go_desc));
+                    val_price.setText(mPack.getSlotInterval() + "mins / session");
                 }
             }
         });
 
         selectionGroup.check(R.id.radio_upfront);
         num_sessions.setText(mPack.getNumberOfSessions() + " sessions");
-        val_price.setText(Utility.getPriceSign(BuyBundles.this) + "" + mPack.getPrice());
 
         action_submit.setOnClickListener(new View.OnClickListener() {
             @Override

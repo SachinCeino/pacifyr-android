@@ -40,8 +40,10 @@ import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
+import com.pacifyr.client.model.SessionPacks;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.network.WebService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.receiver.NotificationUtils;
@@ -72,6 +74,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
@@ -415,26 +420,46 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     }
 
     public void showBundleBuyOption(boolean show) {
-        if (show) {
-            if (prefM.getCountry().equalsIgnoreCase("us")) {
-                action_get_bundles.setVisibility(View.VISIBLE);
-                action_get_bundles.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (pacifyer_obj != null) {
-                            Intent i = new Intent(view.getContext(), BuyBundles.class);
-                            i.putExtra("providerId", pacifyer_obj.getId());
-                            i.putExtra("providerName", pacifyer_obj.getName());
-                            view.getContext().startActivity(i);
+        setLoading();
+        showProgress();
+        new WebService(ConnectToSinglePacifyrActivity.this).getBundles(0, 1, pacifyer_obj.getId(), new Callback<SessionPacks>() {
+            @Override
+            public void onResponse(Call<SessionPacks> call, Response<SessionPacks> response) {
+                hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+                    if (!response.body().getResults().isEmpty()) {
+                        if (show) {
+                            if (prefM.getCountry().equalsIgnoreCase("us")) {
+                                action_get_bundles.setVisibility(View.VISIBLE);
+                                action_get_bundles.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (pacifyer_obj != null) {
+                                            Intent i = new Intent(view.getContext(), BuyBundles.class);
+                                            i.putExtra("providerId", pacifyer_obj.getId());
+                                            i.putExtra("providerName", pacifyer_obj.getName());
+                                            view.getContext().startActivity(i);
+                                        }
+                                    }
+                                });
+                            } else {
+                                action_get_bundles.setVisibility(View.GONE);
+                            }
+                        } else {
+                            action_get_bundles.setVisibility(View.GONE);
                         }
+                    } else {
+                        action_get_bundles.setVisibility(View.GONE);
                     }
-                });
-            } else {
-                action_get_bundles.setVisibility(View.GONE);
+                }
             }
-        } else {
-            action_get_bundles.setVisibility(View.GONE);
-        }
+
+            @Override
+            public void onFailure(Call<SessionPacks> call, Throwable t) {
+                hideProgress();
+            }
+        });
+
     }
 
     @Override
