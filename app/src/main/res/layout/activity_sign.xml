@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text=""
+                android:text="@string/covid_message"
                 android:textColorLink="@color/colorPrimary"
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />

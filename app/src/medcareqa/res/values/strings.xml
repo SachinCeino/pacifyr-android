@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [<!ENTITY appname "MedCare"><!ENTITY author "sachin@ceino.com">]>
+<resources>
+    <string name="app_name">&appname;</string>
+    <string name="pacifyr_audio">&appname; AUDIO CALL</string>
+    <string name="pacifyr_video">&appname; VIDEO CALL</string>
+    <string name="feel_better">Feel better with &appname;</string>
+    <string name="user_type_error">This is a Provider account. Please use &appname; for counselor app to sign in</string>
+    <string name="CHANNEL_ID">&appname;_general_notifications</string>
+    <string name="APP_SOURCE">MedcareAndroidTestClient</string>
+    <string name="get_ready_feel_better">Feel better with &appname;</string>
+    <string name="connect_to_wellness">Connect to wellness/ health Expert through video, audio or chat.</string>
+    <string name="thirty_free">Free Introductory call time.</string>
+    <string name="no_credit_card">Free Introductory call time.</string>
+    <string name="if_emergency">If in emergency call 911 or rush to an emergency room.</string>
+
+    <!--fonts-->
+    <string name="main_font_bold">poppins_bold.ttf</string>
+    <string name="main_font_medium">poppins_regular.ttf</string>
+
+    <!--URLs-->
+    <string name="URL_PRIVACY_POLICY">https://pacifyr.com/privacy.html</string>
+    <string name="URL_TERMS">https://pacifyr.com/terms.html</string>
+    <string name="URL_DISPUTE_POLICY">https://pacifyr.com/copyright.html</string>
+
+    <string name="URL_PRIVACY_POLICY_INDIA">https://pacifyr.com/India_Privacy_Policy.pdf</string>
+    <string name="URL_TERMS_INDIA">https://pacifyr.com/Terms_of_Use%20_Clients.pdf</string>
+    <string name="URL_DISPUTE_POLICY_INDIA">https://pacifyr.com/Indian_Copyright_Dispute_Policy.pdf</string>
+    <string name="BASE_URL_DEV">http://medcare-test.pacifyr.net:8080/pacifyr/v1/</string>
+    <string name="BASE_IMAGE_URL_DEV">https://pacifyrtest.storage.googleapis.com/</string>
+    <string name="BASE_URL">http://update/pacifyr/v1/</string> <!--needs update-->
+    <string name="BASE_IMAGE_URL">https://update/</string> <!-- needs update-->
+
+
+
+</resources>

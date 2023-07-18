@@ -2,6 +2,7 @@ package com.pacifyr.client.utility;
 
 import android.content.Context;
 
+import com.pacifyr.client.R;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 
@@ -54,7 +55,17 @@ public class AWSManager {
                 //Dev
                 return "PAMClientTestAndroid";
             }
-        } else {
+        }
+        else if (PACKAGE_NAME.equals(UtilityNetworkService.PACKAGE_MEDCARE)) {
+            if (UtilityNetworkService.isProd) {
+                //Prod
+                return context.getString(R.string.APP_SOURCE);
+            } else {
+                //Dev
+                return context.getString(R.string.APP_SOURCE);
+            }
+        }
+        else {
             return "";
         }
 

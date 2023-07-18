@@ -25,7 +25,7 @@
     <string name="cost_for_one_hour">Cost for one hour</string>
     <string name="price">Price</string>
 
-    <string name="sms_text_login">OMHealthCare will send you an SMS message to confirm your phone number</string>
+    <string name="sms_text_login"> will send you an SMS message to confirm your phone number</string>
     <string name="call_emergency">If this is an emergency call, please hang up and dial 911 or rush to the nearest hospital.</string>
     <string name="card_number">card number</string>
 
@@ -144,6 +144,11 @@ Yor call is routed to the nearest crisis center.</string>
     /** URLS **/
     <string name="CHANNEL_ID">om_general_notifications</string>
     <string name="APP_SOURCE">om</string>
+    <string name="BASE_URL_DEV">http://testapp.pacifyr.net:8080/pacifyr/v1/</string>
+    <string name="BASE_IMAGE_URL_DEV">https://pacifyrtest.storage.googleapis.com/</string>
+    <string name="BASE_URL">https://app.pacifyr.net/pacifyr/v1/</string> <!--needs update-->
+    <string name="BASE_IMAGE_URL">https://pacifyrprod.storage.googleapis.com/</string> <!-- needs update-->
+
     <string name="URL_PRIVACY_POLICY">https://omhealthcare.com/privacyPolicy</string>
     <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
     <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
@@ -1001,7 +1006,7 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="mandatory_fields"> - required fields</string>
 
-    <string name="pacifyr_call_intro">When a councilor get a call from Patient Initially 5 minuts are given for -\n - Introduction of Patient\n - Introduction of Doctor\n - Collection of Valid proof of patient through Chat window\n - Councilor should genarate Payment gateway link to Patient\n - Once the councilor receives payment confirmation start the button on screen - Start Session (i.e. Exactly the consultation process begins) </string>
+    <string name="pacifyr_call_intro">When a councilor get a call from Patient Initially 5 minuts are given for -\n - Introduction of Patient\n - Introduction of Doctor\n - Collection of Valid proof of patient through Chat window\n - Councilor should generate Payment gateway link to Patient\n - Once the councilor receives payment confirmation start the button on screen - Start Session (i.e. Exactly the consultation process begins) </string>
 
     <string name="please_wait">Please wait…</string>
 
@@ -1184,4 +1189,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="paying_using_bundle">Paying for this appointment using Bundle balance</string>
     <string name="remaining_bundle_balance">Remaining sessions in bundle</string>
     <string name="buy_bundle">Buy Bundle</string>
+    <string name="sessions_summary">SESSIONS SUMMARY</string>
+    <string name="note_add_tilte">Add Notes</string>
+    <string name="med_record_id">Medical Record ID</string>
+
 </resources>

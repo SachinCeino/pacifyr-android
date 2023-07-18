@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp10"
+    tools:ignore="RtlSymmetry">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="15dp"
+        app:contentPaddingBottom="5dp"
+        app:contentPaddingLeft="14dp"
+        app:contentPaddingRight="14dp"
+        app:contentPaddingTop="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:textColor="@color/color_text_date"
+            android:textSize="@dimen/sp13"
+            tools:text="TODAY" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_send_bubble_arrow"
+        android:paddingEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_date">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_margin="@dimen/dp2"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_file"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginEnd="@dimen/dp2"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/dp3"
+            android:src="@drawable/pdfdoc3"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_message"
+            style="@style/MessageTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/dp10"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time_right"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Hi hello" />
+
+        <ImageView
+            android:id="@+id/iv_down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/dp3"
+            android:src="@drawable/ic_down_arrow_white"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/progress_message"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message"/>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_file_size"
+            style="@style/ChatSendTimeTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="@dimen/dp2"
+            android:paddingEnd="@dimen/dp5"
+            android:paddingBottom="@dimen/dp2"
+            android:textSize="@dimen/sp10"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time_bottom"
+            app:layout_constraintStart_toEndOf="@+id/iv_down_arrow"
+            tools:text="407KB"/>
+
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_time_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_round_gray"
+            android:paddingStart="@dimen/dp5"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="22:20" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_time_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_round_gray"
+            android:paddingStart="5dp"
+            android:paddingTop="@dimen/dp2"
+            android:paddingEnd="@dimen/dp5"
+            android:paddingBottom="@dimen/dp2"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_message"
+            tools:text="22:20" />
+
+        <ProgressBar
+            android:id="@+id/progress_message"
+            style="@style/CenterProgressBarStyle"
+            android:theme="@style/AppTheme.BlueAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

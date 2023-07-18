@@ -89,9 +89,10 @@ public class UtilityNetworkService extends IntentService {
 
     public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
+    public static final String PACKAGE_MEDCARE = "com.ceino.medcaredev";
     public static final String OM_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.ceino.pacifyr.omhealthcare";
     public static boolean isRelease = true;
-    public static boolean isProd = true;
+    public static boolean isProd = false;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";
     public static String TURN_SERVER = "";

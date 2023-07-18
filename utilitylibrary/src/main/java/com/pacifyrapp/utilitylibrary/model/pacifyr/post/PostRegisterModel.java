@@ -68,7 +68,7 @@ public class PostRegisterModel {
     private String timeZoneOffset;
     private Certification[] certification;
     private String[] states;
-    private String employeeId;
+    private String medicalRecordId;
 
     public String getTimeZoneOffset() {
         return timeZoneOffset;
@@ -302,11 +302,11 @@ public class PostRegisterModel {
         this.getPaidForQuickSurveys = getPaidForQuickSurveys;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getMedicalRecordId() {
+        return medicalRecordId;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setMedicalRecordId(String medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
     }
 }

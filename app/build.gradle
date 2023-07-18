@@ -90,21 +90,27 @@ android {
     // Specifies one flavor dimension.
     flavorDimensions "Pacifyr"
     productFlavors {
-        omwellbeing {
+       /* omwellbeing {
             // Assigns this product flavor to the "version" flavor dimension.
             // This property is optional if you are using only one dimension.
             dimension "Pacifyr"
             applicationId "com.ceino.pacifyr.omhealthcare"
             versionName "1.4"
             versionCode 20
-        }
+        }*/
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
             versionName "2.6.12"
             versionCode 224
         }
-        leadersup {
+        medcareqa{
+            dimension "Pacifyr"
+            applicationId "com.ceino.medcaredev"
+            versionName "1.0.0"
+            versionCode 1
+        }
+       /* leadersup {
             dimension "Pacifyr"
             applicationId "com.pacifyr.leadersup"
             versionName "1.1.1"
@@ -115,7 +121,7 @@ android {
             applicationId "com.pacifyr.pam"
             versionName "1.0.5"
             versionCode 4
-        }
+        }*/
     }
 
 

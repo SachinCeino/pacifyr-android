@@ -32,7 +32,7 @@ public class App extends Application {
 
 
         UtilityNetworkService uns = UtilityNetworkService.getInstance();//before this ,Remote config int must be called
-        uns.setRemoteConfigHelper(RemoteConfig.init());
+        uns.setRemoteConfigHelper(RemoteConfig.init(getApplicationContext()));
         UtilityNetworkService.init(this);
         initApplication();
 
@@ -41,7 +41,7 @@ public class App extends Application {
 //        initSampleConfigs();
         Auth.scanUpdates(this);
         UserProperties.setProperty(this);
-        RemoteConfig.init();
+        RemoteConfig.init(getApplicationContext());
         UtilityNetworkService.initFallback(this);
 
 

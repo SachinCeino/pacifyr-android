@@ -3,6 +3,7 @@ package com.pacifyr.client.utils;
 import android.content.Context;
 
 import com.pacifyr.client.R;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 import java.util.ArrayList;
 
@@ -49,15 +50,15 @@ public class Constants {
     }
 /**for indian users **/
     public static String getUrlPrivacyPolicyIndia(Context context) {
-        return context.getResources().getString(R.string.URL_PRIVACY_POLICY_INDIA);
+        return context.getResources().getString(R.string.URL_PRIVACY_POLICY);
     }
 
     public static String getUrlTermsIndia(Context context) {
-        return context.getResources().getString(R.string.URL_TERMS_INDIA);
+        return context.getResources().getString(R.string.URL_TERMS);
     }
 
     public static String getUrlDisputePolicyIndia(Context context) {
-        return context.getResources().getString(R.string.URL_DISPUTE_POLICY_INDIA);
+        return context.getResources().getString(R.string.URL_DISPUTE_POLICY);
     }
 
     public static ArrayList<String> getCountryChecks() {
@@ -66,5 +67,23 @@ public class Constants {
         COUNTRY_CHECKS.add("India");
         COUNTRY_CHECKS.add("Wakanda");
         return COUNTRY_CHECKS;
+    }
+
+    public static String getBaseUrl(Context context) {
+        if (UtilityNetworkService.isProd){
+            return  context.getResources().getString(R.string.BASE_URL);
+        }
+        else {
+            return context.getResources().getString(R.string.BASE_URL_DEV);
+        }
+    }
+
+    public static String getBaseUrlImage(Context context) {
+        if (UtilityNetworkService.isProd){
+            return  context.getResources().getString(R.string.BASE_IMAGE_URL);
+        }
+        else {
+            return context.getResources().getString(R.string.BASE_IMAGE_URL_DEV);
+        }
     }
 }

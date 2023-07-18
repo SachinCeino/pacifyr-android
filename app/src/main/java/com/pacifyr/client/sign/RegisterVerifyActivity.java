@@ -121,7 +121,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                 public void onClick(View view) {
                     if (ConnectionCheckBroadcast.CheckInternetConnection(getApplicationContext()))
                     {
-                        setLoading();
+                        setLoadingWait();
                         showProgress();
                         if(!isValid(mVerificationId,"Incorrect Confirmation Code")) {
                             hideProgress();

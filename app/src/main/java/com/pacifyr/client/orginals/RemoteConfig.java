@@ -1,6 +1,7 @@
 package com.pacifyr.client.orginals;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.pacifyr.client.fragment.PrescriptionListFragment;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.MissedandDeclinedActivity;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.interfaces.RemoteConfigInterface;
 import com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper;
 
@@ -80,22 +82,24 @@ public class RemoteConfig implements RemoteConfigInterface {
     private static RemoteConfig instance;
 
     static FirebaseRemoteConfig mConfig;
+    private static Context context;
 
     public static FirebaseRemoteConfig Config() {
         if (mConfig == null) mConfig = FirebaseRemoteConfig.getInstance();
         Log.w("Config", "FirebaseRemoteConfig");
-        RemoteConfigHelper.setmFirebaseRConfig(mConfig, generateDefault());
+        RemoteConfigHelper.setmFirebaseRConfig(mConfig, generateDefault(context));
         return mConfig;
     }
 
-    public static RemoteConfig init() {
+    public static RemoteConfig init(Context context) {
+        RemoteConfig.context = context;
         Log.w("Config", "FirebaseRemoteConfiginit");
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setMinimumFetchIntervalInSeconds(3600)
 
                 .build();
         Config().setConfigSettingsAsync(configSettings);
-        Config().setDefaultsAsync(generateDefault());
+        Config().setDefaultsAsync(generateDefault(context));
         if (instance == null) {
             instance = new RemoteConfig();
         }
@@ -128,7 +132,7 @@ public class RemoteConfig implements RemoteConfigInterface {
                            // After config data is successfully fetched, it must be activated before newly fetched
                            // values are returned.
                            Config().activate();
-                           RemoteConfigHelper.setmFirebaseRConfig(mConfig, generateDefault());
+                           RemoteConfigHelper.setmFirebaseRConfig(mConfig, generateDefault(context));
                        } else {
                            Log.d(TAG, "Config params not updated: " );
                        }
@@ -138,7 +142,7 @@ public class RemoteConfig implements RemoteConfigInterface {
 
    }
 
-   public static Map<String,Object> generateDefault(){
+   public static Map<String,Object> generateDefault(Context context){
 
         Map<String,Object> m=new HashMap();
         m.put(_appType,"default");
@@ -147,8 +151,8 @@ public class RemoteConfig implements RemoteConfigInterface {
         //m.put(_apiUs,"https://app.pacifyr.net/pacifyr/v1/");
 
         m.put(_forceUpgrade,false);
-        m.put(_globalUrl,"https://app.pacifyr.net/pacifyr/v1/");
-        m.put(_globalImageUrl,"https://pacifyrprod.storage.googleapis.com/");
+        m.put(_globalUrl, Constants.getBaseUrl(context));
+        m.put(_globalImageUrl,Constants.getBaseUrlImage(context));
         m.put(_certificateKey,"production");
         m.put(_appId,"61574");
         m.put(_authKey,"2qzAw4EjRen6JeC");
@@ -168,8 +172,8 @@ public class RemoteConfig implements RemoteConfigInterface {
        m.put(_authKeyPam,"6ZSW67fV5vcUOc7");
        m.put(_authSecretPam,"7mQzMYGczcznz6z");
        //not pam dev
-       m.put(_pamGlobalUrlNonPamDev,"http://testapp.pacifyr.net:8080/pacifyr/v1/");
-       m.put(_pamGlobalImageUrlNonPamDev,"https://pacifyrtest.storage.googleapis.com/");
+       m.put(_pamGlobalUrlNonPamDev,Constants.getBaseUrl(context));
+       m.put(_pamGlobalImageUrlNonPamDev,Constants.getBaseUrlImage(context));
        m.put(_appIdNonPamDev,"60603");
        m.put(_authKeyNonPamDev,"RMyP9v64ke8ccet");
        m.put(_authSecretNonPamDev,"6TAfArmeSzME8su");
