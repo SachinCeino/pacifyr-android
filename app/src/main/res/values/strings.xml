@@ -1192,5 +1192,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="sessions_summary">SESSIONS SUMMARY</string>
     <string name="note_add_tilte">Add Notes</string>
     <string name="med_record_id">Medical Record ID</string>
+    <string name="medical_record_id_required">Please enter Medical Records Id</string>
 
 </resources>

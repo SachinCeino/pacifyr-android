@@ -201,16 +201,18 @@ public class RegisterActivity extends PacifyrActivity {
     private Context context;
     private  LinearLayout upload_layout;
     private TextView upload_textView;
-    private  TextView add_photo_textView;
-    private  TextView terms_of_use,privacy_ctxv;
+    private TextView add_photo_textView;
+    private TextView terms_of_use, privacy_ctxv;
     private TextView TextView_Upload;
-    /** docs upload**/
+    /**
+     * docs upload
+     **/
     private LinearLayout uploadDocLayout;
     private EditText upload_docs_ctxv;
     private RecyclerView file_list_rcv;
     private RecyclerView.Adapter fileAdapter;
-    private TextView TextView_Name_Error,TextView_Email_Error,TextView_Phone_Error,TextView_Phonelay_Error,
-            TextView_Year_Error,TextView_terms_Error;
+    private TextView TextView_Name_Error, TextView_Email_Error, TextView_Phone_Error, TextView_Phonelay_Error,
+            TextView_Year_Error, TextView_terms_Error, TextView_employeeId_Error;
     private RelativeLayout RelativeLayout_UploadDoc;
     private View layout_states;
     private EditText selected_states_txtv_err;
@@ -288,18 +290,20 @@ public class RegisterActivity extends PacifyrActivity {
             documentFileList = new ArrayList<ModelPacifyrDocuments>();
             file_list_rcv = findViewById(R.id.file_list_rcv);
 
-            TextView_Name_Error =findViewById(R.id.TextView_Name_Error);
-            TextView_Email_Error=findViewById(R.id.TextView_Email_Error);
-            TextView_Phone_Error=findViewById(R.id.TextView_Phone_Error);
-            TextView_Phonelay_Error=findViewById(R.id.TextView_Phonelay_Error);
+            TextView_Name_Error = findViewById(R.id.TextView_Name_Error);
+            TextView_Email_Error = findViewById(R.id.TextView_Email_Error);
+            TextView_Phone_Error = findViewById(R.id.TextView_Phone_Error);
+            TextView_Phonelay_Error = findViewById(R.id.TextView_Phonelay_Error);
+            TextView_employeeId_Error = findViewById(R.id.TextView_employeeId_Error);
+
 
             context = RegisterActivity.this;
 
 
-            CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
-                    R.layout.spinner_item,R.id.txt, Country.getAvailableCountryList());
+            CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
+                    R.layout.spinner_item, R.id.txt, Country.getAvailableCountryList());
             spinner.setAdapter(adapter);
-            spinner.setSelection(Country.getIndex(this,Country.getAvailableCountryList()));
+            spinner.setSelection(Country.getIndex(this, Country.getAvailableCountryList()));
             String countryCode = prefM.getCountryCode();
 
 
@@ -424,14 +428,31 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
+            employeeid_edt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_employeeId_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(employeeid_edt);
+                }
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_employeeId_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(employeeid_edt);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_employeeId_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(employeeid_edt);
+                }
+            });
 
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                    {
+                    if (isChecked) {
                         TextView_terms_Error.setVisibility(View.GONE);
                     }
                 }
@@ -783,6 +804,9 @@ public class RegisterActivity extends PacifyrActivity {
                     return;
                 if (!isValidYear(yearEdit.getText().toString()))
                     return;
+                if (!validMedRecordId(employeeid_edt.getText().toString().trim())) {
+                    return;
+                }
                 if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
                     return;
                 postRegisterModel.setLoginType("manual");
@@ -879,6 +903,15 @@ public class RegisterActivity extends PacifyrActivity {
             LogUtils.LOGD("sign", "lA validRegister exception " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private boolean validMedRecordId(String medRecordId) {
+        if (medRecordId != null && !medRecordId.isEmpty()) {
+            return true;
+        }
+        makEditTextBackgroundRed(employeeid_edt);
+        makeAlertMessageInTextView(TextView_employeeId_Error, getString(R.string.medical_record_id_required));
+        return false;
     }
 
     @Override

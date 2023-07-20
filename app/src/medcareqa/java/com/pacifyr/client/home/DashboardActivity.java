@@ -1310,27 +1310,27 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                             Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
                         }else {
                             if (isValid(user.getImage()))
-                                imageUrl=user.getImage();
-                            if(isValid(imageUrl))
+                                imageUrl = user.getImage();
+                            if (isValid(imageUrl)) {
                                 Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                            }
                         }
 
                         MRoleModel roleModel = user.getRoleModel();
                         mainLabel = roleModel.getMainLabel();
                         label=roleModel.getLabel();
-                        if (mainLabel.equals("customer"))
-                        { if (label.equalsIgnoreCase("customer")) {
-                            coupon_llay.setVisibility(View.VISIBLE);
-                            coupon_view.setVisibility(View.VISIBLE);
-                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("customer");
+                        if (mainLabel.equals("customer")) {
+                            if (label.equalsIgnoreCase("customer")) {
+                                coupon_llay.setVisibility(View.VISIBLE);
+                                coupon_view.setVisibility(View.VISIBLE);
+                                PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("customer");
 
-                        } else if (label.equalsIgnoreCase("paidMember")) {
-                            coupon_llay.setVisibility(View.VISIBLE);
-                            coupon_view.setVisibility(View.VISIBLE);
-                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("paidMember");
-                            }
-                        else if (label.equalsIgnoreCase("employee")) {
+                            } else if (label.equalsIgnoreCase("paidMember")) {
+                                coupon_llay.setVisibility(View.VISIBLE);
+                                coupon_view.setVisibility(View.VISIBLE);
+                                PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("paidMember");
+                            } else if (label.equalsIgnoreCase("employee")) {
                             coupon_llay.setVisibility(View.VISIBLE);
                             coupon_view.setVisibility(View.VISIBLE);
                             PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("employee");

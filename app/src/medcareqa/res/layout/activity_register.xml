@@ -313,8 +313,9 @@
                     android:gravity="center_vertical"
                     android:hint="@string/med_record_id"
                     android:inputType="textCapWords"
+                    android:drawableStart="@drawable/red_star"
+                    android:drawableLeft="@drawable/red_star"
                     android:minHeight="40dp"
-                    android:paddingStart="15dp"
                     android:textColor="@color/medium_grey_pacifyr"
                     android:textSize="@dimen/sp16" />
 
