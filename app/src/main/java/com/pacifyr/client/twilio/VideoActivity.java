@@ -2329,7 +2329,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         cIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         cIntent.setAction(Long.toString(System.currentTimeMillis()));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
-                cIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                cIntent, PendingIntent.FLAG_IMMUTABLE);
 
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID_DEFAULT)
@@ -4244,7 +4244,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         Intent intent = new Intent(VideoActivity.this, VideoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,
                 Constants.getChannelId(VideoActivity.this))
                 .setSmallIcon(R.drawable.ic_pacifyr_notification)
