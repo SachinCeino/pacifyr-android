@@ -16,14 +16,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.google.firebase.FirebaseApp;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
@@ -35,6 +35,7 @@ import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONObject;
 
 public class SplashScreen extends BaseAppCompactActivity {
@@ -42,7 +43,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     private static final String TAG = SplashScreen.class.getSimpleName();
     private ProgressBar progressquest2;
     public static String trigger = "Start";
-    private static int SPLASH_TIME_OUT = 1000;
+    private static final int SPLASH_TIME_OUT = 1000;
     SharedPreferences sharedpreferences;
     String label;
     JSONObject userObject;
@@ -53,7 +54,6 @@ public class SplashScreen extends BaseAppCompactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Auth.foreground(this.getClass().getName());
-        FirebaseApp.initializeApp(this);
         RemoteConfig.Update(this);
         UtilityNetworkService.init(this);
        // Log.w("AUTH_SECRET",APP_ID+AUTH_KEY+AUTH_SECRET);

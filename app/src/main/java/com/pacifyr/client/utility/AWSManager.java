@@ -34,7 +34,7 @@ public class AWSManager {
                 return "PacifyrUserAndroidDev";
             } else {
                 //Dev
-                return "PacifyrAndroidDev2";
+                return "PacifyrUserAndroidDev";
             }
         }
         else if (PACKAGE_NAME.equals("com.ceino.pacifyr.omhealthcare")){

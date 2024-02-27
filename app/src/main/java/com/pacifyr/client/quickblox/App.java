@@ -5,7 +5,10 @@ import android.app.Application;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.pacifyr.client.BuildConfig;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.orginals.UserProperties;
@@ -26,6 +29,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         //MultiDex.install(getBaseContext());
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setProjectId(BuildConfig.FIREBASE_PROJECT_ID)
+                .setApiKey(BuildConfig.FIREBASE_PROJECT_API_KEY)
+                .setApplicationId(BuildConfig.FIREBASE_APP_ID).build();
+        FirebaseApp.initializeApp(this, options);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         /*StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());*/

@@ -825,9 +825,9 @@ public class RegisterActivity extends PacifyrActivity {
 
             postRegisterModel.setCountry(countryData.getCountry());
             postRegisterModel.setDateOfBirth(yearEdit.getText().toString());
-            if (isValid(employeeid_edt.getText().toString())) {
+            /*if (isValid(employeeid_edt.getText().toString())) {
                 postRegisterModel.setEmployeeId(employeeid_edt.getText().toString().trim());
-            }
+            }*/
             postRegisterModel.setPhoneNumber(phoneRegister);
             String[] states = getStringArray(statesSelected);
             if (isValid(states)) {
@@ -1103,7 +1103,7 @@ public class RegisterActivity extends PacifyrActivity {
         return null;
     }
 
-    long TIME = 1 * 1000;
+    long TIME = 1000;
     private void setClicks() {
 
         try {

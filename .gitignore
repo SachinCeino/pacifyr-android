@@ -13,3 +13,5 @@ app/pacifyrclient/release/*
 /quickblox-chat/build/
 /quickblox-core/build/
 /quickblox-videochat-webrtc/build/
+/apikeys.properties
+/apikeysdev.properties
