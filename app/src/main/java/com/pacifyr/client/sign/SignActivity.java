@@ -36,7 +36,7 @@ public class SignActivity extends PacifyrActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        checkForAppUpdate(SignActivity.this, APP_UPDATE_REQUEST_CODE);
+        //checkForAppUpdate(SignActivity.this, APP_UPDATE_REQUEST_CODE);
     }
 
     @Override

@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -58,9 +57,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import dev.aige.wheelpicker.WheelPicker;
-import dev.aige.wheelpicker.widgets.WheelYearPicker;
-
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -68,14 +64,6 @@ import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -140,8 +128,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.BaseUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import com.squareup.picasso.Picasso;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
@@ -170,6 +156,8 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import dev.aige.wheelpicker.WheelPicker;
+import dev.aige.wheelpicker.widgets.WheelYearPicker;
 
 /**
 
@@ -2025,7 +2013,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     DashboardActivity.start(PacifyrActivity.this, true);
                                 }
                             });
-                            return;
                         }
                         else {
                             showIOSDialogOK("", getString(R.string.provider_is_in_insession_), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
@@ -2035,7 +2022,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                                 }
                             });
-                            return;
                         }
 
 
@@ -3977,22 +3963,18 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         initializePaytmPayment(paytmChecksum, paytm,sessionid,isFromsessionExtension);
                                     }else {
                                         Log.w("PAYTMLOG","generateCheckSum-----"+"paytmChecksum not available !");
-                                        return;
                                     }
                                 }
                                 else {
                                     Toast.makeText(PacifyrActivity.this, stat, Toast.LENGTH_SHORT).show();
-                                    return;
                                 }
 
                             } else {
                                 Log.w("PAYTMLOG","generateCheckSum-----"+"status not available");
-                                return;
                             }
                         }
                         else {
                             Log.w("PAYTMLOG","generateCheckSum-----"+"Json not valid");
-                            return;
                         }
 
                     } catch (Exception e) {
@@ -4181,7 +4163,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         }
                         else {
                             Log.w("PAYTMLOG2","generateCheckSum-----"+"Json not valid");
-                            return;
                         }
 
                     } catch (Exception e) {
@@ -4270,7 +4251,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         }
                         else {
                             Log.w("PAYTMLOG2","generateCheckSum-----"+"Json not valid");
-                            return;
                         }
 
                     } catch (Exception e) {
@@ -4408,7 +4388,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         });
                     }
                 }, 2000);
-                return;
             } else {
 
                 if (isCallActive)
@@ -4644,7 +4623,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     });
                 }
             }, 2000);
-            return;
         } else {
 
             if (isCallActive)
@@ -4805,7 +4783,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     });
                 }
             }, 2000);
-            return;
         }
         else {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
@@ -4836,7 +4813,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 }
             }, 2000);
 
-            return;
         }
 
     }
@@ -4887,7 +4863,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     });
                 }
             }, 2000);
-            return;
         } else {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
                 if (isCallActive)
@@ -5007,7 +4982,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     });
                 }
             }, 2000);
-            return;
         } else {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
                 if (isCallActive)
@@ -5303,7 +5277,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public static boolean flexibleUpdatePopupShown = false;
-    public void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
+    /*public void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
         if (VideoActivity.isCallActive) {
             Log.d(TAG, "Call is active. Not checking for updates");
             return;
@@ -5317,10 +5291,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         // Checks whether the platform allows the specified type of update,
         // and current version staleness.
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-           /* Log.d(TAG, "Check for app update");
+           *//* Log.d(TAG, "Check for app update");
             Log.d(TAG, "Update available : " + (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE ? "Yes" : "No"));
             Log.d(TAG, "Stateness Days : " + appUpdateInfo.clientVersionStalenessDays());
-            Log.d(TAG, "App update Info : " + appUpdateInfo.toString());*/
+            Log.d(TAG, "App update Info : " + appUpdateInfo.toString());*//*
 //            Toast.makeText(context, "App update available : " + (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE ? "Yes" : "No"), Toast.LENGTH_LONG).show();
 //            Log.d(TAG, "version code " + appUpdateInfo.availableVersionCode());
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
@@ -5382,7 +5356,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 //Toast.makeText(context, "App update : " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
     private boolean checkIfImmediateUpdateRequired(int availableVersionCode) {
         long code = FirebaseLogging.getAppVersionCode(getApplicationContext());

@@ -1552,7 +1552,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        checkForAppUpdate(DashboardActivity.this, APP_UPDATE_REQUEST_CODE);
+        //checkForAppUpdate(DashboardActivity.this, APP_UPDATE_REQUEST_CODE);
         Auth.foreground(DashboardActivity.class.getSimpleName());
     }
 
