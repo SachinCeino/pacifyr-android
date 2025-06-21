@@ -1264,7 +1264,7 @@ boolean itIsFirstCallFrom=true;
                         videoCamImg.setVisibility(View.VISIBLE);
                         daysTxv.setVisibility(View.VISIBLE);
                         Text_appointmentTime.setVisibility(View.GONE);
-                        MyLastSessionTitle.setText(getResources().getString(R.string.my_last_session));
+                        MyLastSessionTitle.setText(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.my_last_session));
                         appointMentBackground.setBackground(getResources().getDrawable(R.drawable.solid_circle));
                         lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
                         Glide.with(getContext()).load(GLOBAL_IMAGE_URL+lastSession.getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
@@ -1292,9 +1292,9 @@ boolean itIsFirstCallFrom=true;
                     String country = prefM.getCountry();
                     String sign ="$";
                     if(country.equals("India")){
-                        sign=getContext().getResources().getString(R.string.rupee);
+                        sign = getContext().getResources().getString(com.pacifyrapp.utilitylibrary.R.string.rupee);
                     }else {
-                        sign=getContext().getResources().getString(R.string.dollar);
+                        sign = getContext().getResources().getString(com.pacifyrapp.utilitylibrary.R.string.dollar);
                     }
                     paidTxv.setText(sign+lastWeek.getSpendings());
                 }

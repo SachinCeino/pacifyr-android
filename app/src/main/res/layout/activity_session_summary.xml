@@ -319,9 +319,7 @@
                                 android:layout_width="200dp"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                app:progressBackgroundColor="#000"
                                 app:progressColor="@color/colorPrimary"
-                                app:thumbAlpha="1.0"
                                 app:thumbColor="@color/grey_fit" />
                             <!--         android:maxHeight="300sp"-->
 

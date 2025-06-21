@@ -167,7 +167,7 @@ public class PacifyrAccountFragment extends BaseFragment {
         try {
             if(isValid(NetworkService.mCurrentUser)) {
                 if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
-                        Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                        Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileCimv);
                 }
                 ModelUserProfile user =NetworkService.mCurrentUser;
                 defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
@@ -226,7 +226,7 @@ public class PacifyrAccountFragment extends BaseFragment {
         try {
             if(isValid(NetworkService.mCurrentUser)) {
                 if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
-                    Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                    Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileCimv);
                 }
                 defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
                 defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());

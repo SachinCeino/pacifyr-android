@@ -363,7 +363,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
                     //ToastHandler.newInstance(LoginPhoneActivity.this).showToast("main_label :"+main_label+" label"+label);
                     if (main_label.equals("pacifyr")){
                         hideProgress();
-                        setStatus(getResources().getString(R.string.user_type_error), R.color.md_red_400);
+                        setStatus(getResources().getString(R.string.user_type_error), com.pacifyrapp.utilitylibrary.R.color.md_red_400);
                         showStatus();
                         fbLogout();
                         prefM.clearSharedAll();
@@ -390,7 +390,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
                         editProfileObject=new JSONObject();
                         //NetworkService.editProfileObject.putOpt("online", true);
                         hideProgress();
-                        setStatus("Login Success ", R.color.md_green_400);
+                        setStatus("Login Success ", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                         showStatus();
 
                         new AmazonSNSTokenHandler(getApplicationContext()).register();
@@ -503,7 +503,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv, getResources().getString(R.string.sign_in));
+        defSetText(titleTxv, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.sign_in));
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {

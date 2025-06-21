@@ -116,7 +116,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
     public static void start(Context context,String sId) {
         Intent intent = new Intent(context, SummaryDetailActivity.class);
-       // isEditable = false;
+        // isEditable = false;
         SummaryDetailActivity.isAudioCall=true;
         sessionid = sId;
         context.startActivity(intent);
@@ -126,32 +126,32 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-            ratingId = null;
-            LogUtils.LOGD("sessionaaSD", " SDA onCreate sessionid " + sessionid);
-            if(!isValid(sessionid, "Please check later")) {
-                LogUtils.LOGD("session", " SDA onCreate sessionid not valid  " + sessionid);
-                //  handlerFinish("Error in last session ");
-                handlerFinish("Data not updated in last session ");
+        ratingId = null;
+        LogUtils.LOGD("sessionaaSD", " SDA onCreate sessionid " + sessionid);
+        if (!isValid(sessionid, "Please check later")) {
+            LogUtils.LOGD("session", " SDA onCreate sessionid not valid  " + sessionid);
+            //  handlerFinish("Error in last session ");
+            handlerFinish("Data not updated in last session ");
 
-            }
-            LogUtils.LOGD("session", " SDA onCreate sessionid " + sessionid);
-            setContentView(R.layout.activity_summary_detail);
+        }
+        LogUtils.LOGD("session", " SDA onCreate sessionid " + sessionid);
+        setContentView(R.layout.activity_summary_detail);
 
-            if(!isCustomer() && !isPacifyer()) {
-                ToastHandler.newInstance(this).mustShowToast("Session Expired : Please login again");
-                deleteInstallationWeb();
-                finish();
-            }
-            isCustomer = isCustomer();
+        if (!isCustomer() && !isPacifyer()) {
+            ToastHandler.newInstance(this).mustShowToast("Session Expired : Please login again");
+            deleteInstallationWeb();
+            finish();
+        }
+        isCustomer = isCustomer();
 
 
-            // webListEmotions(SummaryDetailActivity.this);
-            onCreateView();
-            if(isValid(sessionid)) webGetSessionDetail(sessionid);
-            else {
-                handlerFinish("Data not updated in last session ");
-                // finish();
-            }
+        // webListEmotions(SummaryDetailActivity.this);
+        onCreateView();
+        if (isValid(sessionid)) webGetSessionDetail(sessionid);
+        else {
+            handlerFinish("Data not updated in last session ");
+            // finish();
+        }
 
     }
 
@@ -264,7 +264,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                 afterFeelSelectionCtxv.setText(R.string.client_feeling_after_call_opinion);
             }
 
-           //  comments_cedt.setVisibility(View.GONE);
+            //  comments_cedt.setVisibility(View.GONE);
             recyclerView.setLayoutManager(new LinearLayoutManager(SummaryDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
             commentsRcv.setLayoutManager(new LinearLayoutManager(SummaryDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
             commentsRcv.setNestedScrollingEnabled(false);
@@ -386,7 +386,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
             //   int session_pos=mSessionDetailRoot.getSessionRatingList().size()-1;
             if(session_pos>=0)
-            id=mSessionDetailRoot.getSessionRatingList().get(session_pos).getAfterSessionEmotionId();
+                id = mSessionDetailRoot.getSessionRatingList().get(session_pos).getAfterSessionEmotionId();
 
         }catch (Exception e)
         {
@@ -413,7 +413,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
             //   int session_pos=mSessionDetailRoot.getSessionRatingList().size()-1;
             if(session_pos>=0)
-            id=mSessionDetailRoot.getSessionRatingList().get(session_pos).getAfterSessionEmotionId();
+                id = mSessionDetailRoot.getSessionRatingList().get(session_pos).getAfterSessionEmotionId();
 
         }catch (Exception e)
         {
@@ -437,7 +437,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
             }
             //int session_pos=mSessionDetailRoot.getSessionRatingList().size()-1;
             if(session_pos>=0)
-            id=mSessionDetailRoot.getSessionRatingList().get(session_pos).getBeforeSessionEmotionId();
+                id = mSessionDetailRoot.getSessionRatingList().get(session_pos).getBeforeSessionEmotionId();
 
         }catch (Exception e)
         {
@@ -463,7 +463,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                         pacifyrRateCtxv.setText("$ " + mSessionDetailRoot.getPacifyr().getPrice() + " " + Utility.getCostLabel(SummaryDetailActivity.this));
                         String  imagePac =  mSessionDetailRoot.getPacifyr().getImageUrl();
                         if (isValid(imagePac))
-                            Picasso.with(SummaryDetailActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                            Picasso.with(SummaryDetailActivity.this).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
 
                 }
@@ -476,7 +476,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                         pacifyrNameCtxv.setText(pacName);
                         String imagePac = mSessionDetailRoot.getUser().getImageUrl();
                         if (isValid(imagePac))
-                            Picasso.with(SummaryDetailActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                            Picasso.with(SummaryDetailActivity.this).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
                 }
 
@@ -922,7 +922,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
+        // super.onBackPressed();
 
     }
 

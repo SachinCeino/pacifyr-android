@@ -415,7 +415,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                             if (status.equals("success"))
                                             {
-                                                setStatus("Successfully booked", R.color.md_green_400);
+                                                setStatus("Successfully booked", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                                                 showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
@@ -423,14 +423,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                                         hideStatus();
                                                         if (isValid(USPAYMENT_MESSAGE_SUMMARY))
-                                                        showBillingSummary(USPAYMENT_MESSAGE_SUMMARY);
+                                                            showBillingSummary(USPAYMENT_MESSAGE_SUMMARY);
                                                     }
                                                 }, 4000);
 
                                             }
 
                                         } else {
-                                            setStatus(messsage, R.color.md_red_A700);
+                                            setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                             showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -443,8 +443,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
 
                                     } else {
-                                        setStatus("Something went wrong !", R.color.md_red_A700);
-                                        showStatus();
+                                    setStatus("Something went wrong !", com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
+                                    showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -1221,7 +1221,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
 
                                             if (status.equals("success")) {
-                                                setStatus(messsage, R.color.md_green_400);
+                                                setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                                                 showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
@@ -1232,7 +1232,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                     }
                                                 }, 2000);
                                             } else {
-                                                setStatus(messsage, R.color.md_red_A700);
+                                                setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                                 showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
@@ -1244,7 +1244,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                 }, 2000);
                                             }
                                         } else {
-                                            setStatus(messsage, R.color.md_red_A700);
+                                            setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                             showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -1258,7 +1258,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                         showStatus();
                                     } else {
-                                        setStatus("Something went wrong !", R.color.md_red_A700);
+                                        setStatus("Something went wrong !", com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                         showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
@@ -1459,7 +1459,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                             }
                                             if (status.equals("error"))
                                             {
-                                                setStatus(messsage, R.color.md_red_A700);
+                                                setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                                 showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
@@ -1472,7 +1472,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                             }
 
                                         } else {
-                                          setStatus(messsage, R.color.md_red_A700);
+                                            setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                             showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -1485,7 +1485,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
 
                                     } else {
-                                        setStatus("Something went wrong !", R.color.md_red_A700);
+                                        setStatus("Something went wrong !", com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                         showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
@@ -1661,7 +1661,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                             EventBus.getDefault().post("SCHEDULE_PAY");
                                         }
                                         else {
-                                            setStatus(messsage, R.color.md_red_A700);
+                                            setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                             showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -1674,7 +1674,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
 
                                     } else {
-                                        setStatus(messsage, R.color.md_red_A700);
+                                        setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                         showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
@@ -1687,7 +1687,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                     }
 
                                 } else {
-                                    setStatus("Something went wrong !", R.color.md_red_A700);
+                                    setStatus("Something went wrong !", com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                     showStatus();
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -1872,7 +1872,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                     }
                                                 }, 2000);*/
                                             } else {
-                                                setStatus(messsage, R.color.md_red_A700);
+                                                setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
                                                 showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
@@ -1884,8 +1884,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                 }, 2000);
                                             }
                                         } else {
-                                            setStatus(messsage, R.color.md_red_A700);
-                                         showStatus();
+                                            setStatus(messsage, com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
+                                            showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -1897,8 +1897,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
 
                                     } else {
-                                        setStatus("Something went wrong !", R.color.md_red_A700);
-                                       showStatus();
+                                        setStatus("Something went wrong !", com.pacifyrapp.utilitylibrary.R.color.md_red_A700);
+                                        showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {

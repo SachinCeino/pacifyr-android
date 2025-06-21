@@ -16,8 +16,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aigestudio.wheelpicker.WheelPicker;
-import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
+import dev.aige.wheelpicker.WheelPicker;
+import dev.aige.wheelpicker.widgets.WheelYearPicker;
+
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
@@ -105,7 +106,7 @@ public class AddPacifyrEducationActivity extends PacifyrActivity {
                 }
             });
             hideStatus();
-            hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+            hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
             showStatus();
 
 

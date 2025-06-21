@@ -173,7 +173,7 @@
 
             </LinearLayout>
 
-            <com.aigestudio.wheelpicker.widgets.WheelYearPicker
+            <dev.aige.wheelpicker.widgets.WheelYearPicker
                 android:id="@+id/wheel_date_picker_year"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -181,7 +181,7 @@
                 app:wheel_visible_item_count="3"
                 app:wheel_curved="true"
                 android:visibility="gone"
-                android:layout_below="@+id/phone_llay"/>
+                android:layout_below="@+id/phone_llay" />
 
             <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/year_edt"

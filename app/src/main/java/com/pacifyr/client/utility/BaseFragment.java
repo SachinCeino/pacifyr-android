@@ -464,8 +464,8 @@ public abstract class BaseFragment extends Fragment {
         }
     }
     public void setStatus(String status, int color) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.status_dialog, null, false);
-        CustomFontTextView status_dtxv = view.findViewById(R.id.status_dtxv);
+        View view = LayoutInflater.from(getActivity()).inflate(com.pacifyrapp.utilitylibrary.R.layout.status_dialog, null, false);
+        CustomFontTextView status_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
         hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(getActivity().getResources().getColor(color)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -861,7 +861,7 @@ public abstract class BaseFragment extends Fragment {
 
                     } else {
                         try {
-                            setStatus("Logout",R.color.color_scheme);
+                            setStatus("Logout", com.pacifyrapp.utilitylibrary.R.color.color_scheme);
                             showStatus();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -1332,7 +1332,7 @@ public abstract class BaseFragment extends Fragment {
 
                             saveCardExist(true);
                             hideStatus2();
-                            setStatus("Successfully added your card", R.color.md_green_400);
+                            setStatus("Successfully added your card", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                             showStatus();
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {

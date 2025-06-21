@@ -75,7 +75,7 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     {
                         Glide.with(context)
                                 .load(documents.getUri())
-                                .placeholder(context.getResources().getDrawable(R.drawable.placeholder_user))
+                                .placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user))
                                 .listener(new RequestListener<Drawable>() {
                                     @Override
                                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

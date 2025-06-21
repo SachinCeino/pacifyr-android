@@ -116,7 +116,7 @@ public class MyDialogFragment extends DialogFragment implements Serializable {
                         imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
 
                     if (isValidhtml(imgUrl))
-                        Picasso.with(getActivity()).load(imgUrl).placeholder(R.drawable.placeholder_user).into(pacifyr_profileImage);
+                        Picasso.with(getActivity()).load(imgUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyr_profileImage);
 
                 }
 

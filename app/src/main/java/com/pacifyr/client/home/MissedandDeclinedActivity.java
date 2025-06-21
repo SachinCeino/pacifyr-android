@@ -75,10 +75,10 @@ public class MissedandDeclinedActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View view) {
                 missedRcv.setVisibility(View.GONE);
-                missedCtxv.setTextColor(ContextCompat.getColor(context, R.color.blue_miss_decline));
-                missedCtxv.setBackground(getResources().getDrawable(R.drawable.white_background_right_square));
+                missedCtxv.setTextColor(ContextCompat.getColor(context, com.pacifyrapp.utilitylibrary.R.color.blue_miss_decline));
+                missedCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.white_background_right_square));
                 declinedCtxv.setTextColor(ContextCompat.getColor(context, R.color.white));
-                declinedCtxv.setBackground(getResources().getDrawable(R.drawable.blue_background_left_square));
+                declinedCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.blue_background_left_square));
                 getSession(typeDeclined);
             }
         });
@@ -88,9 +88,9 @@ public class MissedandDeclinedActivity extends PacifyrAppCompactActivity {
             public void onClick(View view) {
                 declinedRcv.setVisibility(View.GONE);
                 missedCtxv.setTextColor(ContextCompat.getColor(context, R.color.white));
-                missedCtxv.setBackground(getResources().getDrawable(R.drawable.blue_background_right_square));
-                declinedCtxv.setTextColor(ContextCompat.getColor(context, R.color.blue_miss_decline));
-                declinedCtxv.setBackground(getResources().getDrawable(R.drawable.white_background_left_square));
+                missedCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.blue_background_right_square));
+                declinedCtxv.setTextColor(ContextCompat.getColor(context, com.pacifyrapp.utilitylibrary.R.color.blue_miss_decline));
+                declinedCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.white_background_left_square));
                 getSession(typeMissed);
             }
         });

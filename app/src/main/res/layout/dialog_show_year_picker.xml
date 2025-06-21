@@ -61,14 +61,14 @@
                 android:layout_gravity="center"
                 android:layout_height="100dp"></NumberPicker>-->
 
-            <com.aigestudio.wheelpicker.widgets.WheelYearPicker
+            <dev.aige.wheelpicker.widgets.WheelYearPicker
                 android:id="@+id/wheel_date_picker_year"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="10dp"
                 app:wheel_visible_item_count="5"
                 app:wheel_curved="true"
-                android:layout_below="@+id/phone_llay"/>
+                android:layout_below="@+id/phone_llay" />
 
 
 

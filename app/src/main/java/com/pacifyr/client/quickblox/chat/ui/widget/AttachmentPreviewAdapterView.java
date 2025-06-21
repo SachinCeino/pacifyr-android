@@ -292,7 +292,7 @@ public class AttachmentPreviewAdapterView extends RecyclerView.Adapter<RecyclerV
     }
 
     private void showRejectedReasonPopUp(Object rejectReason) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
@@ -368,7 +368,7 @@ public class AttachmentPreviewAdapterView extends RecyclerView.Adapter<RecyclerV
     }
 
     private void showCancelledNotPopUp(Object preVisitNote) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);

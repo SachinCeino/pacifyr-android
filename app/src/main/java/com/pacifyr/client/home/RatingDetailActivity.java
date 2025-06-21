@@ -174,13 +174,13 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
                     getStatistics(weekStat);
                     callThisWeekRating(thisWeekUrl);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                    thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                    thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                     thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                    thisMntCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                    thisYearCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
 
-                    SortWeekAdapter adapter =new SortWeekAdapter(RatingDetailActivity.this,"week",ratingType);
+                    SortWeekAdapter adapter = new SortWeekAdapter(RatingDetailActivity.this, "week", ratingType);
                     LinearLayoutManager manager
                             = new LinearLayoutManager(RatingDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
                     listWeeksRcv.setLayoutManager(manager);
@@ -204,14 +204,14 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
                         showProgress();
                         getStatistics(monthStat);
                         callThisMonthRating(thisMonthUrl);
-                        thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                        thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                         thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                         thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                        thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                        thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                        thisWkCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        thisYearCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
 
-                        SortWeekAdapter adapter =new SortWeekAdapter(RatingDetailActivity.this,"month",ratingType);
+                        SortWeekAdapter adapter = new SortWeekAdapter(RatingDetailActivity.this, "month", ratingType);
                         LinearLayoutManager manager
                                 = new LinearLayoutManager(RatingDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
                         listWeeksRcv.setLayoutManager(manager);
@@ -234,14 +234,14 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
                     try {
                         showProgress();
                         thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                        thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                        thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                        thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                        thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                        thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisWkCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        thisMntCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
                         thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
                         getStatistics(yearStat);
                         callThisYearRating(thisYearUrl);
-                        SortWeekAdapter adapter = new SortWeekAdapter(RatingDetailActivity.this, "year",ratingType);
+                        SortWeekAdapter adapter = new SortWeekAdapter(RatingDetailActivity.this, "year", ratingType);
                         LinearLayoutManager manager
                                 = new LinearLayoutManager(RatingDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
                         listWeeksRcv.setLayoutManager(manager);

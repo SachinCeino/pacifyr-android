@@ -487,7 +487,7 @@ public class LoginActivity extends PacifyrActivity {
 
                 if (main_label.equals("pacifyr")) {
                     hideProgress();
-                    setStatus("Login Failed. Please Try again", R.color.md_red_400);
+                    setStatus("Login Failed. Please Try again", com.pacifyrapp.utilitylibrary.R.color.md_red_400);
                     showStatus();
                     fbLogout();
                     prefM.clearSharedAll();
@@ -518,7 +518,7 @@ public class LoginActivity extends PacifyrActivity {
                     NetworkService.startActionEditProfile(LoginActivity.this);
                     Boolean flag = userModel.isTermsAccepted();
                     hideProgress();
-                    setStatus("Login Successful", R.color.md_green_400);
+                    setStatus("Login Successful", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                     showStatus();
 
                     if (label.equalsIgnoreCase("employee")) {

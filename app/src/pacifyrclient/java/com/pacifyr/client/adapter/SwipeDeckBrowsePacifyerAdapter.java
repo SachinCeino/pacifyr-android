@@ -261,7 +261,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 //            RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
 
             if (isValidhtml(imgURL))
-                Glide.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
+                Glide.with(context).load(imgURL).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(img_prof);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -571,7 +571,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
               // Fragment fragmentCurrent = getSupportFragmentManager().findFragmentById(R.id.activity_main_content_fragment);
                if(bottomNavigationView.getVisibility()==View.VISIBLE){
                    if (!onceBackpressed) {
-                       ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
+                       ToastHandler.newInstance(this).mustShowToast("" + getText(com.pacifyrapp.utilitylibrary.R.string.press_back_again_to_exit));
                        onceBackpressed = true;
                        Handler handler = new Handler();
                        handler.postDelayed(new Runnable() {
@@ -1146,41 +1146,40 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         }
         Log.d(TAG, "execute navigation");
         currentItemId = item.getItemId();
-        switch (item.getItemId()) {
-            case R.id.bnm_dashboard:
-                if (!isInternetAvailable()) {
-                    showInternetNotAvailablePopup();
-                    return false;
-                }
-                hideRightLayActionbar();
-                Log.d(TAG, "show dashboard");
-                showFragment(new UserDashboardFragmentNew());
-                return true;
-            case R.id.bnm_resources:
+        if (item.getItemId() == R.id.bnm_dashboard) {
+            if (!isInternetAvailable()) {
+                showInternetNotAvailablePopup();
+                return false;
+            }
+            hideRightLayActionbar();
+            Log.d(TAG, "show dashboard");
+            showFragment(new UserDashboardFragmentNew());
+            return true;
+        } else if (item.getItemId() == R.id.bnm_resources) {
             if (!isInternetAvailable()) {
                 showInternetNotAvailablePopup();
                 return false;
             }
             hideRightLayActionbar();
             showFragment(new ResourcesFragment());
-                return true;
-            case R.id.bnm_messages:
-                if (!isInternetAvailable()) {
-                    showInternetNotAvailablePopup();
-                    return false;
-                }
-                hideRightLayActionbar();
-                showFragment(new MessagesFragment());
-                return true;
+            return true;
+        } else if (item.getItemId() == R.id.bnm_messages) {
+            if (!isInternetAvailable()) {
+                showInternetNotAvailablePopup();
+                return false;
+            }
+            hideRightLayActionbar();
+            showFragment(new MessagesFragment());
+            return true;
 
-            case R.id.bnm_providers:
-                if (!isInternetAvailable()) {
-                    showInternetNotAvailablePopup();
-                    return false;
-                }
-                hideRightLayActionbar();
-                showFragment(new ProvidersListFragment());
-                return true;
+        } else if (item.getItemId() == R.id.bnm_providers) {
+            if (!isInternetAvailable()) {
+                showInternetNotAvailablePopup();
+                return false;
+            }
+            hideRightLayActionbar();
+            showFragment(new ProvidersListFragment());
+            return true;
 
         }
         return false;
@@ -1201,7 +1200,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     });
                 }
                 else {
-                    String errorMessage = getString(R.string.error_retrieving_access_token);
+                    String errorMessage = getString(com.pacifyrapp.utilitylibrary.R.string.error_retrieving_access_token);
                     if (exception != null) {
                         errorMessage = errorMessage + " " + exception.getLocalizedMessage();
                     }
@@ -1293,14 +1292,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                         if (isValid(user.getImageUrl()))
                             imageUrl=user.getImageUrl();
                         if(isValid(imageUrl)) {
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(connectProviderActioBar);
                         }else {
                             if (isValid(user.getImage()))
-                                imageUrl=user.getImage();
-                            if(isValid(imageUrl))
-                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                                imageUrl = user.getImage();
+                            if (isValid(imageUrl))
+                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(connectProviderActioBar);
                         }
 
                         MRoleModel roleModel = user.getRoleModel();
@@ -1344,14 +1343,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                         if (isValid(user.getImageUrl()))
                             imageUrl=user.getImageUrl();
                         if(isValid(imageUrl)) {
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(connectProviderActioBar);
                         }else {
                             if (isValid(user.getImage()))
-                                imageUrl=user.getImage();
-                            if(isValid(imageUrl))
-                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                                imageUrl = user.getImage();
+                            if (isValid(imageUrl))
+                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(connectProviderActioBar);
                         }
 
                         MRoleModel roleModel = user.getRoleModel();

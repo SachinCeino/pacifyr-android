@@ -128,9 +128,9 @@ public class CustomerListAdapter extends  RecyclerView.Adapter<CustomerListAdapt
                     });
                     final String imgUrl =  results.getUser().getImage();
                     if (!isValidhtml(imgUrl))
-                        Picasso.with(context).load(GLOBAL_IMAGE_URL+imgUrl).placeholder(R.drawable.placeholder_user).into(holder.customerCimv);
+                        Picasso.with(context).load(GLOBAL_IMAGE_URL + imgUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(holder.customerCimv);
                     else
-                        Picasso.with(context).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.customerCimv);
+                        Picasso.with(context).load(imgUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(holder.customerCimv);
 
                 }else{
                     holder.topLlay.setVisibility(View.GONE);

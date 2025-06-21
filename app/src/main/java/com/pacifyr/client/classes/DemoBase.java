@@ -49,6 +49,6 @@ public abstract class DemoBase extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
+        overridePendingTransition(com.pacifyrapp.utilitylibrary.R.anim.move_left_in_activity, com.pacifyrapp.utilitylibrary.R.anim.move_right_out_activity);
     }
 }

@@ -91,7 +91,7 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
         }else {
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
             holder.imageView.setColorFilter(filter);
-            holder.emotion_ctxv.setTextColor(context.getResources().getColor(R.color.grey_dark));
+            holder.emotion_ctxv.setTextColor(context.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_dark));
         }
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {

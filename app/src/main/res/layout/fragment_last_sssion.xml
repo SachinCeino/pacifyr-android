@@ -194,9 +194,8 @@
                     android:layout_height="wrap_content"
                     android:maxHeight="300sp"
                     app:progressColor="@color/colorPrimary"
-                    app:progressBackgroundColor="#000"
                     app:thumbColor="@color/grey_fit"
-                    app:thumbAlpha="1.0"/>
+                    />
 
                 <rjsv.circularview.CircleView
                     android:id="@+id/circle_view"

@@ -162,7 +162,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.didnt_get_code));
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.didnt_get_code));
                 //setting color
                 final ForegroundColorSpan color = new ForegroundColorSpan(Color.parseColor("#3063f9"));
                 spanTxt.setSpan(color, spanTxt.length() - "resend".length(), spanTxt.length(), 0);
@@ -584,7 +584,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv, getResources().getString(R.string.sign_in));
+        defSetText(titleTxv, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.sign_in));
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {

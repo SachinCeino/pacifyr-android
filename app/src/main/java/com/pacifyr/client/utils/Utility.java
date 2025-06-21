@@ -544,9 +544,9 @@ public class Utility {
         String country = prefM.getCountry();
         String sign ="$";
         if(country.equals("India")){
-            sign=context.getResources().getString(R.string.rupee);
+            sign = context.getResources().getString(com.pacifyrapp.utilitylibrary.R.string.rupee);
         }else {
-            sign=context.getResources().getString(R.string.dollar);
+            sign = context.getResources().getString(com.pacifyrapp.utilitylibrary.R.string.dollar);
         }
 
         return sign+" ";

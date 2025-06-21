@@ -205,15 +205,14 @@
                 android:orientation="vertical"
                 android:layout_below="@+id/phone_llay"
                 android:id="@+id/l1">
-                <com.aigestudio.wheelpicker.widgets.WheelYearPicker
+                <dev.aige.wheelpicker.widgets.WheelYearPicker
                     android:id="@+id/wheel_date_picker_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     app:wheel_visible_item_count="3"
                     app:wheel_curved="true"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.pacifyr.client.customview.MainTextView
                     android:layout_width="match_parent"

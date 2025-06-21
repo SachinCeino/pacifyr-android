@@ -33,7 +33,7 @@ public class App extends Application {
                 .setProjectId(BuildConfig.FIREBASE_PROJECT_ID)
                 .setApiKey(BuildConfig.FIREBASE_PROJECT_API_KEY)
                 .setApplicationId(BuildConfig.FIREBASE_APP_ID).build();
-        FirebaseApp.initializeApp(this, options);
+        //FirebaseApp.initializeApp(this, options);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         /*StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());*/

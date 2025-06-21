@@ -405,7 +405,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             String  imgUrl = results.getPacifyr().getImageUrl();
             if(isValid(imgUrl)){
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
             }
 
             String sessionType = list.get(position).getSessionType();
@@ -464,7 +464,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             String imgUrl = results.getPacifyr().getImageUrl();
             if (isValid(imgUrl)) {
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(serviceNotProvided.userCimv);
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(serviceNotProvided.userCimv);
             }
 
             String sessionType = list.get(position).getSessionType();
@@ -510,8 +510,8 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             String imgUrl = results.getPacifyr().getImageUrl();
             if (isValid(imgUrl)) {
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user))
-                        .error(context.getResources().getDrawable(R.drawable.placeholder_user))
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user))
+                        .error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user))
                         .into(officeVisit.userCimv);
             }
 

@@ -87,11 +87,11 @@ public class SessionPackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private void setButtonState(Context context, Button button, boolean enabled, int label) {
         if (!enabled) {
             button.setText(context.getString(label));
-            button.setBackground(context.getDrawable(R.drawable.blue_round_square));
+            button.setBackground(context.getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.blue_round_square));
             button.setTextColor(context.getColor(R.color.white));
         } else {
             button.setText(context.getString(label));
-            button.setBackground(context.getDrawable(R.drawable.blue_border_curved));
+            button.setBackground(context.getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.blue_border_curved));
             button.setTextColor(context.getColor(R.color.colorPrimary));
         }
         button.setEnabled(enabled);

@@ -611,7 +611,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     else {
                         updateProfile(json);
                     }*/
-                        EventBus.getDefault().post(new EventMessage(getString(R.string.event_user_profile)));
+                        EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.event_user_profile)));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -645,7 +645,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             if(isValid(pacifyerDetial.getImage())) {
                 imgUrl = pacifyerDetial.getImage();
                 if (isValid(imgUrl))
-                    Picasso.with(this).load(GLOBAL_IMAGE_URL+imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                    Picasso.with(this).load(GLOBAL_IMAGE_URL + imgUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileCimv);
             }
             if (isValid(pacifyerDetial.getDescription()))
                 snapshotCtxv.setText(pacifyerDetial.getDescription());

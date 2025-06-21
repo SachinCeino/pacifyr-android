@@ -199,10 +199,10 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             holder.nameUserCtxv.setText(pac.getFirstName());
             String imgUrl=pac.getImage();
             if(isValidhtml(imgUrl)){
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(holder.userCimv);
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(holder.userCimv);
                 //Picasso.with(context).load(imgUrl).into(holder.userCimv);
             }else{
-                Picasso.with(context).load(GLOBAL_IMAGE_URL+imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(holder.userCimv);
+                Picasso.with(context).load(GLOBAL_IMAGE_URL + imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(holder.userCimv);
             }
 
             if(sessionType.equals("audio")) {
@@ -292,7 +292,7 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             String imgUrl = results.getUser().getImageUrl();
             if(isValid(imgUrl)){
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
                 //Picasso.with(context).load(imgUrl).into(holder.userCimv);
             }
 

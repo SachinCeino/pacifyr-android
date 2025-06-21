@@ -607,8 +607,8 @@ public class  NetworkService  extends IntentService {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
-                    modelGetSessionRating= GsonUtils.getInstance().gsonToMGetSessionRating(json);
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.get_session_rating)));
+                    modelGetSessionRating = GsonUtils.getInstance().gsonToMGetSessionRating(json);
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.get_session_rating)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -635,8 +635,8 @@ public class  NetworkService  extends IntentService {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
-                    modelGetSessionDetails= GsonUtils.getInstance().gsonMGetSessionDetails(json);
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.get_session_details)));
+                    modelGetSessionDetails = GsonUtils.getInstance().gsonMGetSessionDetails(json);
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.get_session_details)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -664,8 +664,8 @@ public class  NetworkService  extends IntentService {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
-                    modelGetSavedCards= GsonUtils.getInstance().gsonToMGetSavedCards(json);
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.earnings_api)));
+                    modelGetSavedCards = GsonUtils.getInstance().gsonToMGetSavedCards(json);
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.earnings_api)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -691,8 +691,8 @@ public class  NetworkService  extends IntentService {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
-                    modelAllPacifyrSessions= GsonUtils.getInstance().gsonToMGetAllPacifyrSessions(json);
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.earnings_api)));
+                    modelAllPacifyrSessions = GsonUtils.getInstance().gsonToMGetAllPacifyrSessions(json);
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.earnings_api)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -752,7 +752,7 @@ public class  NetworkService  extends IntentService {
                 try {
                     modelAllSessionsDateRange= GsonUtils.getInstance().gsonToMAllSessionsWithDateRange(json);
                     modelAllSessionsDateRange.toString();
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.get_sessions_date_range)));
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.get_sessions_date_range)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -780,7 +780,7 @@ public class  NetworkService  extends IntentService {
                 try {
                     adminDashboardYear= GsonUtils.getInstance().gsonToMAdminDashboardYear(json);
                     adminDashboardYear.toString();
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.event_admin_dash_year)));
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.event_admin_dash_year)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -808,7 +808,7 @@ public class  NetworkService  extends IntentService {
                 try {
                     adminDashboardMonth= GsonUtils.getInstance().gsonToMAdminDashboardMonth(json);
                     adminDashboardMonth.toString();
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.event_admin_dash_month)));
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.event_admin_dash_month)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -836,7 +836,7 @@ public class  NetworkService  extends IntentService {
                 try {
                     adminDashboardWeek= GsonUtils.getInstance().gsonToMAdminDashboardByWeek(json);
                     adminDashboardWeek.toString();
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.event_admin_dash_week)));
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.event_admin_dash_week)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -867,7 +867,7 @@ public class  NetworkService  extends IntentService {
                     modelSpecialist.toString();
                     String js=json.toString();
                     //Toast.makeText(getApplicationContext(), js, Toast.LENGTH_LONG).show();
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.event_message_from_service)));
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.event_message_from_service)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -900,7 +900,7 @@ public class  NetworkService  extends IntentService {
                     //searchResults=modelSearchPacifyr.getResultsList();
                     pSearchPacifyrWOptionsResponse.toString();
                     String js=json.toString();
-                    EventBus.getDefault().post(new EventMessage(getString(R.string.event_message_srch_pacfyr)));
+                    EventBus.getDefault().post(new EventMessage(getString(com.pacifyrapp.utilitylibrary.R.string.event_message_srch_pacfyr)));
                 } catch (Exception e) {
                     e.printStackTrace();//RespSearchPacifyrWOption
                 }

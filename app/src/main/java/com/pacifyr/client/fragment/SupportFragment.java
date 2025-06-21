@@ -105,7 +105,7 @@ public class SupportFragment extends BaseFragment {
                         try {
                             sendRlay.setClickable(true);
                             String js = json.toString();
-                            setStatus("Your message is sent successfully", R.color.md_green_400);
+                            setStatus("Your message is sent successfully", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                             messageEdit.setText("");
                             hideProgress();
                             showStatus();

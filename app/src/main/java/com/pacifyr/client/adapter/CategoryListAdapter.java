@@ -75,7 +75,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }
         else {
             holder.circleImageView.setBorderWidth(0);
-            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
+            holder.pac_name.setTextColor(context.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_dark));
         }
 
         holder.circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 }
                 else {
                     holder.circleImageView.setBorderWidth(0);
-                    holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
+                    holder.pac_name.setTextColor(context.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_dark));
                     specalArray[position].setSelect(false);
                 }
 
@@ -167,7 +167,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         Picasso.with(context).load(GLOBAL_IMAGE_URL + specalArray[position].getImage()+"").into(_ImageView_speciality);
 
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(),R.style.Theme_AppCompat_Light_Dialog);
+        AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.AppTheme);
         alert.setView(myView);
         alert.setCancelable(false);
         AlertDialog dialog = alert.create();

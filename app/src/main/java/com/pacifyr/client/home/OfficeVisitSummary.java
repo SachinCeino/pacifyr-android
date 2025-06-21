@@ -287,7 +287,7 @@ public class OfficeVisitSummary extends PacifyrAppCompactActivity {
                         pacifyrNameCtxv.setText(pacName);
                         String imagePac = mSessionDetailRoot.getPacifyr().getImageUrl();
                         if (isValid(imagePac))
-                            Picasso.with(OfficeVisitSummary.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                            Picasso.with(OfficeVisitSummary.this).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
 
 
@@ -297,7 +297,7 @@ public class OfficeVisitSummary extends PacifyrAppCompactActivity {
                         pacifyrNameCtxv.setText(pacName);
                         String imagePac = mSessionDetailRoot.getUser().getImageUrl();
                         if (isValid(imagePac))
-                            Picasso.with(OfficeVisitSummary.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                            Picasso.with(OfficeVisitSummary.this).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
 
                     }
                 }

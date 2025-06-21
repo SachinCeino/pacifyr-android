@@ -584,7 +584,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             if(isValid(pacifyer_obj))
             {
                 if(isValid(pacifyer_obj.getImage()))
-                Picasso.with(ConnectToSinglePacifyrActivity.this).load(NetworkService.GLOBAL_IMAGE_URL+pacifyer_obj.getImage()).placeholder(R.drawable.placeholder_user).into(pacifyer_cimv);
+                Picasso.with(ConnectToSinglePacifyrActivity.this).load(NetworkService.GLOBAL_IMAGE_URL + pacifyer_obj.getImage()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyer_cimv);
 
                 defSetText(pac_name_ctxv,pacifyer_obj.getFirstName()+" "+pacifyer_obj.getLastName());
                 defSetText(pac_des_ctxv,pacifyer_obj.getDescription());
@@ -709,13 +709,13 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     }
                 });
 
-                pacifyr_swipelay.setColorSchemeResources(R.color.md_blue_300, R.color.green, R.color.red, R.color.md_amber_300);
+                pacifyr_swipelay.setColorSchemeResources(com.pacifyrapp.utilitylibrary.R.color.md_blue_300, R.color.green, R.color.red, com.pacifyrapp.utilitylibrary.R.color.md_amber_300);
                 pacifyr_swipelay.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         pacifyr_swipelay.setRefreshing(true);
                         refreshPacifyr();
-                       // NetworkService.startActionListCustomer(ConnectToSinglePacifyrActivity.this, 0, 10);
+                        // NetworkService.startActionListCustomer(ConnectToSinglePacifyrActivity.this, 0, 10);
 
                     }
 

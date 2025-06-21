@@ -212,7 +212,7 @@ public class PacifyrTermsPolicyActivity extends PacifyrAppCompactActivity {
             profileNameCtxv.setText(getCurrentUserName());
             String imageurl=getCurrentUserImageUrl();
             if (isValid(imageurl)) {
-                Picasso.with(PacifyrTermsPolicyActivity.this).load(imageurl).placeholder(R.drawable.placeholder_user).into(profileImageCimv);
+                Picasso.with(PacifyrTermsPolicyActivity.this).load(imageurl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileImageCimv);
             }
         }catch (Exception e)
         {

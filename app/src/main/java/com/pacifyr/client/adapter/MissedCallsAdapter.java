@@ -130,7 +130,7 @@ public class MissedCallsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             String  imgUrl = results.getUser().getImageUrl();
             if(isValid(imgUrl)){
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
             }
 
             String sessionType = list.get(position).getSessionType();

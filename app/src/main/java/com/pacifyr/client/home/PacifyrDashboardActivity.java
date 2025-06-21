@@ -267,7 +267,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
             detailMailCtxv.setText(getCurrentUserMail());
             String imageurl=getCurrentUserImageUrl();
             if (isValid(imageurl)) {
-                Picasso.with(PacifyrDashboardActivity.this).load(imageurl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
+                Picasso.with(PacifyrDashboardActivity.this).load(imageurl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profile_cimv);
             }
         }catch (Exception e)
         {
@@ -394,7 +394,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
                 getSupportFragmentManager().popBackStackImmediate();
             else {
                 if(!onceBackpressed) {
-                    ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
+                    ToastHandler.newInstance(this).mustShowToast("" + getText(com.pacifyrapp.utilitylibrary.R.string.press_back_again_to_exit));
                     onceBackpressed = true;
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable()

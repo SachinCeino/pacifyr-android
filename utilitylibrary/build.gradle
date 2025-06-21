@@ -11,10 +11,11 @@ android {
    //  buildToolsVersion "24.0.1"
      buildToolsVersion '26.0.2'*/
 
+    namespace "com.pacifyrapp.utilitylibrary"
     compileSdkVersion 26
     buildToolsVersion '26.0.3'
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         //  minSdkVersion 21
         // targetSdkVersion 24
         targetSdkVersion 26
@@ -25,14 +26,17 @@ android {
         //multiDexEnabled true
     }
 
+    buildFeatures {
+        buildConfig true
+    }
     buildTypes {
-        repositories {
+        /* repositories {
 
-            maven { url "https://jitpack.io" }
-        }
-        debug{
+             maven { url "https://jitpack.io" }
+         }
+         debug{
 
-        }
+         }*/
         release {
             minifyEnabled false
 //            shrinkResources true
@@ -115,7 +119,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.code.gson:gson:2.3'
     implementation 'com.squareup:otto:1.3.6'
-    implementation 'com.kaopiz:kprogresshud:1.0.4'
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
     implementation 'org.jsoup:jsoup:1.9.2'
     implementation 'de.hdodenhof:circleimageview:2.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
@@ -144,9 +148,7 @@ dependencies {
         exclude group : 'com.android.support'
     }
     //country code
-    implementation ('com.hbb20:ccp:2.0.3'){
-        exclude group : 'com.android.support'
-    }
+    implementation 'com.hbb20:ccp:2.7.3'
     //implementation 'com.android.support:appcompat-v7:24.2.1'
     //implementation 'com.android.support:design:24.2.1'
     //implementation 'com.android.support:appcompat-v7:25.3.1'
@@ -168,7 +170,7 @@ dependencies {
     // implementation "com.halfhp.fig:library:1.0.7"
 
     //ios like alert
-    implementation 'com.gdacciaro:iosdialog:1.0.3'
+    //implementation 'com.gdacciaro:iosdialog:1.0.3'
     implementation 'androidx.browser:browser:1.0.0'
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
     implementation 'com.google.android.material:material:1.0.0'
@@ -180,7 +182,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
-    implementation 'com.google.android.play:core:1.8.3'
+    implementation 'com.google.android.play:core:1.10.3'
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'com.google.firebase:firebase-config:20.0.0'
 

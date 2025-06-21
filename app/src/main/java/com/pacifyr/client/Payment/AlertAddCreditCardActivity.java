@@ -17,6 +17,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.R;
+import com.pacifyrapp.utilitylibrary.*;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
@@ -108,8 +109,8 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 					String my = json.toString();
 					if (message.equals("Card added")) {
 
-						setStatus("Successfully added your card", R.color.md_green_400);
-						showStatus();
+                        setStatus("Successfully added your card", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
+                        showStatus();
 						saveCardExist(true);
 						final Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
@@ -132,8 +133,8 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 						setStatus(messageExtended, R.color.md_red_500);
 						else
 							*/
-						setStatus(messageExtended, R.color.md_red_500);
-						showStatus();
+                        setStatus(messageExtended, com.pacifyrapp.utilitylibrary.R.color.md_red_500);
+                        showStatus();
 						final Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
 							@Override

@@ -73,7 +73,7 @@ public class RequestSpecialistAdapter extends RecyclerView.Adapter<RequestSpecia
         /*ModelSpecialist.Results[] special = specialList.get(position).getResults();*/
         String imgUrl=GLOBAL_IMAGE_URL+specialList.get(position).getImage();
         holder.pac_name.setText(specialList.get(position).getTitle());
-        Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_image)).into(holder.circleImageView);
+        Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image)).into(holder.circleImageView);
 
 
        /* if(specialList.get(position).isSelect())

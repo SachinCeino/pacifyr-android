@@ -558,7 +558,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
     private void showPreVistNotPopUp(Object preVisitNote) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
@@ -582,7 +582,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void showCompleteNotPopUp(AppointmentModel.Result mObject) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
@@ -614,7 +614,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void showCancelledNotPopUp(Object preVisitNote) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
@@ -636,7 +636,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void showCompletedPopUp(Object notes) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
@@ -659,7 +659,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
     private void showRejectedReasonPopUp(Object rejectReason) {
-        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        View myView = LayoutInflater.from(mContext).inflate(com.pacifyrapp.utilitylibrary.R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);

@@ -194,7 +194,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         try {
             if(isValid(NetworkService.mCurrentUser)) {
                 if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
-                    Picasso.with(AccountEditActivity.this).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                    Picasso.with(AccountEditActivity.this).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileCimv);
                 }
                 defSetText(profileNameCedt,NetworkService.mCurrentUser.getName());
                 defSetText(mailCedt,NetworkService.mCurrentUser.getEmail());

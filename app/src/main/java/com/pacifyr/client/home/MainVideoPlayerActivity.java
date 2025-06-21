@@ -10,19 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.Util;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerControlView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
+
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CustomPagerAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -33,8 +27,8 @@ public class MainVideoPlayerActivity extends PacifyrActivity {
 
     MainTextView skipCtxv;
 
-    private SimpleExoPlayerView mPlayerView;
-    private SimpleExoPlayer mPlayer;
+    private PlayerControlView mPlayerView;
+    private ExoPlayer mPlayer;
 
     // autoplay = false
     private boolean autoPlay = false;
@@ -61,7 +55,7 @@ public class MainVideoPlayerActivity extends PacifyrActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_video_player);
         // find the view responsible for visual feedback (media controls & display)
-        mPlayerView = (SimpleExoPlayerView) findViewById(R.id.media_view);
+        mPlayerView = (PlayerControlView) findViewById(R.id.media_view);
 
         if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getString("URL")))
         {
@@ -127,48 +121,23 @@ public class MainVideoPlayerActivity extends PacifyrActivity {
 
     void initializePlayer() {
         // create a new instance of SimpleExoPlayer
-        mPlayer = ExoPlayerFactory.newSimpleInstance(this);
+        mPlayer = new ExoPlayer.Builder(this).build();
 
         // attach the just created player to the view responsible for displaying the media (i.e. media controls, visual feedback)
         mPlayerView.setPlayer(mPlayer);
         mPlayer.setPlayWhenReady(autoPlay);
 
+
+        Uri uri = Uri.parse(VIDEO_URL);
+        MediaItem mediaSource = MediaItem.fromUri(uri);
+        mPlayer.setMediaItem(mediaSource);
+
         // resume playback position
         mPlayer.seekTo(currentWindow, playbackPosition);
 
-        Uri uri = Uri.parse(VIDEO_URL);
-        MediaSource mediaSource = buildMediaSource(uri);
-
         // now we are ready to start playing our media files
-        mPlayer.prepare(mediaSource);
-    }
-
-    /*
-     * This method returns ExtractorMediaSource or one of its compositions
-     * ExtractorMediaSource is suitable for playing regular files like (mp4, mp3, webm etc.)
-     * This is appropriate for the baking app project, since all recipe videos are not in adaptive formats (i.e. HLS, Dash etc)
-     */
-    private MediaSource buildMediaSource(Uri uri) {
-        DefaultExtractorsFactory extractorSourceFactory = new DefaultExtractorsFactory();
-        DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("ua");
-
-        ExtractorMediaSource audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
-
-        // this return a single mediaSource object. i.e. no next, previous buttons to play next/prev media file
-        return new ExtractorMediaSource(uri, dataSourceFactory, extractorSourceFactory, null, null);
-
-        /*
-         * Uncomment the line below to play multiple meidiaSources in sequence aka playlist (and totally without buffering!)
-         * NOTE: you have to comment the return statement just above this comment
-         */
-
-        /*
-          ExtractorMediaSource videoSource1 = new ExtractorMediaSource(Uri.parse(VIDEO_1), dataSourceFactory, extractorSourceFactory, null, null);
-          ExtractorMediaSource videoSource2 = new ExtractorMediaSource(Uri.parse(VIDEO_2), dataSourceFactory, extractorSourceFactory, null, null);
-          // returns a mediaSource collection
-          return new ConcatenatingMediaSource(videoSource1, audioSource, videoSource2);
-         */
-
+        mPlayer.prepare();
+        mPlayer.play();
     }
 
     private void releasePlayer() {

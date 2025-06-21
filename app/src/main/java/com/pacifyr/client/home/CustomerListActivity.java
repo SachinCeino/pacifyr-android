@@ -59,10 +59,10 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
         //emptyFlay = (Flux) findViewById(R.id.empty_flay);
         try {
             onSetActionBar();
-            emptyDtxv = findViewById(R.id.empty_dtxv);
+            emptyDtxv = findViewById(com.pacifyrapp.utilitylibrary.R.id.empty_dtxv);
 
             swipeLay = findViewById(R.id.swipe_lay);
-            swipeLay.setColorSchemeResources(R.color.md_blue_300, R.color.colorPrimary, R.color.colorPrimaryDark, R.color.md_amber_300);
+            swipeLay.setColorSchemeResources(com.pacifyrapp.utilitylibrary.R.color.md_blue_300, R.color.colorPrimary, R.color.colorPrimaryDark, com.pacifyrapp.utilitylibrary.R.color.md_amber_300);
             swipeLay.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {

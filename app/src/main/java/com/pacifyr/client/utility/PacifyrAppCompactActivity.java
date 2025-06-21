@@ -796,13 +796,16 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
 
     public void hangoutStartWeb(final String id) {
         try {
-            String userid= getPrefManager().getUserID();
-            String accesstoken= getPrefManager().getAccessToken();
+            String userid = getPrefManager().getUserID();
+            String accesstoken = getPrefManager().getAccessToken();
             //      LogUtils.LOGD("auction", "bidPostWeb auctionid  " + auctionid);
             LogUtils.LOGD("hangout", "hangoutStartWeb userid " + userid);
-            if(!isValid(userid,getResources().getString(R.string.session_expired))) return;
-            if(!isValid(id,getResources().getString(R.string.session_expired))) return;
-            if(!isValid(accesstoken,getResources().getString(R.string.session_expired))) return;
+            if (!isValid(userid, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.session_expired)))
+                return;
+            if (!isValid(id, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.session_expired)))
+                return;
+            if (!isValid(accesstoken, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.session_expired)))
+                return;
             //  setLoadingWait();
             // showProgress();
             JSONObject input = new JSONObject();

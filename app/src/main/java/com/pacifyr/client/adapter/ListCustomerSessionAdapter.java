@@ -136,8 +136,8 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
 
             String imgUrl = results.getUser().getImageUrl();
             if (isValid(imgUrl)) {
-                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder_user))
-                        .error(mContext.getResources().getDrawable(R.drawable.placeholder_user))
+                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user))
+                        .error(mContext.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user))
                         .into(officeVisit.userCimv);
             }
 
@@ -386,7 +386,7 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
 
             String  imgUrl = results.getUser().getImageUrl();
             if (isValid(imgUrl) && !imgUrl.isEmpty()) {
-                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder_user)).error(mContext.getResources().getDrawable(R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
+                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(mContext.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
             }
 
             String sessionType = lists.get(position).getSessionType();
@@ -448,7 +448,7 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
 
             String imgUrl = results.getUser().getImageUrl();
             if (isValid(imgUrl)) {
-                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder_user)).error(mContext.getResources().getDrawable(R.drawable.placeholder_user)).into(serviceNotProvided.userCimv);
+                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).error(mContext.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)).into(serviceNotProvided.userCimv);
             }
 
             String sessionType = lists.get(position).getSessionType();

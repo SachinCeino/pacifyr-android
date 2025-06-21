@@ -3,16 +3,15 @@ package com.pacifyr.client.model;
 import com.pacifyr.client.R;
 
 /**
-
+ *
  */
 
 public enum ModelObject {
 
-    RED(R.string.message, R.layout.view_tour1),
-    BLUE(R.string.message, R.layout.view_tour2),
-    GREEN(R.string.message, R.layout.view_tour3),
-    VIDEO(R.string.message, R.layout.view_video);
-
+    RED(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_tour1),
+    BLUE(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_tour2),
+    GREEN(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_tour3),
+    VIDEO(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_video);
 
 
     private int mTitleResId;

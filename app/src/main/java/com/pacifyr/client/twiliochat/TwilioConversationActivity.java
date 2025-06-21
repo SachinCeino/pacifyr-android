@@ -952,7 +952,7 @@ public class TwilioConversationActivity extends
                     });
                 }
                 else {
-                    String errorMessage = getString(R.string.error_retrieving_access_token);
+                    String errorMessage = getString(com.pacifyrapp.utilitylibrary.R.string.error_retrieving_access_token);
                     if (exception != null) {
                         errorMessage = errorMessage + " " + exception.getLocalizedMessage();
                     }

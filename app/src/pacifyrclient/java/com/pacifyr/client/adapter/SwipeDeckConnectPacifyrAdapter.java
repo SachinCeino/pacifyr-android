@@ -440,7 +440,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 CardView cardView = v.findViewById(R.id.card_pacifyr);
 
                 if (isValidhtml(imgURL))
-                    Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
+                    Picasso.with(context).load(imgURL).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(img_prof);
 
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override

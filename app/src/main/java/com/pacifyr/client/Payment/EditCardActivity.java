@@ -268,7 +268,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                     String my=json.toString();
                     if(message.equals("Card added")){
                         hideProgress();
-                        setStatus(getResources().getString(R.string.successfully_updated_your_card), R.color.md_green_400);
+                        setStatus(getResources().getString(R.string.successfully_updated_your_card), com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -281,7 +281,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
 
                     }else {
                         hideProgress();
-                        setStatus("Error occured. Please try again.", R.color.md_red_500);
+                        setStatus("Error occured. Please try again.", com.pacifyrapp.utilitylibrary.R.color.md_red_500);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {

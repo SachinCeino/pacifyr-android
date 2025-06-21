@@ -77,9 +77,10 @@ public class Auth {
                         if (toast != null) {
                             toast.cancel();
                         }
-                        toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
+                        toast = Toast.makeText(c, c.getString(com.pacifyrapp.utilitylibrary.R.string.please_login_to_continue), Toast.LENGTH_LONG);
                         new Handler().postDelayed(new Runnable() {
-                            @Override public void run() {
+                            @Override
+                            public void run() {
                                 try {
                                     toast.show();
                                 } catch (Exception e) {

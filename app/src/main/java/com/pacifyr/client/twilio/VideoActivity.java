@@ -184,7 +184,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import kotlin.Unit;
 import tvi.webrtc.voiceengine.WebRtcAudioUtils;
 
 public class VideoActivity extends PacifyrActivity implements LocalParticipant.Listener{
@@ -859,8 +858,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             if(isValid(emotion.getImage())) {
                 emotion_dimv.setVisibility(View.VISIBLE);
-                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + emotion.getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
-                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + emotion.getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + emotion.getImage()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image).into(emotion_dimv);
+                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + emotion.getImage()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image).into(ImageView_emotion);
 
             }
             if(isValid(emotion.getTitle())) {
@@ -1123,25 +1122,25 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
          * Start the audio device selector after the menu is created and update the icon when the
          * selected audio device changes.
          */
-        audioSwitch.start((audioDevices, audioDevice) -> {
+       /* audioSwitch.start((audioDevices, audioDevice) -> {
             updateAudioDeviceIcon(audioDevice);
             return Unit.INSTANCE;
         });
+*/
+
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-
-                return true;
-            case R.id.menu_audio_device:
-                showAudioDevices();
-                return true;
-            default:
-                return false;
+        if (item.getItemId() == R.id.menu_settings) {
+            return true;
+        } else if (item.getItemId() == R.id.menu_audio_device) {
+            showAudioDevices();
+            return true;
+        } else {
+            return false;
         }
     }
     public static final int MULTIPLE_PERMISSIONS = 10;
@@ -1154,6 +1153,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MULTIPLE_PERMISSIONS: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -1180,7 +1180,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     createAudioAndVideoTracks();
                 } else {
                     Toast.makeText(this,
-                            R.string.permissions_needed,
+                            com.pacifyrapp.utilitylibrary.R.string.permissions_needed,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -1413,7 +1413,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.RECORD_AUDIO)) {
             Toast.makeText(this,
-                    R.string.permissions_needed,
+                    com.pacifyrapp.utilitylibrary.R.string.permissions_needed,
                     Toast.LENGTH_LONG).show();
         } else {
             ActivityCompat.requestPermissions(
@@ -1847,7 +1847,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     if (isValid(pacifyerDetial.getImageUrl())) {
                         String image = pacifyerDetial.getImageUrl();
                         if (isValid(image)) {
-                            Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
+                            Picasso.with(getApplicationContext()).load(image).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image).into(userDimv);
                         }
                     }
                 }
@@ -2329,7 +2329,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         cIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         cIntent.setAction(Long.toString(System.currentTimeMillis()));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
-                cIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                cIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID_DEFAULT)
@@ -2679,7 +2679,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
      */
     private void setDisconnectAction() {
         connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
-                R.drawable.ic_call_end_white_24px));
+                com.pacifyrapp.utilitylibrary.R.drawable.ic_call_end_white_24px));
         connectActionFab.show();
         connectActionFab.setOnClickListener(disconnectClickListener());
     }
@@ -3644,8 +3644,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             if (isValid(event.getEmotion()))
                 if (isValid(event.getEmotion().getImage())) {
                     emotion_dimv.setVisibility(View.VISIBLE);
-                    Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
-                    Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                    Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image).into(ImageView_emotion);
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
@@ -4177,6 +4177,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
 
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
         onPictureInPicture(new PicInPic(isInPictureInPictureMode));
         setShowDialogs(!isInPictureInPictureMode);
         if (!isInPictureInPictureMode) {
@@ -4189,7 +4190,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
                                 if (isCallActive) {
-                                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                        /* PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
                                         pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
                                                 getCurrentView().getHeight())).build();*/
@@ -4209,8 +4210,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             } else {
                 maximizePicInPicView();
             }
-                getApplication().startActivity(new Intent(this, getClass())
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            getApplication().startActivity(new Intent(this, getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             maximizePicInPicView();
 
             EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);

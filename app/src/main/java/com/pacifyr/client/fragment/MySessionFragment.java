@@ -235,18 +235,18 @@ public class MySessionFragment extends BaseFragment {
             public void onScroll() {
                 Log.i("sesssuruuuab","u: "+skip);
                 if(tab==2){
-                    if(listTemp.size()==0){
+                    if (listTemp.size() == 0) {
                         thisYearCtxv.performClick();
-                    }else
-                        Log.i("sesssuruuuab3","u: "+skip);
-                    final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
-                    final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
+                    } else
+                        Log.i("sesssuruuuab3", "u: " + skip);
+                    final String thisYearUrl = GLOBAL_URL + "session/customer/all?userId=" + userid + "&skip=" + skip + "&limit=" + limit + "&fromDate=" + fromDYear + "&toDate=" + toDYear;
+                    final String yearStatUrl = GLOBAL_URL + "dashboard/customer/" + userid + "/sessionStatistics?fromDate=" + fromDYear + "&toDate=" + toDYear;
                     setLoading();
                     showProgress();
                     callThisYearSession(thisYearUrl);
                     thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                    thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                    thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                     thisWkCtxv.setTextColor(getResources().getColor(R.color.grey));
                     thisMntCtxv.setTextColor(getResources().getColor(R.color.grey));
                     thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
@@ -254,18 +254,18 @@ public class MySessionFragment extends BaseFragment {
                     weekSessionsRcv.setVisibility(View.GONE);
                     monthSessionsRcv.setVisibility(View.GONE);
                 }
-                else if(tab==1){
-                    if(listTemp.size()==0){
+                else if(tab==1) {
+                    if (listTemp.size() == 0) {
                         thisMntCtxv.performClick();
-                    }else
-                        Log.i("sesssuruuuab2","u: "+skip);
-                    final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
-                    final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
+                    } else
+                        Log.i("sesssuruuuab2", "u: " + skip);
+                    final String thisMonthUrl = GLOBAL_URL + "session/customer/all?userId=" + userid + "&skip=" + skip + "&limit=" + limit + "&fromDate=" + FirstDateOfMonth + "&toDate=" + lastMonthDate;
+                    final String monthStatUrl = GLOBAL_URL + "dashboard/customer/" + userid + "/sessionStatistics?fromDate=" + FirstDateOfMonth + "&toDate=" + lastMonthDate;
                     setLoading();
                     showProgress();
                     callThisMonthSession(thisMonthUrl);
-                    thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                    thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                    thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
                     thisWkCtxv.setTextColor(getResources().getColor(R.color.grey));
@@ -275,18 +275,18 @@ public class MySessionFragment extends BaseFragment {
                     yearSessionsRcv.setVisibility(View.GONE);
                 }
                 else if(tab==0){
-                    if(listTemp.size()==0){
+                    if (listTemp.size() == 0) {
                         thisWkCtxv.performClick();
-                    }else
-                        Log.i("sesssuruuuab1","u: "+skip);
-                    final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
-                    final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+                    } else
+                        Log.i("sesssuruuuab1", "u: " + skip);
+                    final String thisWeekUrl = GLOBAL_URL + "session/customer/all?userId=" + userid + "&skip=" + skip + "&limit=" + limit + "&fromDate=" + WeekStartDate + "&toDate=" + WeekEndDate;
+                    final String weekStatUrl = GLOBAL_URL + "dashboard/customer/" + userid + "/sessionStatistics?fromDate=" + WeekStartDate + "&toDate=" + WeekEndDate;
                     setLoading();
                     showProgress();
                     callThisWeekSession(thisWeekUrl);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                    thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                    thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                     thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
                     thisMntCtxv.setTextColor(getResources().getColor(R.color.grey));
                     thisYearCtxv.setTextColor(getResources().getColor(R.color.grey));

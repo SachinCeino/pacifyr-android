@@ -889,14 +889,14 @@ public class BaseAppCompactActivity extends AppCompatActivity {
 
     public void showFragment(Fragment fragment) {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack("" + fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).addToBackStack("" + fragment).commit();
 // fragmentShowActionBar(fragment);
 
     }
 
     public void showFragment(Fragment fragment, Bundle bundle) {
         fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack("" + fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).addToBackStack("" + fragment).commit();
 // fragmentShowActionBar(fragment);
     }
 

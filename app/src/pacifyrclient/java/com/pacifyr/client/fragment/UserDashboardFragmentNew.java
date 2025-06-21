@@ -1242,7 +1242,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                 String imgUrl="";
                                 if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()))
                                     imgUrl=modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage();
-                                Glide.with(getContext()).load(GLOBAL_IMAGE_URL +imgUrl).placeholder(R.drawable.placeholder_user).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(Img_next_app_provider);
+                                Glide.with(getContext()).load(GLOBAL_IMAGE_URL + imgUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(Img_next_app_provider);
                                 next_app_provider_name.setText(modelCustomerDashboard2.getNextAppointment().getPacifyr().getFirstName() + " " + modelCustomerDashboard2.getNextAppointment().getPacifyr().getLastName());
                                 CardView_nextAppointment.setVisibility(View.VISIBLE);
                             }
@@ -1298,9 +1298,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     String country = prefM.getCountry();
                     String sign ="$";
                     if(country.equals("India")){
-                        sign=getContext().getResources().getString(R.string.rupee);
+                        sign = getContext().getResources().getString(com.pacifyrapp.utilitylibrary.R.string.rupee);
                     }else {
-                        sign=getContext().getResources().getString(R.string.dollar);
+                        sign = getContext().getResources().getString(com.pacifyrapp.utilitylibrary.R.string.dollar);
                     }
                     if (hrs.equals("00"))
                         sessionCostTotal.setText(mintd+" min. "+sign+lastWeek.getSpendings());
@@ -1399,7 +1399,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
         Glide.with(getActivity())
                 .load(imageURl)
-                .placeholder(R.drawable.placeholder_user)
+                .placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user)
                 .listener(new RequestListener<Drawable>() {
 
                     @Override
@@ -1723,7 +1723,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     TextView labelSessions = getView().findViewById(R.id.item_sessions);
                     TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
                     TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
-                    labelMinutes.setText(getString(R.string.plan_sessions_case));
+                    labelMinutes.setText(getString(com.pacifyrapp.utilitylibrary.R.string.plan_sessions_case));
                     labelSessions.setText(mCurrentUser.getNumberOfPredefinedSessions() + "");
                     valueMinutes.setText(mCurrentUser.getNumberOfPredefinedSessions() + " " + getString(R.string.sessions_lowercase));
                     //valueMinutes.setVisibility(View.INVISIBLE);
@@ -1731,7 +1731,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     TextView labelSessions = getView().findViewById(R.id.item_sessions);
                     TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
                     TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
-                    labelMinutes.setText(getString(R.string.plan_amount_case));
+                    labelMinutes.setText(getString(com.pacifyrapp.utilitylibrary.R.string.plan_amount_case));
                     labelSessions.setText(mCurrentUser.getWalletBalance() + "");
                     valueMinutes.setText(mCurrentUser.getWalletBalance() + " " + getString(R.string.amount));
                     //valueMinutes.setVisibility(View.INVISIBLE);
@@ -1739,7 +1739,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     TextView labelSessions = getView().findViewById(R.id.item_sessions);
                     TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
                     TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
-                    labelMinutes.setText(getString(R.string.plan_minutes_case));
+                    labelMinutes.setText(getString(com.pacifyrapp.utilitylibrary.R.string.plan_minutes_case));
                     labelSessions.setText(mCurrentUser.getAvailableMinutes() + "");
                     valueMinutes.setText(mCurrentUser.getAvailableMinutes() + " " + getString(R.string.minutes_case));
                     //valueMinutes.setVisibility(View.INVISIBLE);
@@ -1749,7 +1749,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 TextView labelSessions = getView().findViewById(R.id.item_sessions);
                 TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
                 TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
-                labelMinutes.setText(getString(R.string.plan_minutes_case));
+                labelMinutes.setText(getString(com.pacifyrapp.utilitylibrary.R.string.plan_minutes_case));
                 labelSessions.setText(mCurrentUser.getAvailableMinutes() + "");
                 valueMinutes.setText(mCurrentUser.getAvailableMinutes() + " " + getString(R.string.minutes_case));
                 //valueMinutes.setVisibility(View.INVISIBLE);

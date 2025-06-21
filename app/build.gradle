@@ -1,41 +1,52 @@
-apply plugin: "com.android.application"
-//apply plugin: "com.google.gms.google-services"
-apply plugin: "com.google.firebase.crashlytics"
+plugins {
+    id 'com.android.application'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
+}
 
 
 android {
-    compileSdkVersion 32
+    namespace "com.pacifyr.client"
+    compileSdkVersion 35
     buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "com.ceino.pacifyr.omhealthcare"
 //        minSdkVersion 16
-        minSdkVersion 21
-        targetSdkVersion 32
+        minSdkVersion 23
+        compileSdk 35
+        targetSdkVersion 35
         versionCode 24
         versionName "1.4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        //multiDexEnabled true
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 //        resConfigs "en", "hi"
     }
+
+    buildFeatures {
+        buildConfig true
+    }
     buildTypes {
-        repositories {
-            maven {
-                url "https://maven.google.com"
-            }
-            maven {
-                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
-            }
-            maven { url "https://jitpack.io" }
+        debug {
 
         }
-        debug {
-            /* applicationVariants.all { variant ->
-                renameAPK(variant, defaultConfig, 'Test')
-            }*/
-        }
+        /* repositories {
+             maven {
+                 url "https://maven.google.com"
+             }
+             maven {
+                 url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+             }
+             maven { url "https://jitpack.io" }
+
+         }*/
+        /* debug {
+             *//* applicationVariants.all { variant ->
+                 renameAPK(variant, defaultConfig, 'Test')
+             }*//*
+         }*/
         release {
-            minifyEnabled false
+            /*minifyEnabled false
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro'
@@ -50,7 +61,7 @@ android {
                     def flavor = variant.productFlavors[0].name
                     outputFileName = "${flavor}_${variant.buildType.name}_${variant.versionName}_${formattedDate}_.apk"
                 }
-            }
+            }*/
         }
         configureEach {
             Properties properties = new Properties()
@@ -108,16 +119,10 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.6.12"
-            versionCode 228
+            versionName "2.6.14"
+            versionCode 226
         }
-        medcareqa{
-            dimension "Pacifyr"
-            applicationId "com.ceino.medcaredev"
-            versionName "1.0.0"
-            versionCode 1
-        }
-       /* leadersup {
+        /*leadersup {
             dimension "Pacifyr"
             applicationId "com.pacifyr.leadersup"
             versionName "1.1.1"
@@ -143,15 +148,19 @@ android {
         javaMaxHeapSize "4g" // 2g should be also OK
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    /*kotlinOptions {
+        jvmTarget = '17'
+    }*/
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
     }
+    namespace 'com.pacifyr.client'
 
 //    signingConfigs {
 //        debug {
@@ -190,11 +199,19 @@ repositories {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':utilitylibrary')
-    /* androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-         exclude group: 'com.android.support', module: 'support-annotations'
-     })*/
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation(project(':iosdialog'))
+    implementation(project(':WheelPicker'))
+    implementation(project(':crystalrangeseekbar'))
+    implementation(project(':arclayout'))
+    implementation(project(':utilitylibrary')) {
+        exclude group: 'com.quickblox', module: 'quickblox-android-sdk-messages'
+    }
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation('com.github.rjsvieira:circularView:1.3.0') {
         exclude group: 'com.android.support'
@@ -219,13 +236,13 @@ dependencies {
     implementation 'com.github.ome450901:SimpleRatingBar:1.4.3'
     //testImplementation 'junit:junit:4.12'
     implementation 'com.github.GoodieBag:Pinview:v1.3'
-    implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+    //implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
     //   implementation 'com.romandanylyk:pageindicatorview:0.2.0'
     implementation 'androidx.annotation:annotation:1.0.0'
     implementation 'androidx.core:core:1.0.0'
     implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    implementation 'me.relex:circleindicator:2.1.4'
+    implementation 'me.relex:circleindicator:2.1.6'
     //   implementation 'com.github.baoyachi:StepView:1.9'
     implementation 'com.stripe:stripe-android:8.1.0'
     //    joda time
@@ -241,9 +258,9 @@ dependencies {
     implementation('com.facebook.android:facebook-android-sdk:4.33.0') {
         exclude group: 'com.android.support'
     }
-    implementation 'com.gdacciaro:iosdialog:1.0.3'
+    //implementation 'com.gdacciaro:iosdialog:1.0.3'
     implementation 'com.kaopiz:kprogresshud:1.0.4'
-    implementation 'com.koushikdutta.ion:ion:2.1.7'
+    implementation 'com.koushikdutta.ion:ion:3.1.0'
     /*implementation project(':quickblox-videochat-webrtc')
         implementation project(':quickblox-chat')*/
     implementation 'com.amazonaws:aws-android-sdk-sns:2.7.0'
@@ -251,33 +268,35 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.androidplot:androidplot-core:1.5.3'
+    implementation 'com.androidplot:androidplot-core:1.5.11'
     implementation 'com.github.bumptech.glide:glide:3.6.1'
     implementation 'se.emilsjolander:stickylistheaders:2.7.0'
     implementation 'com.github.orangegangsters:swipy:1.2.3@aar'
     implementation 'androidx.browser:browser:1.0.0'
     //    implementation "com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3"
- /*   *//**App Auto Update Library**//*
+    /*   *//**App Auto Update Library**//*
     implementation 'com.github.javiersantos:AppUpdater:2.7'*/
-    implementation('com.paytm:pgplussdk:1.4.4') {
+    implementation 'com.paytmpayments.appinvokesdk:appinvokesdk:1.0.3'
+    /*implementation('com.paytm:pgplussdk:1.4.4') {
         transitive = true
-    }
+    }*/
 
 //    implementation 'com.google.android.gms:play-services:11.4.2'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.crystal:crystalrangeseekbar:1.1.3'
+    //implementation 'com.crystal:crystalrangeseekbar:1.1.3'
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
     androidTestImplementation 'androidx.test:rules:1.3.0-alpha02'
-    implementation 'com.google.android.libraries.places:places:2.1.0'
-    implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
+    implementation 'com.google.android.libraries.places:places:4.3.1'
+    //implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
+    implementation("androidx.media3:media3-exoplayer:1.6.1")
+    implementation "androidx.media3:media3-ui:1.6.1"
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'com.github.kk121:File-Loader:1.2'
-    implementation "com.pdfview:pdfview-android:1.0.0"
+    implementation 'com.pdfview:pdfview-android:1.0.0'
     implementation 'com.github.florent37:singledateandtimepicker:2.2.5'
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
     //implementation project(':gligar')
-
 
 
     //All firebase dependencies
@@ -304,11 +323,11 @@ dependencies {
     //Twilio SDK
     implementation 'com.twilio:video-android:5.11.1'
     implementation 'com.twilio:audioswitch:1.0.1'
-    implementation 'com.twilio:conversations-android:1.4.1'
+    implementation 'com.twilio:conversations-android:2.0.0'
 
     //arc layout
-    implementation 'com.github.florent37:arclayout:1.0.3'
-
+    //implementation 'com.github.florent37:arclayout:1.0.3'
     implementation 'com.opensooq.supernova:gligar:1.1.0'
+    implementation "androidx.lifecycle:lifecycle-runtime:2.9.1"
 }
 //apply plugin: "com.google.gms.google-services"

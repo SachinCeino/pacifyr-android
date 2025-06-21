@@ -104,14 +104,14 @@ public class FlexLayout extends ViewGroup {
 			height = a.getLayoutDimension(1, UNSPECIFIED);
 			a.recycle();
 
-			a = c.obtainStyledAttributes(attrs, R.styleable.FlexLayout_Layout);
-			this.left = RPN.parse(c, a.getString(R.styleable.FlexLayout_Layout_layout_left), "layout_left");
-			this.top = RPN.parse(c, a.getString(R.styleable.FlexLayout_Layout_layout_top), "layout_top");
-			this.right = RPN.parse(c, a.getString(R.styleable.FlexLayout_Layout_layout_right), "layout_right");
-			this.bottom = RPN.parse(c, a.getString(R.styleable.FlexLayout_Layout_layout_bottom), "layout_bottom");
-			this.centerX = RPN.parse(c, a.getString(R.styleable.FlexLayout_Layout_layout_centerX), "layout_centerX");
-			this.centerY = RPN.parse(c, a.getString(R.styleable.FlexLayout_Layout_layout_centerY), "layout_centerY");
-			String str = a.getString(R.styleable.FlexLayout_Layout_layout_width);
+			a = c.obtainStyledAttributes(attrs, com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout);
+			this.left = RPN.parse(c, a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_left), "layout_left");
+			this.top = RPN.parse(c, a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_top), "layout_top");
+			this.right = RPN.parse(c, a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_right), "layout_right");
+			this.bottom = RPN.parse(c, a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_bottom), "layout_bottom");
+			this.centerX = RPN.parse(c, a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_centerX), "layout_centerX");
+			this.centerY = RPN.parse(c, a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_centerY), "layout_centerY");
+			String str = a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_width);
 			if ("match_parent".equals(str) || "fill_parent".equals(str)) {
 				width = MATCH_PARENT;
 			} else if ("wrap_content".equals(str)) {
@@ -119,7 +119,7 @@ public class FlexLayout extends ViewGroup {
 			} else {
 				this.width2 = RPN.parse(c, str, "layout_width");
 			}
-			str = a.getString(R.styleable.FlexLayout_Layout_layout_height);
+			str = a.getString(com.pacifyrapp.utilitylibrary.R.styleable.FlexLayout_Layout_layout_height);
 			if ("match_parent".equals(str) || "fill_parent".equals(str)) {
 				height = MATCH_PARENT;
 			} else if ("wrap_content".equals(str)) {

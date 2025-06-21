@@ -367,7 +367,7 @@ public class PacifyrRequestAccessActivity extends PacifyrActivity implements Req
                        String message = responseMessage.getMessage();
                        String status = responseMessage.getStatus();
                        if(status.equals("error")){
-                           setStatus(message+" Please try again.", R.color.md_red_A400);
+                           setStatus(message + " Please try again.", com.pacifyrapp.utilitylibrary.R.color.md_red_A400);
                            showStatus();
                            Handler handler = new Handler();
                            handler.postDelayed(new Runnable() {
@@ -377,7 +377,7 @@ public class PacifyrRequestAccessActivity extends PacifyrActivity implements Req
                                }
                            }, 3000);
                        }else {
-                           setStatus("Pacifyr Request Sent Successfully", R.color.md_green_400);
+                           setStatus("Pacifyr Request Sent Successfully", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                            showStatus();
                            Handler handler = new Handler();
                            handler.postDelayed(new Runnable() {
@@ -420,7 +420,7 @@ public class PacifyrRequestAccessActivity extends PacifyrActivity implements Req
             //ImageView closeDimv = (ImageView) view.findViewById(R.id.close_dimv);
             handleActionSpecilaist();
             /*hideStatus();*/
-            hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(R.color.transparent)).setCancellable(true).setAnimationSpeed(2).setDimAmount(0.5f);
+            hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(true).setAnimationSpeed(2).setDimAmount(0.5f);
             showStatus();
             saveCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override

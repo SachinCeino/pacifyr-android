@@ -610,7 +610,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                 progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.didnt_get_code));
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.didnt_get_code));
                 //setting color
                 final ForegroundColorSpan color = new ForegroundColorSpan(Color.parseColor("#3063f9"));
                 spanTxt.setSpan(color, spanTxt.length() - "resend".length(), spanTxt.length(), 0);

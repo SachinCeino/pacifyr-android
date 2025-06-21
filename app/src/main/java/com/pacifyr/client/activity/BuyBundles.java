@@ -212,13 +212,10 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                switch (selectionGroup.getCheckedRadioButtonId()) {
-                    case R.id.radio_upfront:
-                        buy(mPack.getId(), false);
-                        break;
-                    case R.id.radio_as_you_go:
-                        buy(mPack.getId(), true);
-                        break;
+                if (selectionGroup.getCheckedRadioButtonId() == R.id.radio_upfront) {
+                    buy(mPack.getId(), false);
+                } else if (selectionGroup.getCheckedRadioButtonId() == R.id.radio_as_you_go) {
+                    buy(mPack.getId(), true);
                 }
             }
         });
@@ -269,7 +266,7 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                         }
                     });
                 } else {
-                    showIOSDialogOK(getString(R.string.error), getString(R.string.session_pack_purchase_failed), getString(R.string.dlg_ok), new iOSDialogClickListener() {
+                    showIOSDialogOK(getString(com.pacifyrapp.utilitylibrary.R.string.error), getString(R.string.session_pack_purchase_failed), getString(R.string.dlg_ok), new iOSDialogClickListener() {
                         @Override
                         public void onClick(iOSDialog dialog) {
                             dialog.dismiss();
@@ -282,7 +279,7 @@ public class BuyBundles extends PacifyrAppCompactActivity {
             public void onFailure(Call<ResponseMessage> call, Throwable t) {
                 hideProgress();
                 Log.e(TAG, "Bundle purchase error : " + t.getMessage());
-                showIOSDialogOK(getString(R.string.error), getString(R.string.session_pack_purchase_failed), getString(R.string.dlg_ok), new iOSDialogClickListener() {
+                showIOSDialogOK(getString(com.pacifyrapp.utilitylibrary.R.string.error), getString(R.string.session_pack_purchase_failed), getString(R.string.dlg_ok), new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();

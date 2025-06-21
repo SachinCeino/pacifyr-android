@@ -167,7 +167,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                     String my=json.toString();
                     if(message.equals("Card added")){
 
-                        setStatus("Successfully added your card", R.color.md_green_400);
+                        setStatus("Successfully added your card", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -190,7 +190,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                         }, 2000);
 
                     }else {
-                        setStatus("Error occured. Please try again.", R.color.md_red_500);
+                        setStatus("Error occured. Please try again.", com.pacifyrapp.utilitylibrary.R.color.md_red_500);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {

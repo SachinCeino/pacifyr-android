@@ -71,23 +71,16 @@ public class BottomAttachDialog extends BottomSheetDialogFragment implements Vie
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cam:
-                attachmentClick.onClick(0);
-                ;
-                break;
-            case R.id.gallery:
-                attachmentClick.onClick(1);
-                break;
-            case R.id.doc:
-                attachmentClick.onClick(2);
-                break;
-            case R.id.attach_layout:
-                attachmentClick.onClick(-1);
-                break;
-            case R.id.popup_element:
-                attachmentClick.onClick(-1);
-                break;
+        if (v.getId() == R.id.cam) {
+            attachmentClick.onClick(0);
+        } else if (v.getId() == R.id.gallery) {
+            attachmentClick.onClick(1);
+        } else if (v.getId() == R.id.doc) {
+            attachmentClick.onClick(2);
+        } else if (v.getId() == R.id.attach_layout) {
+            attachmentClick.onClick(-1);
+        } else if (v.getId() == R.id.popup_element) {
+            attachmentClick.onClick(-1);
         }
     }
 

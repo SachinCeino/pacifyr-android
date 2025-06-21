@@ -204,64 +204,67 @@ public class PacifyrSessionsFragment extends BaseFragment {
                 Log.i("sesssuruuuab","u: "+skip+"  "+tab);
                 if(tab==2){
                     if(listTemp.size()>0){
-                    Log.i("sesssuruuuab3","u: "+skip);
-                    final String thisYearUrl=GLOBAL_URL+"session/pacifyr/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
-                    final String yearStatUrl = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
-                    setLoading();
-                    showProgress();
-                    getStatistics(yearStatUrl);
-                    callThisYearSession(thisYearUrl);
-                    dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    yearSessionsRcv.setVisibility(View.VISIBLE);
-                    mySessionsRcv.setVisibility(View.GONE);
-                    monthSessionsRcv.setVisibility(View.GONE);}
+                        Log.i("sesssuruuuab3", "u: " + skip);
+                        final String thisYearUrl = GLOBAL_URL + "session/pacifyr/all?userId=" + userid + "&skip=" + skip + "&limit=" + limit + "&fromDate=" + fromDYear + "&toDate=" + toDYear;
+                        final String yearStatUrl = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/sessionStatistics?fromDate=" + fromDYear + "&toDate=" + toDYear;
+                        setLoading();
+                        showProgress();
+                        getStatistics(yearStatUrl);
+                        callThisYearSession(thisYearUrl);
+                        dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
+                        thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
+                        thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisWkCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        thisMntCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                        yearSessionsRcv.setVisibility(View.VISIBLE);
+                        mySessionsRcv.setVisibility(View.GONE);
+                        monthSessionsRcv.setVisibility(View.GONE);
+                    }
                 }
                 else if(tab==1){
-                    if(listTemp.size()>0){
-                        Log.i("sesssuruuuab2","u: "+skip);
-                    final String thisMonthUrl=GLOBAL_URL+"session/pacifyr/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDMonth+"&toDate="+toDMonth;
-                    final String monthStatUrl = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/sessionStatistics?fromDate="+fromDMonth+"&toDate="+toDMonth;
-                    setLoading();
-                    showProgress();
-                    getStatistics(monthStatUrl);
-                    callThisMonthSession(thisMonthUrl);
-                    dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
-                    thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    monthSessionsRcv.setVisibility(View.VISIBLE);
-                    mySessionsRcv.setVisibility(View.GONE);
-                    yearSessionsRcv.setVisibility(View.GONE);}
+                    if(listTemp.size()>0) {
+                        Log.i("sesssuruuuab2", "u: " + skip);
+                        final String thisMonthUrl = GLOBAL_URL + "session/pacifyr/all?userId=" + userid + "&skip=" + skip + "&limit=" + limit + "&fromDate=" + fromDMonth + "&toDate=" + toDMonth;
+                        final String monthStatUrl = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/sessionStatistics?fromDate=" + fromDMonth + "&toDate=" + toDMonth;
+                        setLoading();
+                        showProgress();
+                        getStatistics(monthStatUrl);
+                        callThisMonthSession(thisMonthUrl);
+                        dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
+                        thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
+                        thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                        thisWkCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        thisYearCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        monthSessionsRcv.setVisibility(View.VISIBLE);
+                        mySessionsRcv.setVisibility(View.GONE);
+                        yearSessionsRcv.setVisibility(View.GONE);
+                    }
                 }
                 else if(tab==0){
                     if(listTemp.size()>0){
-                        Log.i("sesssuruuuab1","u: "+skip);
-                    final String thisWeekUrl=GLOBAL_URL+"session/pacifyr/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDWeek+"&toDate="+toDWeek;
-                    final String weekStatUrl = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/sessionStatistics?fromDate="+fromDWeek+"&toDate="+toDWeek;
-                        Log.i("sesssuruuuab1a","u: "+thisWeekUrl);
-                    setLoading();
-                    showProgress();
-                    getStatistics(weekStatUrl);
-                    callThisWeekSession(thisWeekUrl);
-                    dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
-                    thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    mySessionsRcv.setVisibility(View.VISIBLE);
-                    monthSessionsRcv.setVisibility(View.GONE);
-                    yearSessionsRcv.setVisibility(View.GONE);}
+                        Log.i("sesssuruuuab1", "u: " + skip);
+                        final String thisWeekUrl = GLOBAL_URL + "session/pacifyr/all?userId=" + userid + "&skip=" + skip + "&limit=" + limit + "&fromDate=" + fromDWeek + "&toDate=" + toDWeek;
+                        final String weekStatUrl = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/sessionStatistics?fromDate=" + fromDWeek + "&toDate=" + toDWeek;
+                        Log.i("sesssuruuuab1a", "u: " + thisWeekUrl);
+                        setLoading();
+                        showProgress();
+                        getStatistics(weekStatUrl);
+                        callThisWeekSession(thisWeekUrl);
+                        dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
+                        thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
+                        thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                        thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                        thisMntCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        thisYearCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                        mySessionsRcv.setVisibility(View.VISIBLE);
+                        monthSessionsRcv.setVisibility(View.GONE);
+                        yearSessionsRcv.setVisibility(View.GONE);
+                    }
                 }
                 else if(tab==3){
                     if(listTemp.size()==0){
@@ -375,7 +378,7 @@ public class PacifyrSessionsFragment extends BaseFragment {
                 showProgress();
                 getStatistics(weekStatUrl);
                 callThisWeekSession(thisWeekUrl);
-                SessionWeekAdapter adapter =new SessionWeekAdapter(getActivity(),"week");
+                SessionWeekAdapter adapter = new SessionWeekAdapter(getActivity(), "week");
                 LinearLayoutManager manager
                         = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                 //manager.setReverseLayout(true);
@@ -383,11 +386,11 @@ public class PacifyrSessionsFragment extends BaseFragment {
                 dateTypeRcv.setAdapter(adapter);
                 dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
                 thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                 thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                thisMntCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                thisYearCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
                 mySessionsRcv.setVisibility(View.VISIBLE);
                 monthSessionsRcv.setVisibility(View.GONE);
                 yearSessionsRcv.setVisibility(View.GONE);
@@ -407,19 +410,19 @@ public class PacifyrSessionsFragment extends BaseFragment {
                 showProgress();
                 getStatistics(monthStatUrl);
                 callThisMonthSession(thisMonthUrl);
-                SessionWeekAdapter adapter =new SessionWeekAdapter(getActivity(),"month");
+                SessionWeekAdapter adapter = new SessionWeekAdapter(getActivity(), "month");
                 LinearLayoutManager manager
                         = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                 //manager.setReverseLayout(true);
                 dateTypeRcv.setLayoutManager(manager);
                 dateTypeRcv.setAdapter(adapter);
                 dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
-                thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                thisYearCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
                 thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                 thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                thisWkCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                thisYearCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
                 monthSessionsRcv.setVisibility(View.VISIBLE);
                 monthSessionsRcv.setVisibility(View.GONE);
                 yearSessionsRcv.setVisibility(View.GONE);
@@ -439,7 +442,7 @@ public class PacifyrSessionsFragment extends BaseFragment {
                 showProgress();
                 getStatistics(yearStatUrl);
                 callThisYearSession(thisYearUrl);
-                SessionWeekAdapter adapter =new SessionWeekAdapter(getActivity(),"year");
+                SessionWeekAdapter adapter = new SessionWeekAdapter(getActivity(), "year");
                 LinearLayoutManager manager
                         = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                 //manager.setReverseLayout(true);
@@ -447,10 +450,10 @@ public class PacifyrSessionsFragment extends BaseFragment {
                 dateTypeRcv.setAdapter(adapter);
                 dateTypeRcv.scrollToPosition(dateTypeRcv.getAdapter().getItemCount() - 1);
                 thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                thisMntCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                thisWkCtxv.setBackground(getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.color.grey_hex_f8));
+                thisWkCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
+                thisMntCtxv.setTextColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c7));
                 thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
                 yearSessionsRcv.setVisibility(View.VISIBLE);
                 yearSessionsRcv.setVisibility(View.GONE);

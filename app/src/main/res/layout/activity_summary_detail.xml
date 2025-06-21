@@ -302,9 +302,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     app:progressColor="@color/colorPrimary"
-                                    app:progressBackgroundColor="#000"
-                                    app:thumbColor="@color/grey_fit"
-                                    app:thumbAlpha="1.0"/>
+                                    app:thumbColor="@color/grey_fit" />
                                 <!--         android:maxHeight="300sp"-->
                                 <com.eralp.circleprogressview.CircleProgressView
                                     android:id="@+id/circle_progress_view"

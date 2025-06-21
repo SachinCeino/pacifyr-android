@@ -39,16 +39,16 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
         @Override
         public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        /*ModelSpecialist.Results[] special = specialList.get(position).getResults();*/
-            String imgUrl=GLOBAL_IMAGE_URL+emotions.get(position).getImage();
+            /*ModelSpecialist.Results[] special = specialList.get(position).getResults();*/
+            String imgUrl = GLOBAL_IMAGE_URL + emotions.get(position).getImage();
             holder.emotion_title.setText(emotions.get(position).getTitle());
-            String tit=emotions.get(position).getTitle();
+            String tit = emotions.get(position).getTitle();
             //Picasso.with(context).load(imgUrl).into(holder.emotionIMG);
             Resources res = context.getResources();
 
             //final ImageView image = (ImageView) findViewById(R.id.imageId);
-            final int newColor = res.getColor(R.color.grey_fit);
-            final int trnsparentColor = res.getColor(R.color.transparent);
+            final int newColor = res.getColor(com.pacifyrapp.utilitylibrary.R.color.grey_fit);
+            final int trnsparentColor = res.getColor(com.pacifyrapp.utilitylibrary.R.color.transparent);
 /*
             if(tit.equals("Angry")){
                 holder.emotionIMG.setImageResource(R.drawable.anger);

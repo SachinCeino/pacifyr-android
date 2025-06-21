@@ -315,7 +315,7 @@ public class RegisterActivity extends PacifyrActivity {
                 }
 
                 if(isValid(fbImage)){
-                    Picasso.with(RegisterActivity.this).load(fbImage).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                    Picasso.with(RegisterActivity.this).load(fbImage).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileCimv);
                     upload_textView.setText("Edit photo");
                     add_photo_textView.setVisibility(View.GONE);
                     upload_textView.setVisibility(View.VISIBLE);
@@ -569,7 +569,7 @@ public class RegisterActivity extends PacifyrActivity {
 
             SingleDateAndTimePickerDialog.Builder mSingleDateAndTimePickerDialog = new SingleDateAndTimePickerDialog.Builder(this);
             mSingleDateAndTimePickerDialog.bottomSheet();
-            mSingleDateAndTimePickerDialog.backgroundColor(getResources().getColor(R.color.grey_light));
+            mSingleDateAndTimePickerDialog.backgroundColor(getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_light));
             mSingleDateAndTimePickerDialog.titleTextColor(getResources().getColor(R.color.colorPrimary));
             mSingleDateAndTimePickerDialog.mainColor(getResources().getColor(R.color.black));
             mSingleDateAndTimePickerDialog.displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
@@ -774,7 +774,7 @@ public class RegisterActivity extends PacifyrActivity {
                     return;
                 if (!isValidYear(yearEdit.getText().toString()))
                     return;
-                if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                if (!isValidCheckBox(checkBox, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.agree_terms_alert)))
                     return;
                 postRegisterModel.setLoginType("manual");
                 postRegisterModel.setFirstName(nameEdt.getText().toString());
@@ -815,7 +815,7 @@ public class RegisterActivity extends PacifyrActivity {
                     }
                     if (!isValidYear(yearEdit.getText().toString()))
                         return;
-                    if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                    if (!isValidCheckBox(checkBox, getResources().getString(com.pacifyrapp.utilitylibrary.R.string.agree_terms_alert)))
                         return;
 
                 } else {
@@ -1334,17 +1334,17 @@ public class RegisterActivity extends PacifyrActivity {
                     try {
                         //String message = json.get("message");
                         String status = json.get("status").getAsString();
-                        if (json == null || status.equals(getResources().getString(R.string.error))) {
+                        if (json == null || status.equals(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.error))) {
                             hideProgress();
-                            String message = json.get(getResources().getString(R.string.message_string)).getAsString();
-                            setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), message,"Ok");
-                           // ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again Json is null");
+                            String message = json.get(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.message_string)).getAsString();
+                            setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), message, "Ok");
+                            // ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again Json is null");
                         } else {
                             final JSONObject json2 = new JSONObject(json.toString());
                             PRegistrationModel regModel = GsonUtils.getInstance().gsonToRegistrationModel(json2);
                             registrationModel = GsonUtils.getInstance().gsonToRegistrationModel(json2);
                             userModel = registrationModel.getUser();
-                            appUserID=userModel.getId();
+                            appUserID = userModel.getId();
                             jsonString = json2.toString();
                             if (isValid(regModel,getResources().getString(R.string.please_try_again))) {
 
@@ -1532,7 +1532,7 @@ public class RegisterActivity extends PacifyrActivity {
                         LogUtils.LOGD("session","AEA updateProfileMultipartWeb  exce " + e.getMessage());
                     }
                     hideProgress();
-                    setStatus("User registered Successfully", R.color.md_green_400);
+                    setStatus("User registered Successfully", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                     showStatus();
 
                     final Handler handler = new Handler();
@@ -1620,7 +1620,7 @@ public class RegisterActivity extends PacifyrActivity {
                             //String logstat = status.getMessage();
                             if (isValid(phone)) {
                                 hideProgress();
-                                setStatus("User registered Successfully", R.color.md_green_400);
+                                setStatus("User registered Successfully", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                                 showStatus();
 
                                 final Handler handler = new Handler();

@@ -213,7 +213,7 @@ public class LastSessionFragment extends BaseFragment {
             pacifyrRateCtxv.setText("$ " + lastSession.getPacifyr().getPrice() + " " + Utility.getCostLabel(getActivity()));
             durationCtxv.setText(lastSession.getDuration());
             if (isValidhtml(imagePac))
-                Picasso.with(getContext()).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                Picasso.with(getContext()).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
             if (isValidhtml(beforeImgUrl))
                 Picasso.with(getContext()).load(beforeImgUrl).placeholder(R.drawable.sad).into(beforeFeelDimv);
 

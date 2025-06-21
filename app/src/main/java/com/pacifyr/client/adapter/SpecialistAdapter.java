@@ -112,7 +112,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         /*ModelSpecialist.Results[] special = specialList.get(position).getResults();*/
         String imgUrl=GLOBAL_IMAGE_URL+specialList.get(position).getImage();
         holder.pac_name.setText(specialList.get(position).getTitle());
-        Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_image)).into(holder.circleImageView);
+        Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_image)).into(holder.circleImageView);
 
         if(specialList.get(position).isSelect())
         {
@@ -122,7 +122,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         }
         else {
             holder.circleImageView.setBorderWidth(0);
-            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
+            holder.pac_name.setTextColor(context.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_dark));
         }
 
        /* holder.circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +168,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
                         else{
                             specialList.get(i).setSelect(false);
                             holder.circleImageView.setBorderWidth(0);
-                            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
+                            holder.pac_name.setTextColor(context.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_dark));
                         }
 
                     }
@@ -189,7 +189,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
                         } else {
                             specialList.get(i).setSelect(false);
                             holder.circleImageView.setBorderWidth(0);
-                            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
+                            holder.pac_name.setTextColor(context.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_dark));
                         }
 
                     }
@@ -227,7 +227,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         Picasso.with(context).load(GLOBAL_IMAGE_URL + specialList.get(position).getImage()+"").into(_ImageView_speciality);
 
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(),R.style.Theme_AppCompat_Light_Dialog);
+        AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(), R.style.AppTheme);
         alert.setView(myView);
         alert.setCancelable(false);
         AlertDialog dialog = alert.create();

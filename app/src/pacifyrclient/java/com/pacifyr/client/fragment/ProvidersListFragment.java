@@ -756,7 +756,7 @@ CheckBox showall_cbox;
             };
             trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, Consts.TIMER_ONLINE_OFFLIN);
             if (getActivity() instanceof DashboardActivity) {
-                ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.browse_pacifyr));
+                ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.browse_pacifyr));
                 ((DashboardActivity) getActivity()).changeBottomMenuIcon(1);
             }
         }

@@ -147,7 +147,7 @@ public class QuickstartConversationsManager {
 
     void leaveFromChat(){
         if(conversation!= null)
-        conversation.removeListener(mDefaultConversationListener);
+            conversation.removeListener(mDefaultConversationListener);
     }
 
     void messageTyping(){
@@ -540,7 +540,7 @@ public class QuickstartConversationsManager {
                                 initializeWithAccessToken(context,token);
                             }
                             else {
-                                String errorMessage = context.getString(R.string.error_retrieving_access_token);
+                                String errorMessage = context.getString(com.pacifyrapp.utilitylibrary.R.string.error_retrieving_access_token);
                                 if (exception != null) {
                                     errorMessage = errorMessage + " " + exception.getLocalizedMessage();
                                 }

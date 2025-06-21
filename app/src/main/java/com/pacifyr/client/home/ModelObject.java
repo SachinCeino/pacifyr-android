@@ -8,9 +8,9 @@ import com.pacifyr.client.R;
 
 public enum ModelObject {
 
-    RED(R.string.message, R.layout.view_tour1),
-    BLUE(R.string.message, R.layout.view_tour2),
-    GREEN(R.string.message, R.layout.view_tour3);
+    RED(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_tour1),
+    BLUE(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_tour2),
+    GREEN(com.pacifyrapp.utilitylibrary.R.string.message, R.layout.view_tour3);
 
     private int mTitleResId;
     private int mLayoutResId;

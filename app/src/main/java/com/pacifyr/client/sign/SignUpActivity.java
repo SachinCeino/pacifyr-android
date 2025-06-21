@@ -506,7 +506,7 @@ public class SignUpActivity extends PacifyrActivity {
                                                 } catch (Exception exx) {
                                                     exx.printStackTrace();
                                                     prefM.clear();
-                                                    setStatus("Network Error.", R.color.md_red_100);
+                                                    setStatus("Network Error.", com.pacifyrapp.utilitylibrary.R.color.md_red_100);
                                                     showStatus();
                                                     LoginManager mLoginManager = LoginManager.getInstance();
                                                     mLoginManager.logOut();
@@ -527,7 +527,7 @@ public class SignUpActivity extends PacifyrActivity {
                                     else{
                                         prefM.clear();
                                         //ToastHandler.newInstance(SignUpActivity.this).mustShowToast(sucesss.getMessage());
-                                        setStatus(registrationModel.getMessage(), R.color.md_red_100);
+                                        setStatus(registrationModel.getMessage(), com.pacifyrapp.utilitylibrary.R.color.md_red_100);
                                         showStatus();
                                         LoginManager mLoginManager = LoginManager.getInstance();
                                         if(isValid(mLoginManager))
@@ -590,7 +590,7 @@ public class SignUpActivity extends PacifyrActivity {
 
             try {
                 hideProgress();
-                setStatus("Registration Succesfull", R.color.md_green_400);
+                setStatus("Registration Succesfull", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                 showStatus();
                 saveUserDataToPrefM();
                 NetworkService.editProfileObject = new JSONObject();

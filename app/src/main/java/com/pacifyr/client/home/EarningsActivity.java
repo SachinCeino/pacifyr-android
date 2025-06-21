@@ -240,9 +240,9 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
                         int color_medium=getResources().getColor(R.color.light_grey2_pacifyr);
 
 
-                        int color_light=getResources().getColor(R.color.graph_light);
-                        int color_hex=getResources().getColor(R.color.grey_hex_c6);
-                        int color_dark=getResources().getColor(R.color.graph_dark);
+                        int color_light = getResources().getColor(R.color.graph_light);
+                        int color_hex = getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c6);
+                        int color_dark = getResources().getColor(R.color.graph_dark);
 
 
                         switch (i)
@@ -493,7 +493,7 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
 
                     for (int i = 0; i < size; i++) {
                         // int k=i+1;
-                        int color=EarningsActivity.this.getResources().getColor(R.color.grey_hex_c6);
+                        int color = EarningsActivity.this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c6);
 
 
                           DecimalFormat df2 = new DecimalFormat("0.00");
@@ -539,9 +539,9 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
                         new float[]{1, 1, 1}, 0.4f, 10, 8.2f);
 
                 int color_medium=getResources().getColor(R.color.medium_grey_pacifyr);
-                int color_light=getResources().getColor(R.color.graph_light);
-                int color_hex=getResources().getColor(R.color.grey_hex_c6);
-                int color_dark=getResources().getColor(R.color.graph_dark);
+                int color_light = getResources().getColor(R.color.graph_light);
+                int color_hex = getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.grey_hex_c6);
+                int color_dark = getResources().getColor(R.color.graph_dark);
                 int color_white=getResources().getColor(R.color.white);
 
                 int color_blue=getResources().getColor(R.color.blue_pacifyr);

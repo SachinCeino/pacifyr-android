@@ -35,8 +35,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.aigestudio.wheelpicker.WheelPicker;
-import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
+import dev.aige.wheelpicker.WheelPicker;
+import dev.aige.wheelpicker.widgets.WheelYearPicker;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;

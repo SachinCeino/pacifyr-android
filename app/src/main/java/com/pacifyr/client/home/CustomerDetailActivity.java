@@ -179,7 +179,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
             String imgUrl = custListUser.getImageUrl();
             if (isValid(imgUrl))
-                Picasso.with(CustomerDetailActivity.this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                Picasso.with(CustomerDetailActivity.this).load(imgUrl).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(profileCimv);
             //custListUser
 
             String emotion = custListUser.getEmotionId();

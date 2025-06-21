@@ -762,7 +762,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         pacifyrRateCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getPacifyr().getPrice() + " " + Utility.getCostLabel(SessionSummaryActivity.this));
                         String imagePac = mSessionDetailRoot.getPacifyr().getImageUrl();
                         if (isValid(imagePac))
-                            Picasso.with(SessionSummaryActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                            Picasso.with(SessionSummaryActivity.this).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
 
                     }
 
@@ -785,7 +785,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         pacifyrNameCtxv.setText(pacName);
                         String imagePac = mSessionDetailRoot.getUser().getImageUrl();
                         if (isValid(imagePac))
-                            Picasso.with(SessionSummaryActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
+                            Picasso.with(SessionSummaryActivity.this).load(imagePac).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
                 }
 
