@@ -467,7 +467,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             cIntent.setAction(Long.toString(System.currentTimeMillis()));
 
             pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
-                    cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    cIntent, PendingIntent.FLAG_IMMUTABLE);
         }
         else {
             boolean isNeedToOpenAppointments = actualType.equals("confirmBooking") || actualType.equalsIgnoreCase("rejectBooking") || actualType.equals("reminder");
@@ -483,7 +483,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             cIntent.setAction(Long.toString(System.currentTimeMillis()));
 
             pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
-                    cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    cIntent, PendingIntent.FLAG_IMMUTABLE);
         }
         // cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

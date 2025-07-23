@@ -340,7 +340,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 float minuts = WalletBalnce;
                 freeMinutes = (long) minuts;
             } else if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()
-                    && isValid(NetworkService.mCurrentUser.getWalletBalance())) {
+                    && isValid(NetworkService.mCurrentUser.getWalletBalance()) && isValid(getCallPacifyr())) {
                 WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
                 freeMinutes = (long) (freeMinutes + WalletBalance_minutes);
 
@@ -2364,7 +2364,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     });
                 }
             }, 2000);
-            return;
         } else {
             bringCallActivityToFront();
             new Handler().postDelayed(new Runnable() {
@@ -3509,7 +3508,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
             } else if (!hasBillingStarted() && isProviderConnected) {
 
-                if (isProd == false && isRelease == false) {
+                if (!isProd && !isRelease) {
                     ToastHandler.newInstance(getApplicationContext()).showToast("Thank you for the call. You are not billed as service was not provided");
 
                 } else {
@@ -4245,7 +4244,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         Intent intent = new Intent(VideoActivity.this, VideoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,
                 Constants.getChannelId(VideoActivity.this))
                 .setSmallIcon(R.drawable.ic_pacifyr_notification)
