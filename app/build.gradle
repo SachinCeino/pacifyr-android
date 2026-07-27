@@ -34,6 +34,17 @@ android {
             useLegacyPackaging false
         }
     }
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = false
+        }
+    }
     buildTypes {
         debug {
 
@@ -127,8 +138,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.7.6"
-            versionCode 232
+            versionName "2.7.7"
+            versionCode 233
         }
         /*leadersup {
             dimension "Pacifyr"
