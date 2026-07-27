@@ -14,7 +14,7 @@ buildscript {
 
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.1.2"
+        classpath "com.android.tools.build:gradle:8.7.2"
         /*  classpath 'com.google.gms:google-services:3.1.0'*/
 
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -49,11 +49,11 @@ ext {
 /*    compileSdkVersion = 25
     buildToolsVersion = "25.0.2"*/
 
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.2"
+    compileSdkVersion = 36
+    buildToolsVersion = "36.0.0"
     minSdkVersion = 23
     // minSdkVersion = 21
-    targetSdkVersion = 26
+    targetSdkVersion = 36
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
