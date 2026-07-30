@@ -35,6 +35,11 @@ android {
             useLegacyPackaging false
         }
     }
+    packaging {
+        resources {
+            excludes += 'com/androidquery/util/web_image.html'
+        }
+    }
     bundle {
         language {
             enableSplit = false
@@ -139,8 +144,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.7.8"
-            versionCode 234
+            versionName "2.7.9"
+            versionCode 235
         }
         /*leadersup {
             dimension "Pacifyr"

@@ -1,17 +1,22 @@
 *.iml
-.gradle
+.gradle/
 local.properties
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
 /captures
 .idea
-build.gradle
+
+# Build outputs (every module, any depth)
+build/
+**/build/
+
+# Packaged app binaries
+*.apk
+*.aab
+*.aar
+
 app/pacifyrclient/release/*
-/quickblox-chat/build/
-/quickblox-core/build/
-/quickblox-videochat-webrtc/build/
 /apikeys.properties
 /apikeysdev.properties
