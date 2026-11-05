@@ -13,6 +13,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.orginals.UserProperties;
 import com.pacifyr.client.utils.MetaEventLogger;
+import com.pacifyr.client.utils.SystemBarInsetsHandler;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +46,7 @@ public class App extends Application {
         UtilityNetworkService.init(this);
         initApplication();
         MetaEventLogger.init(this);
+        SystemBarInsetsHandler.register(this);
 
         /*chat*/
 
