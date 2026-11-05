@@ -1,5 +1,6 @@
 package com.pacifyr.client.Payment;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -141,6 +142,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                         }
 
                         public void onError(Exception error) {
+                            MetaEventLogger.logAddPaymentInfo(AddCreditCardActivity.this, false);
                             // Show localized error message
                             Toast.makeText(AddCreditCardActivity.this,
                                     error.getMessage(),
@@ -164,6 +166,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 try {
                     String message=json.getString("message");
+                    MetaEventLogger.logAddPaymentInfo(AddCreditCardActivity.this, "Card added".equals(message));
                     String my=json.toString();
                     if(message.equals("Card added")){
 

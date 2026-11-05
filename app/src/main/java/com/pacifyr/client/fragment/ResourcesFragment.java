@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -129,6 +130,7 @@ public class ResourcesFragment extends BaseFragment {
                                     cardViewBanner.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            MetaEventLogger.logViewContent(getContext(), mObject.getId(), mObject.getType());
                                             if (mObject.getType().equals("article"))
                                             {
                                                 Today_ArticleIcon.setVisibility(View.VISIBLE);
@@ -359,6 +361,7 @@ public class ResourcesFragment extends BaseFragment {
 
                 setSearchQuery(query);
                 if (isValid(getSearchQuery()) ) {
+                    MetaEventLogger.logSearch(getContext(), query.trim(), MetaEventLogger.CONTENT_TYPE_RESOURCE);
                     loadSearchResources(query);
                 }
                 return false;

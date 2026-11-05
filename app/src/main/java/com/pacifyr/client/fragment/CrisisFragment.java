@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -135,6 +136,7 @@ public class CrisisFragment extends BaseFragment {
         suicideUrlCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MetaEventLogger.logContact(getActivity(), MetaEventLogger.SOURCE_CRISIS_HOTLINE);
                 Intent i=new Intent(getActivity(),TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.suicide_http_url));
                 startActivity(i);
@@ -144,6 +146,7 @@ public class CrisisFragment extends BaseFragment {
         veteransUrlCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MetaEventLogger.logContact(getActivity(), MetaEventLogger.SOURCE_CRISIS_HOTLINE);
                 Intent i=new Intent(getActivity(),TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.veterans_http_url));
                 startActivity(i);

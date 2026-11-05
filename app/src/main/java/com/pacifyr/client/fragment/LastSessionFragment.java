@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -263,6 +264,10 @@ public class LastSessionFragment extends BaseFragment {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         String js=json.toString();
+                        if (status != null && status.getCode() == 200) {
+                            MetaEventLogger.logRate(getActivity(),
+                                    MetaEventLogger.CONTENT_TYPE_SESSION, changedRating);
+                        }
                         FragmentManager fm=getActivity().getSupportFragmentManager();
                         FragmentTransaction ft=fm.beginTransaction();
                         UserDashboardFragmentNew fragment=new UserDashboardFragmentNew();

@@ -1,5 +1,6 @@
 package com.pacifyr.client.twilio;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
@@ -365,6 +366,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             }*/
             if (freeMinutes > 0) {
+                // first session for this user that runs on free minutes
+                MetaEventLogger.logStartTrialOnce(this, MetaEventLogger.SOURCE_FREE_MINUTES);
                 freeMinutes=freeMinutes+1;
                 long freeMillis = freeMinutes * 60 * 1000;
                 long initial_time=freeMinutes;

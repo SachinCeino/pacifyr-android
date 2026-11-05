@@ -1,5 +1,6 @@
 package com.pacifyr.client.activity;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -213,9 +214,9 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                     dialog.dismiss();
                 }
                 if (selectionGroup.getCheckedRadioButtonId() == R.id.radio_upfront) {
-                    buy(mPack.getId(), false);
+                    buy(mPack.getId(), false, mPack.getPrice());
                 } else if (selectionGroup.getCheckedRadioButtonId() == R.id.radio_as_you_go) {
-                    buy(mPack.getId(), true);
+                    buy(mPack.getId(), true, mPack.getPrice());
                 }
             }
         });
@@ -243,7 +244,14 @@ public class BuyBundles extends PacifyrAppCompactActivity {
 
     }
 
-    private void buy(String sessionPackId, boolean isSubscribed) {
+    /**
+     * @param isSubscribed true = "as you go" (pay per session), false = pay the pack price upfront
+     * @param price        pack price, only charged now when paying upfront
+     */
+    private void buy(String sessionPackId, boolean isSubscribed, Float price) {
+        final double upfrontAmount = (!isSubscribed && price != null) ? price : 0;
+        MetaEventLogger.logInitiateCheckout(BuyBundles.this, sessionPackId,
+                MetaEventLogger.CONTENT_TYPE_SESSION_PACK, upfrontAmount);
         showProgress();
         SessionPackInput input = new SessionPackInput(userId, sessionPackId, isSubscribed);
         WebService webService = new WebService(BuyBundles.this);
@@ -255,8 +263,11 @@ public class BuyBundles extends PacifyrAppCompactActivity {
                     String message = "";
                     if (isSubscribed) {
                         message = getString(R.string.session_pack_subscribed);
+                        MetaEventLogger.logSubscribe(BuyBundles.this);
                     } else {
                         message = getString(R.string.session_pack_purchased);
+                        MetaEventLogger.logPurchase(BuyBundles.this, sessionPackId,
+                                MetaEventLogger.CONTENT_TYPE_SESSION_PACK, upfrontAmount);
                     }
                     showIOSDialogOK(getString(R.string.success), message, getString(R.string.dlg_ok), new iOSDialogClickListener() {
                         @Override

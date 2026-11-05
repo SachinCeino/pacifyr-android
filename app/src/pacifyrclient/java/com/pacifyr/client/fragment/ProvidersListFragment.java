@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static com.pacifyr.client.home.ListPacifyrScreenActivity.customerEmotion;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelSpecialist;
@@ -425,6 +426,7 @@ CheckBox showall_cbox;
                 emoSelected=null;
                 setSearchQuery(query);
                 if (isValid(query) && isValid(customerEmotion)) {
+                    MetaEventLogger.logSearch(getContext(), query.trim(), MetaEventLogger.CONTENT_TYPE_COUNSELOR);
                     if (prefM.getCustomerRole().equals("employee")) {
                         handleAllspecialityForEmployee();
 

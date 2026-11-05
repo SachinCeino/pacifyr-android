@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -105,6 +106,7 @@ public class SupportFragment extends BaseFragment {
                         try {
                             sendRlay.setClickable(true);
                             String js = json.toString();
+                            MetaEventLogger.logContact(getContext(), MetaEventLogger.SOURCE_SUPPORT_MESSAGE);
                             setStatus("Your message is sent successfully", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                             messageEdit.setText("");
                             hideProgress();

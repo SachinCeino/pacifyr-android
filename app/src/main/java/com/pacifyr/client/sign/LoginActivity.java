@@ -26,7 +26,6 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
@@ -117,7 +116,6 @@ public class LoginActivity extends PacifyrActivity {
             fbLogout();
             setLoading();
             hideProgress();
-            FacebookSdk.sdkInitialize(LoginActivity.this);
             onSetActionBar();
             context = LoginActivity.this;
             prefM = PrefManager.getInstance(context);

@@ -126,9 +126,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.koushikdutta.ion:ion:2.1.7'
     implementation 'com.google.code.gson:gson:2.2.4'
-    implementation ('com.facebook.android:facebook-android-sdk:4.33.0'){
-        exclude group : 'com.android.support'
-    }
+    implementation "com.facebook.android:facebook-login:$facebook_sdk_version"
     //implementation 'com.google.android.gms:play-services-gcm:9.6.1'
     implementation 'com.amazonaws:aws-android-sdk-sns:2.6.31'
     implementation 'com.squareup.okhttp:okhttp:2.7.0'

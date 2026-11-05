@@ -1,5 +1,6 @@
 package com.pacifyr.client.home;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
@@ -195,6 +196,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 //position=extras.getInt("position");
                 //String image=searchResults.get(position).getImage();
                 userID = extras2.getString("userid");
+                MetaEventLogger.logViewContent(this, userID, MetaEventLogger.CONTENT_TYPE_COUNSELOR);
                 //NetworkService.startActionProfile(this,userID);
 /*
                 int delay = 0; // delay for 0 sec.

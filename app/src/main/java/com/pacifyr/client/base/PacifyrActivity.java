@@ -1,5 +1,6 @@
 package com.pacifyr.client.base;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
@@ -1461,6 +1462,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
+        MetaEventLogger.logContact(PacifyrActivity.this, MetaEventLogger.SOURCE_CONNECT_COUNSELOR);
         startTwilioChat(pacifyer);
            /* if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
                 Log.d(TAG, "Write storage permission required!");
@@ -3118,6 +3120,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public void checkRoleRequest(final MUser pacifyerDetial, final AvailableMinuteListner listner,final boolean isVideoCall) {
 
         try {
+            // Every audio/video call request to a counselor goes through here
+            MetaEventLogger.logContact(PacifyrActivity.this, MetaEventLogger.SOURCE_CONNECT_COUNSELOR);
             PrefManager prefManager = PrefManager.getInstance(PacifyrActivity.this);
             String customerRole = prefManager.getCustomerRole();
 
@@ -3509,6 +3513,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 }
 
                 public void onError(Exception error) {
+                    MetaEventLogger.logAddPaymentInfo(PacifyrActivity.this, false);
                     Toast.makeText(PacifyrActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     hideProgress();
                 }
@@ -3534,6 +3539,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     try {
                         hideProgress();
                         String message = json.getString("message");
+                        MetaEventLogger.logAddPaymentInfo(PacifyrActivity.this, "Card added".equals(message));
                         String my = json.toString();
                         if (message.equals("Card added")) {
 
@@ -3923,6 +3929,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     boolean isFromCall =false ;
     public void generateCheckSum(boolean isFromCallb ,String sessionid, int price,boolean isFromsessionExtension) {
         isFromCall = isFromCallb;
+        // Single entry point for every Paytm payment (booking, in-call payment, session extension)
+        MetaEventLogger.logInitiateCheckout(PacifyrActivity.this, sessionid,
+                isFromsessionExtension ? MetaEventLogger.CONTENT_TYPE_SESSION_EXTENSION : MetaEventLogger.CONTENT_TYPE_SESSION,
+                price);
        /* if (ContextCompat.checkSelfPermission(PacifyrActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(PacifyrActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
         }*/
@@ -4189,6 +4199,17 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
 
+    private void logMetaPurchase(String orderId, boolean isFromsessionExtension) {
+        double amount = 0;
+        try {
+            amount = Double.parseDouble(txnAmount);
+        } catch (Exception ignored) {
+        }
+        MetaEventLogger.logPurchase(PacifyrActivity.this, orderId,
+                isFromsessionExtension ? MetaEventLogger.CONTENT_TYPE_SESSION_EXTENSION : MetaEventLogger.CONTENT_TYPE_SESSION,
+                amount);
+    }
+
     public void ConfirmationFromSever(Bundle inResponse, String checksumHash,boolean isFromsessionExtension,String sessionID) {
 
         /**split values **/
@@ -4228,7 +4249,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             if (isValid(object)) {
                                 if (isValid(object.getIsChecksumValid()))
                                     if (object.getIsChecksumValid() && object.getTransactionStatus().equals("success")) {
-                                        // Transaction Succeeded
+                                        // Transaction Succeeded (checksum verified by our server)
+                                        logMetaPurchase(orderId, isFromsessionExtension);
                                         Log.w("@@@","Payment setup failed.ShowTransactionSuccesResultToUSer");
                                         if (isFromsessionExtension)
                                         {

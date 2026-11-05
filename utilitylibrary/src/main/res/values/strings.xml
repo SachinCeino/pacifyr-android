@@ -47,8 +47,9 @@
     <string name="start_session_with_pacifyr">Start Session With Provider</string>
 
     <!--//Facebook-->
-    <string name="facebook_app_id">180931982441982</string>
-    <string name="fb_login_protocol_scheme">fb180931982441982</string>
+    <string name="facebook_app_id">1069833411991422</string>
+    <string name="fb_login_protocol_scheme">fb1069833411991422</string>
+    <string name="facebook_client_token" translatable="false">5f5238715734f1c89f03203c854bab6d</string>
 
     <!-- Strings related to login -->
     <string name="validate">Validate</string>

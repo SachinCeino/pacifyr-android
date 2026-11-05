@@ -1,5 +1,6 @@
 package com.pacifyr.client.adapter;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -172,6 +173,7 @@ public class ResourcesListMainAdapter extends RecyclerView.Adapter<RecyclerView.
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MetaEventLogger.logViewContent(mContext, item.getId(), MetaEventLogger.CONTENT_TYPE_ARTICLE);
                         Intent i=new Intent(mContext, TermsOfUseActivity.class);
                         i.putExtra("spurl", item.getUrl());
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -203,6 +205,7 @@ public class ResourcesListMainAdapter extends RecyclerView.Adapter<RecyclerView.
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MetaEventLogger.logViewContent(mContext, item.getId(), MetaEventLogger.CONTENT_TYPE_VIDEO);
                         if (item.getUrl().contains("https://pacifyrprod.")){
                             Intent intent=new Intent(mContext, MainVideoPlayerActivity.class);
                             intent.putExtra("URL",item.getUrl());

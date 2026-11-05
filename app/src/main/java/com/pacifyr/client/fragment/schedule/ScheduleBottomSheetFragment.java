@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment.schedule;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.pacifyr.client.base.PacifyrActivity.errorCount;
@@ -169,6 +170,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     LinearLayout l1;
     private EditText message_comments;
     private String bookingRequestPaymentId =null;
+    // Meta event to log once the booking API confirms (null = nothing pending)
+    private static final String META_PENDING_TRIAL = "trial";
+    private static final String META_PENDING_PURCHASE = "purchase";
+    private String metaPendingEvent = null;
+    private float metaPendingCost = 0;
 
 
 
@@ -358,6 +364,18 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         });
     }
 
+    /** Logs the Meta event deferred until the booking is confirmed by the server. */
+    private void logPendingMetaEvent() {
+        if (META_PENDING_TRIAL.equals(metaPendingEvent)) {
+            MetaEventLogger.logStartTrial(getActivity(), MetaEventLogger.SOURCE_ZERO_COST_BOOKING);
+        } else if (META_PENDING_PURCHASE.equals(metaPendingEvent)) {
+            MetaEventLogger.logPurchase(getActivity(), bookingRequestPaymentId,
+                    MetaEventLogger.CONTENT_TYPE_SESSION, metaPendingCost);
+        }
+        metaPendingEvent = null;
+        metaPendingCost = 0;
+    }
+
     private void callSlotBookApiAfterPaymentSuccess(Slot singleSlote) {
         if (isValid(singleSlote)) {
             try {
@@ -415,6 +433,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                             if (status.equals("success"))
                                             {
+                                                logPendingMetaEvent();
                                                 setStatus("Successfully booked", com.pacifyrapp.utilitylibrary.R.color.md_green_400);
                                                 showStatus();
                                                 new Handler().postDelayed(new Runnable() {
@@ -1391,6 +1410,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
                                                                     ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    metaPendingEvent = META_PENDING_TRIAL;
                                                                     EventBus.getDefault().post("SCHEDULE_PAY");
                                                                 }
                                                             });
@@ -1433,16 +1453,22 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
                                                                     ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    metaPendingEvent = META_PENDING_TRIAL;
                                                                     EventBus.getDefault().post("SCHEDULE_PAY");
                                                                 }
                                                             });
 
                                                         } else {
+                                                            final float usCost = cost;
                                                             ((PacifyrActivity) getActivity()).setAlertStatusInWhiteNoInternet("", "You will be charged amount $" + cost + " for this session. Do you want to continue?", "Yes", "No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
                                                                     ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    MetaEventLogger.logInitiateCheckout(getActivity(), bookingRequestPaymentId,
+                                                                            MetaEventLogger.CONTENT_TYPE_SESSION, usCost);
+                                                                    metaPendingEvent = META_PENDING_PURCHASE;
+                                                                    metaPendingCost = usCost;
                                                                     checkIfCardIsAddedOrNot(singleSlote);
                                                                 }
                                                             });

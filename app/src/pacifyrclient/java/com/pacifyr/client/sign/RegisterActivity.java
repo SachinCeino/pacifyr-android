@@ -1,5 +1,6 @@
 package com.pacifyr.client.sign;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static com.pacifyr.client.network.NetworkService.countryData;
 import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -1371,6 +1372,10 @@ public class RegisterActivity extends PacifyrActivity {
                                         }
                                         FirebaseLogging.sendLog(RegisterActivity.this,
                                                 FirebaseLogging.EVENT_SIGNUP_SUCCESS, args);
+                                        // Manual sign-up is verified by phone OTP (RegisterVerifyActivity)
+                                        MetaEventLogger.logCompleteRegistration(RegisterActivity.this,
+                                                isFacebook ? MetaEventLogger.REGISTRATION_METHOD_FACEBOOK
+                                                        : MetaEventLogger.REGISTRATION_METHOD_PHONE);
 
                                     }
                                     else{

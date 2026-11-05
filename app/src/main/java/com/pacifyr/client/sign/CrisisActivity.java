@@ -1,5 +1,6 @@
 package com.pacifyr.client.sign;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class CrisisActivity extends PacifyrActivity {
         suicideUrlCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MetaEventLogger.logContact(CrisisActivity.this, MetaEventLogger.SOURCE_CRISIS_HOTLINE);
                 Intent i = new Intent(CrisisActivity.this, TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.suicide_http_url));
                 startActivity(i);
@@ -38,6 +40,7 @@ public class CrisisActivity extends PacifyrActivity {
         veteransUrlCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MetaEventLogger.logContact(CrisisActivity.this, MetaEventLogger.SOURCE_CRISIS_HOTLINE);
                 Intent i = new Intent(CrisisActivity.this, TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.veterans_http_url));
                 startActivity(i);

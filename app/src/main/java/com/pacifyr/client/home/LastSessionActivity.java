@@ -1,5 +1,6 @@
 package com.pacifyr.client.home;
 
+import com.pacifyr.client.utils.MetaEventLogger;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
@@ -1111,6 +1112,10 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
                         if (json != null) {
                             Log.d(TAG, "Save seeion resspomse " + json);
+                        }
+                        if (isCustomer && json != null && status != null && status.getCode() == 200) {
+                            MetaEventLogger.logRate(LastSessionActivity.this,
+                                    MetaEventLogger.CONTENT_TYPE_SESSION, rating);
                         }
                         App.getInstance().setCurrentActivity(null);
                         NetworkService.startActionCutomerDashboard(LastSessionActivity.this);

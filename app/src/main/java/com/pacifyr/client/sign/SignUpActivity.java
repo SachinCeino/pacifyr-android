@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
@@ -127,7 +126,6 @@ public class SignUpActivity extends PacifyrActivity {
 
             /*hideKeyboard();*/
             onSetActionBar();
-            FacebookSdk.sdkInitialize(SignUpActivity.this);
             //countryCodePicker=(CountryCodePicker) findViewById(R.id.ccp);
             //radioButton=(RadioButton) findViewById(R.id.other_country_rbtn);
             //isCOuntry=false;
