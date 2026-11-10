@@ -1,0 +1,7 @@
+## Copy to apikeys.properties (gitignored) and fill in real values.
+## Also place each flavor's google-services.json in app/src/<flavor>/ (gitignored),
+## downloaded from the Firebase console.
+FIREBASE_PROJECT_ID = "your-project-id"
+FIREBASE_PROJECT_API_KEY = "your-firebase-api-key"
+FIREBASE_APP_ID = "your-firebase-app-id"
+MAPS_API_KEY = "your-maps-api-key"

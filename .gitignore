@@ -20,3 +20,7 @@ build/
 app/pacifyrclient/release/*
 /apikeys.properties
 /apikeysdev.properties
+
+# Firebase config & API keys (keep out of VCS)
+google-services.json
+**/google-services.json

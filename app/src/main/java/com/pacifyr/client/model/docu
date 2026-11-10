@@ -51,7 +51,7 @@ You can find the API KEY in:
 
 Server Key is the API key.
 
-Use https://www.googleapis.com/plus/v1/people/USER_ID?fields=image&key=AIzaSyBz2jGjZl0VGkllxYYKRHPuuAX_oMxdyVQ , return json containing avatar
+Use https://www.googleapis.com/plus/v1/people/USER_ID?fields=image&key=<YOUR_API_KEY> , return json containing avatar
 Error:Execution failed for task ':app:transformClassesWithJarMergingForDebug'.
 > com.android.build.api.transform.TransformException: java.util.zip.ZipException: duplicate entry: com/google/android/gms/internal/zzaso.class
 

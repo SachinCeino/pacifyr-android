@@ -94,6 +94,7 @@ android {
             buildConfigField('String', 'FIREBASE_PROJECT_ID', properties.get("FIREBASE_PROJECT_ID", null))
             buildConfigField('String', 'FIREBASE_PROJECT_API_KEY', properties.get("FIREBASE_PROJECT_API_KEY", null))
             buildConfigField('String', 'FIREBASE_APP_ID', properties.get("FIREBASE_APP_ID", null))
+            resValue('string', 'google_maps_key', properties.getProperty("MAPS_API_KEY", "").replace('"', ''))
         }
         /*lintOptions {
             // set to true to turn off analysis progress reporting by lint
@@ -144,8 +145,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.7.9"
-            versionCode 235
+            versionName "2.7.10"
+            versionCode 236
         }
         /*leadersup {
             dimension "Pacifyr"
